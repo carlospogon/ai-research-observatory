@@ -1,0 +1,39 @@
+[
+  {
+    "id": "leash",
+    "title": "LEASH",
+    "category": "Seguridad",
+    "date": "2026-11-10",
+    "status": "Preprint",
+    "score": 9.2,
+    "summary": "Tres controles para impedir acciones peligrosas de robots: intención, trayectoria y operación irreversible.",
+    "use": "Evitar que un robot pase un vaso sobre una regleta eléctrica (escenario evaluado).",
+    "limits": "Solo 13 pruebas físicas por configuración; los revisores también pueden fallar.",
+    "paper": "https://arxiv.org/abs/2611.14115",
+    "code": "https://github.com/zhuqinfeng1999/LEASH"
+  },
+  {
+    "id": "contrastive",
+    "title": "Contrastive Discovery",
+    "category": "Investigación",
+    "date": "2026-11-10",
+    "status": "Aceptado NeurIPS 2026 (según autores)",
+    "score": 9,
+    "summary": "Compara hipótesis incompatibles en vez de comprobar una sola explicación.",
+    "use": "Distinguir explicaciones rivales sobre las propiedades de un material (ejemplo plausible).",
+    "limits": "Experimentos observacionales; no demuestra causalidad; código pendiente.",
+    "paper": "https://arxiv.org/abs/2611.14514"
+  },
+  {
+    "id": "autoscaffold",
+    "title": "AutoScaffold",
+    "category": "Aprendizaje",
+    "date": "2026-11-10",
+    "status": "Preprint",
+    "score": 8.2,
+    "summary": "Un modelo profesor adapta sus pistas según las dificultades del alumno.",
+    "use": "Entrenar un agente que busca información en documentación técnica (ejemplo plausible).",
+    "limits": "Sin código público confirmado; coste de tutoría pendiente.",
+    "paper": "https://arxiv.org/abs/2611.14515"
+  }
+]
