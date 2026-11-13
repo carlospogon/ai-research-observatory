@@ -35,5 +35,97 @@
     "use": "Entrenar un agente que busca información en documentación técnica (ejemplo plausible).",
     "limits": "Sin código público confirmado; coste de tutoría pendiente.",
     "paper": "https://arxiv.org/abs/2611.14515"
+  },
+  {
+    "id": "arxiv-2611-14661",
+    "canonicalId": "arXiv:2611.14661",
+    "title": "Abstention Is Not Threshold Compliance",
+    "category": "Evaluación",
+    "date": "2026-11-10",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.6,
+    "scoreBreakdown": {
+      "novelty": 2.5,
+      "solidity": 1.8,
+      "evidence": 1.8,
+      "importance": 2,
+      "reproducibility": 0.5
+    },
+    "summary": "Muestra que pedir a un modelo que se abstenga no significa que esté aplicando el nivel de confianza indicado.",
+    "mechanism": "Separa tres requisitos: disponer de la opción de abstenerse, estimar la probabilidad de acertar y comparar esa estimación con el umbral. Evalúa cada requisito sobre los mismos ítems y checkpoints abiertos.",
+    "results": "Según el autor, a umbral 0,75 el formato explícito elevó la abstención media del 20% al 91%, pero subir el umbral de 0,5 a 0,9 la cambió solo -0,8 puntos; hasta el 40% de las decisiones de algún checkpoint fueron incompatibles con una política de umbral estable.",
+    "use": "Hipotético: un asistente de soporte médico que solo responda cuando una calibración externa estime suficiente confianza y derive el resto a una persona.",
+    "useCaseType": "Hipotético",
+    "limits": "Preprint de un único autor; modelos abiertos de 3B a 8B como bloque principal; la calibración transferida entre conjuntos perdió ventaja y el material reproducible está en un suplemento anonimizado, no en un repositorio público enlazado.",
+    "paper": "https://arxiv.org/abs/2611.14661",
+    "paragraphs": [
+      "Este trabajo pregunta algo muy concreto: cuando un modelo de lenguaje dice «no lo sé», ¿está obedeciendo de verdad un umbral de confianza o solo reaccionando a la forma de la instrucción? Un umbral es la regla «responde únicamente si crees que tu probabilidad de acertar supera, por ejemplo, el 75%». El estudio separa esa conducta del simple hecho de ofrecer al modelo la frase «me abstengo».",
+      "Para comprobarlo, el autor examina 12 checkpoints —versiones guardadas durante el entrenamiento— de cuatro familias abiertas de 3.000 a 8.000 millones de parámetros, con exploraciones hasta 32.000 millones. Según el preprint, añadir un formato que limita la salida a una respuesta o «me abstengo» elevó la abstención media del 20% al 91% con un umbral del 75%; sin embargo, subir el umbral del 50% al 90% cambió la abstención solo -0,8 puntos. Es decir, el modelo aprendía el formato, pero apenas ajustaba su conducta al riesgo solicitado.",
+      "Un caso de uso plausible, todavía no demostrado en producción, sería un asistente de soporte médico o jurídico. En vez de confiar en que la frase «responde solo si estás seguro» controle el riesgo, el sistema podría estimar la confianza por separado, calibrarla con datos representativos y aplicar el umbral fuera del modelo; las preguntas dudosas pasarían a una persona.",
+      "Es interesante porque… desmonta una señal de seguridad engañosa: muchas abstenciones pueden parecer prudencia, aunque procedan de una palabra del prompt y no de una evaluación real de la probabilidad de acertar. El artículo propone medir por separado cuánto se abstiene el modelo, si cambia al variar el umbral y qué preguntas decide contestar.",
+      "La cautela principal es que se trata de un preprint de un único autor y el análisis confirmatorio se concentra en modelos abiertos relativamente pequeños; los modelos mayores son exploratorios. Además, el umbral externo funcionó peor al calibrarse en TriviaQA y aplicarse a PopQA, señal de que la calibración no se traslada automáticamente. Hay suplemento anonimizado, pero no un repositorio público enlazado; falta réplica independiente y validación en dominios de alto riesgo."
+    ]
+  },
+  {
+    "id": "arxiv-2611-14677",
+    "canonicalId": "arXiv:2611.14677",
+    "title": "Fast Slice-Wise Deep Learning Motion Correction for Spinal Cord Functional MRI",
+    "category": "Visión médica",
+    "date": "2026-11-10",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.8,
+    "scoreBreakdown": {
+      "novelty": 2,
+      "solidity": 1.8,
+      "evidence": 2,
+      "importance": 2,
+      "reproducibility": 1
+    },
+    "summary": "Corrige el movimiento de la médula espinal corte a corte en unos 10 segundos por escáner, frente a varios minutos con el método de referencia.",
+    "mechanism": "Dos redes convolucionales ligeras estiman traslaciones dentro del plano: la primera corrige desplazamientos grandes y la segunda refina el residuo, sin necesitar etiquetas manuales de movimiento.",
+    "results": "Los autores informan, sobre 120 escáneres de 3T y 59 de 7T, mejoras de tSNR del 10% al 25%, reducciones de DVARS del 20% al 38%, menos del 0,1% de cortes con error superior a un vóxel y unos 10 s por escáner, aproximadamente 30 veces más rápido que SCT.",
+    "use": "Demostrado en datos retrospectivos de participantes sanos: preprocesar series funcionales de médula espinal antes de analizarlas. La utilidad clínica directa aún no está demostrada.",
+    "useCaseType": "Demostrado en datos retrospectivos",
+    "limits": "Preprint corto; evaluación en 179 escáneres de participantes sanos, sin demostrar mejora diagnóstica ni generalización clínica amplia; la corrección se limita a traslaciones dentro del plano.",
+    "paper": "https://arxiv.org/abs/2611.14677",
+    "code": "https://github.com/ivadomed/moco-dl",
+    "paragraphs": [
+      "Este trabajo intenta limpiar las resonancias magnéticas funcionales de la médula espinal cuando la respiración o pequeños movimientos desplazan la imagen. A diferencia del cerebro, la médula ocupa una región muy estrecha y cada corte puede moverse de forma distinta, por lo que alinear todo el volumen como una sola pieza resulta lento o impreciso.",
+      "El método usa dos redes convolucionales ligeras —redes que reconocen patrones locales en imágenes— para estimar cuánto hay que desplazar cada corte en horizontal y vertical: una corrige el movimiento grande y otra afina el residuo. Según los autores, en 120 escáneres de 3 teslas y 59 de 7 teslas mejoró la relación señal-ruido temporal entre un 10% y un 25%, redujo la variación entre volúmenes entre un 20% y un 38% y dejó menos del 0,1% de los cortes desplazados más de un vóxel. Tarda unos 10 segundos por escáner, alrededor de 30 veces menos que la referencia de Spinal Cord Toolbox.",
+      "El caso de uso demostrado es el preprocesado retrospectivo de resonancias funcionales de participantes sanos: un laboratorio puede corregir una serie antes de estudiar cómo cambia la señal de la médula con el tiempo. Un uso clínico —por ejemplo, mejorar la evaluación de una lesión medular— es plausible, pero el artículo no demuestra que cambie un diagnóstico ni el resultado de un paciente.",
+      "Es interesante porque… combina una mejora práctica grande en tiempo con métricas de calidad consistentes en dos intensidades de escáner. Además, el código es público y el método ya figura en SCT 7.4, lo que facilita que otros grupos lo prueben sin reconstruir todo el sistema desde cero.",
+      "Sigue siendo un preprint breve y la evaluación reúne 179 escáneres de participantes sanos, no una cohorte clínica diversa. El modelo corrige traslaciones dentro del plano, no todas las deformaciones posibles, y una imagen estadísticamente más estable no garantiza por sí sola mayor valor diagnóstico. Falta validación externa, análisis por patologías y evidencia de que el beneficio se mantiene entre centros y protocolos."
+    ]
+  },
+  {
+    "id": "arxiv-2611-14599",
+    "canonicalId": "arXiv:2611.14599",
+    "title": "StructRL: Model-Free Reinforcement Learning with Replay Graphs",
+    "category": "Aprendizaje por refuerzo",
+    "date": "2026-11-10",
+    "status": "Preprint, sin revisión por pares",
+    "score": 7.4,
+    "scoreBreakdown": {
+      "novelty": 2.5,
+      "solidity": 1.5,
+      "evidence": 1.3,
+      "importance": 1.6,
+      "reproducibility": 0.5
+    },
+    "summary": "Convierte la experiencia de un agente en un grafo explícito para reutilizar rutas ya observadas cuando las recompensas son escasas.",
+    "mechanism": "Construye un grafo con transiciones observadas, calcula por programación dinámica qué acciones llevan a una recompensa dentro de la parte conocida y transfiere esas preferencias a DQN o SAC.",
+    "results": "El autor informa que DQN pasa de 0,10 a 0,90 de éxito en DoorKey, de 0,10 a 0,80 en KeyCorridor y de 0 a 0,50 en ObstructedMaze; en siete ejecuciones emparejadas de PointMaze que alcanzaron la meta, SAC pasó de 0,17 a 1,0. Una política destilada cubrió el 91% de estados alcanzables frente al 38% de DQN.",
+    "use": "Hipotético: un robot de almacén que recuerda transiciones ya recorridas y reutiliza una ruta segura hasta una estación, mientras el aprendizaje neuronal cubre estados nuevos.",
+    "useCaseType": "Hipotético",
+    "limits": "Un solo autor, preprint, entornos pequeños y estructurados, resultados de PointMaze condicionados a ejecuciones que ya alcanzaron la meta, ausencia de código público enlazado y degradación reconocida con observaciones de alta dimensión.",
+    "paper": "https://arxiv.org/abs/2611.14599",
+    "paragraphs": [
+      "StructRL propone dar memoria estructurada a un agente de aprendizaje por refuerzo, el método en el que una IA aprende probando acciones y recibiendo recompensas. En tareas donde la recompensa aparece solo al final, el agente puede olvidar que algunas transiciones ya observadas forman una ruta útil; el trabajo convierte esas experiencias en un grafo, un mapa de estados conectados por acciones.",
+      "Cuando el grafo contiene un camino observado hasta la meta, programación dinámica —un cálculo que propaga el valor de la meta hacia atrás— elige acciones solo dentro de esa zona conocida. Esas indicaciones entrenan después a DQN o SAC, dos algoritmos habituales de aprendizaje por refuerzo. Según el autor, el éxito final de DQN sube de 0,10 a 0,90 en DoorKey, de 0,10 a 0,80 en KeyCorridor y de 0 a 0,50 en ObstructedMaze; en siete ejecuciones emparejadas de PointMaze que llegaron a descubrir la meta, SAC subió de 0,17 a 1,0.",
+      "Un caso de uso hipotético sería un robot de almacén que recibe recompensa solo al entregar una caja. Tras recorrer una vez una secuencia segura de pasillos, el grafo podría conservar esa ruta y guiar el aprendizaje neuronal, mientras este último generaliza cuando aparecen posiciones nuevas. El artículo no prueba robots físicos ni almacenes reales.",
+      "Es interesante porque… hace explícita una parte de la experiencia que normalmente queda mezclada dentro de una red neuronal y limita las recomendaciones del grafo a transiciones realmente observadas. Esa frontera es valiosa: el sistema puede planificar donde tiene evidencia y volver a explorar donde el mapa aún está incompleto.",
+      "La evidencia todavía es preliminar: es un preprint de un solo autor, usa entornos pequeños y el resultado continuo de PointMaze se calcula sobre ejecuciones que ya alcanzaron la meta, una condición que favorece el análisis del mecanismo pero limita la comparación global. No hay código público enlazado y el propio trabajo detecta fallos por cobertura incompleta, estados estructurales ambiguos y observaciones de alta dimensión. Faltan réplicas, tareas más realistas y costes computacionales comparados."
+    ]
   }
 ]
+
