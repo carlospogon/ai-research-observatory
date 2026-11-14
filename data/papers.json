@@ -126,6 +126,68 @@
       "Es interesante porque… hace explícita una parte de la experiencia que normalmente queda mezclada dentro de una red neuronal y limita las recomendaciones del grafo a transiciones realmente observadas. Esa frontera es valiosa: el sistema puede planificar donde tiene evidencia y volver a explorar donde el mapa aún está incompleto.",
       "La evidencia todavía es preliminar: es un preprint de un solo autor, usa entornos pequeños y el resultado continuo de PointMaze se calcula sobre ejecuciones que ya alcanzaron la meta, una condición que favorece el análisis del mecanismo pero limita la comparación global. No hay código público enlazado y el propio trabajo detecta fallos por cobertura incompleta, estados estructurales ambiguos y observaciones de alta dimensión. Faltan réplicas, tareas más realistas y costes computacionales comparados."
     ]
+  },
+  {
+    "id": "arxiv-2611-14704",
+    "canonicalId": "arXiv:2611.14704",
+    "title": "Code as Explanations: Executable and Verifiable LLM Explanations",
+    "category": "Interpretabilidad",
+    "date": "2026-11-10",
+    "status": "Publicado en NeurIPS 2026",
+    "score": 9.2,
+    "scoreBreakdown": {
+      "novelty": 2.8,
+      "solidity": 2,
+      "evidence": 1.7,
+      "importance": 1.8,
+      "reproducibility": 0.9
+    },
+    "summary": "Sustituye explicaciones libres caso por caso por pequeños programas que pueden ejecutarse sobre nuevos ejemplos y comprobarse contra el comportamiento del modelo.",
+    "mechanism": "Genera un único programa para una tarea y mide su consistencia: la fracción de entradas en las que el programa reproduce la salida del LLM. La ejecución permite verificar la explicación en datos no usados para escribirla.",
+    "results": "Los autores informan de evaluaciones con tres LLM abiertos y ocho tareas: las explicaciones en código fueron entre 6 y 100 veces más cortas que la cadena de pensamiento y se alinearon mejor con el comportamiento en 9 de 24 configuraciones, aunque fallaron en tareas lingüísticas complejas.",
+    "use": "Hipotético: un equipo de auditoría podría ejecutar la explicación propuesta sobre una batería nueva de casos y detectar automáticamente dónde deja de representar al modelo antes de aprobarlo.",
+    "useCaseType": "Hipotético",
+    "limits": "La consistencia observable no demuestra que el programa describa el mecanismo causal interno; en tareas lingüísticas complejas algunas explicaciones no superan un baseline trivial. El estudio se concentra en tareas con salidas verificables y puede requerir modelos grandes o APIs costosas.",
+    "paper": "https://arxiv.org/abs/2611.14704",
+    "code": "https://github.com/rajesh-lab/code-as-explanations",
+    "paragraphs": [
+      "Este trabajo propone cambiar la forma de explicar un modelo de lenguaje. En vez de producir una justificación distinta para cada respuesta, intenta resumir el comportamiento del modelo mediante un programa ejecutable. Ese programa recibe nuevas entradas y genera predicciones, de modo que puede comprobarse si la supuesta explicación sigue describiendo lo que hace el LLM fuera del ejemplo original.",
+      "Para evaluar la idea, los autores definen la consistencia como la fracción de entradas en las que el programa reproduce la salida del modelo. En tres LLM abiertos y ocho tareas, las explicaciones en código fueron entre 6 y 100 veces más cortas que las cadenas de pensamiento y se alinearon mejor con el comportamiento en 9 de 24 configuraciones. El beneficio no fue universal: en tareas con lenguaje más complejo, algunos programas no superaron una explicación trivial y recurrieron a reglas rígidas.",
+      "Un caso de uso plausible, todavía no demostrado como producto, sería la auditoría de un asistente que clasifica incidencias. El equipo podría ejecutar la explicación sobre cientos de casos nuevos, comparar sus decisiones con las del modelo y localizar automáticamente las categorías donde la explicación deja de representarlo antes de aprobar un cambio.",
+      "Es interesante porque… convierte una explicación en algo que puede someterse a pruebas de regresión. No obliga a creer una narración convincente: permite ejecutar la hipótesis, medir dónde coincide con el modelo y rechazarla cuando falla. Es un puente poco habitual entre interpretabilidad y prácticas de QA.",
+      "El límite esencial es conceptual: que un programa imite las salidas no demuestra que describa el mecanismo causal interno del LLM. La evidencia es menor en tareas lingüísticas complejas y el procedimiento puede depender de modelos grandes o APIs costosas. Aunque el trabajo figura en NeurIPS 2026 y publica código con licencia MIT, necesita validación en decisiones abiertas, dominios de alto riesgo y modelos no estudiados."
+    ]
+  },
+  {
+    "id": "arxiv-2611-15223",
+    "canonicalId": "arXiv:2611.15223",
+    "title": "guardscope: Measuring Which Actions Runtime Controls Check in LLM Agent Systems",
+    "category": "Seguridad de agentes",
+    "date": "2026-11-11",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.7,
+    "scoreBreakdown": {
+      "novelty": 2.7,
+      "solidity": 1.8,
+      "evidence": 1.6,
+      "importance": 1.8,
+      "reproducibility": 0.8
+    },
+    "summary": "Comprueba con observación del kernel qué acciones de un agente son inspeccionadas, cuáles eluden el control y cuáles son bloqueadas.",
+    "mechanism": "Combina análisis estático de 15 rutas de acción con ejecuciones deterministas en ocho topologías. Reconcilia los registros del control con eventos observados mediante eBPF en el kernel y clasifica cada acción como comprobada, eludida o impedida.",
+    "results": "Los autores ensayan dos arneses y controles reales. En la topología de control a nivel de kernel informan de seis acciones comprobadas y permitidas, una comprobada y denegada y ocho que pasaron fuera de los hooks; en configuraciones de gateway, operaciones de archivo, procesos y red directa eludieron los puntos de control evaluados.",
+    "use": "Demostrado en despliegue controlado: comparar un gateway o motor de políticas antes de adoptarlo y obtener una matriz reproducible de rutas cubiertas y no cubiertas.",
+    "useCaseType": "Demostrado en despliegue controlado",
+    "limits": "Preprint evaluado en Linux, Docker Compose, dos arneses y un conjunto limitado de controles y versiones. Usa reproducción determinista sin un LLM en el bucle; un resultado de cobertura no garantiza que la política detecte correctamente contenido malicioso. El control de kernel necesitó una versión concreta y conservó un hueco UDP.",
+    "paper": "https://arxiv.org/abs/2611.15223",
+    "code": "https://github.com/VulcanLab/guardscope",
+    "paragraphs": [
+      "guardscope aborda una pregunta incómoda para la seguridad de agentes: cuando instalamos un gateway o una política de ejecución, ¿qué acciones vigila de verdad? Un agente puede actuar mediante llamadas de herramientas, procesos, archivos, conexiones directas, subagentes o tareas diferidas. El marco construye un mapa verificable de esas rutas en vez de aceptar únicamente la cobertura declarada por el proveedor.",
+      "El sistema analiza primero el código del control y predice cuáles de 15 rutas podría interceptar. Después ejecuta una carga determinista en ocho topologías y compara los registros del control con eventos observados por eBPF, una tecnología del kernel de Linux que registra lo que realmente ocurrió. Según los autores, en la topología de kernel hubo seis acciones comprobadas y permitidas, una comprobada y denegada y ocho eludidas; en varias configuraciones intermedias, escrituras de archivos, procesos y red directa quedaron fuera del punto de control.",
+      "El caso de uso demostrado es un despliegue de laboratorio con controles reales, entre ellos componentes del toolkit de gobernanza de agentes de Microsoft y agentgateway. Un equipo de plataforma podría probar su arquitectura antes de comprarla o desplegarla y descubrir, por ejemplo, que el gateway inspecciona una llamada HTTP de herramienta pero no una conexión de red abierta directamente por un subproceso.",
+      "Es interesante porque… transforma la seguridad de agentes en una prueba de cobertura parecida a las que usaría QA: catálogo de rutas, predicción, ejecución, evidencia independiente y resultado por acción. También distingue correctamente entre una acción comprobada, una que elude el control y otra impedida por una barrera externa.",
+      "Sigue siendo un preprint y su alcance práctico está acotado a Linux, Docker Compose, dos arneses y versiones concretas de unos pocos controles. La carga usa reproducción determinista sin un LLM en el bucle, y medir que una acción fue inspeccionada no demuestra que la política entienda o bloquee bien una intención maliciosa. El control de kernel exigió una versión específica y dejó pasar una operación UDP por falta de hook. El código es público bajo Apache 2.0, pero hacen falta réplicas en más plataformas y productos."
+    ]
   }
 ]
 
