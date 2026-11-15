@@ -188,6 +188,81 @@
       "Es interesante porque… transforma la seguridad de agentes en una prueba de cobertura parecida a las que usaría QA: catálogo de rutas, predicción, ejecución, evidencia independiente y resultado por acción. También distingue correctamente entre una acción comprobada, una que elude el control y otra impedida por una barrera externa.",
       "Sigue siendo un preprint y su alcance práctico está acotado a Linux, Docker Compose, dos arneses y versiones concretas de unos pocos controles. La carga usa reproducción determinista sin un LLM en el bucle, y medir que una acción fue inspeccionada no demuestra que la política entienda o bloquee bien una intención maliciosa. El control de kernel exigió una versión específica y dejó pasar una operación UDP por falta de hook. El código es público bajo Apache 2.0, pero hacen falta réplicas en más plataformas y productos."
     ]
+  },
+  {
+    "id": "arxiv-2611-17167",
+    "canonicalId": "arXiv:2611.17167",
+    "title": "Actor, Judge, or Teacher? Understanding Decision Models in Long-Horizon Agents",
+    "category": "Agentes y RL",
+    "date": "2026-11-12",
+    "status": "Preprint, sin revisión por pares",
+    "score": 9.1,
+    "scoreBreakdown": {"novelty": 2.7, "solidity": 1.9, "evidence": 1.8, "importance": 1.8, "reproducibility": 0.9},
+    "summary": "Muestra que un modelo de decisión mediocre actuando puede ser útil como profesor si evalúa retrospectivamente qué pasos ayudaron a completar una tarea.",
+    "mechanism": "Compara seis modelos como actores y jueces, y utiliza las puntuaciones de progreso con trayectoria completa como recompensa paso a paso para entrenar políticas mediante GRPO.",
+    "results": "En Qwen2.5-1.5B, el profesor elevó el éxito del 72,8 % al 82,9 % en ALFWorld y del 56,8 % al 71,4 % en WebShop. El mismo modelo JEV solo alcanzó el 42,9 % cuando actuó directamente en ALFWorld.",
+    "use": "Hipotético: entrenar un agente de soporte que aprende de conversaciones completas, asignando crédito a los pasos que prepararon una resolución aunque parecieran poco útiles al principio.",
+    "useCaseType": "Hipotético",
+    "limits": "Solo se estudian dos entornos simulados, las recompensas proceden de un modelo concreto y el juez ve la trayectoria completa, una información no disponible durante la ejecución. Los resultados no prueban transferencia a sistemas reales ni a tareas sin recompensas verificables.",
+    "paper": "https://arxiv.org/abs/2611.17167",
+    "code": "https://github.com/ZJU-REAL/decision-agents",
+    "paragraphs": [
+      "Este trabajo pregunta si un modelo que toma malas decisiones en directo puede, aun así, enseñar bien a otro agente. La respuesta de los autores es que sí, siempre que cambie de papel: en vez de elegir la próxima acción sin conocer el futuro, revisa la trayectoria terminada y valora qué pasos contribuyeron realmente al objetivo.",
+      "El estudio compara tres modelos de decisión y tres LLM como actores y jueces. Después usa las valoraciones retrospectivas de JEV como recompensa paso a paso para entrenar una política con GRPO, un método de aprendizaje por refuerzo. En Qwen2.5-1.5B, el éxito subió del 72,8 % al 82,9 % en ALFWorld y del 56,8 % al 71,4 % en WebShop; como actor directo, el mismo JEV solo resolvió el 42,9 % de ALFWorld.",
+      "Un caso de uso plausible, todavía no demostrado en producción, sería entrenar un agente de soporte técnico a partir de conversaciones completas. El juez podría reconocer que consultar una configuración o pedir un registro fue útil para la solución final, aunque ese paso intermedio no pareciera resolver nada por sí solo, y convertir esa señal en aprendizaje para el agente.",
+      "Es interesante porque… separa dos capacidades que suelen mezclarse: decidir antes de conocer las consecuencias y evaluar después de verlas. El resultado sugiere que un modelo barato o poco hábil como agente puede aportar una señal de entrenamiento valiosa si recibe el contexto adecuado y se le pregunta por progreso, no por éxito futuro.",
+      "La evidencia sigue limitada a dos entornos simulados y a un profesor concreto. El juez disfruta de retrospectiva completa, una ventaja que el actor no tiene, y las mejoras no garantizan transferencia a tareas reales, abiertas o de alto riesgo. Es un preprint, aunque publica código bajo Apache 2.0; faltan réplicas con otros jueces, entornos y posibles sesgos de recompensa."
+    ]
+  },
+  {
+    "id": "arxiv-2611-14960",
+    "canonicalId": "arXiv:2611.14960",
+    "title": "Termination Lag: Coding Agents Solve Early but Stop Late",
+    "category": "Agentes de código",
+    "date": "2026-11-11",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.4,
+    "scoreBreakdown": {"novelty": 2.5, "solidity": 1.8, "evidence": 1.7, "importance": 1.7, "reproducibility": 0.7},
+    "summary": "Mide cuánto trabajo realizan los agentes de programación después de producir por primera vez un parche correcto y cuánto riesgo introducen al seguir editando.",
+    "mechanism": "Guarda y ejecuta los tests de cada parche distinto generado por cinco modelos en dos marcos y tres conjuntos SWE-bench para localizar el primer estado correcto y medir los pasos posteriores.",
+    "results": "Entre el 38 % y el 82 % de las ejecuciones exitosas acertaron en su primera edición. Tras el primer parche correcto quedó una mediana del 35-37 % de los pasos en Qwen3-Coder y del 54-60 % en Laguna-XS.2; entre el 1 % y el 8 % terminó rompiendo una solución correcta.",
+    "use": "Demostrado retrospectivamente en benchmarks: diseñar una política de parada que use tests, estabilidad del diff y evidencia acumulada para reducir coste sin cortar verificaciones necesarias.",
+    "useCaseType": "Demostrado retrospectivamente en benchmarks",
+    "limits": "Cada tarea se ejecutó una sola vez, los pasos son una aproximación del coste y el estudio conoce mediante tests privados cuándo el parche era correcto; un agente real no dispone de ese oráculo. No se publica código enlazado en el preprint.",
+    "paper": "https://arxiv.org/abs/2611.14960",
+    "code": null,
+    "paragraphs": [
+      "Este trabajo identifica el retraso de terminación: el tramo entre el momento en que un agente de programación produce por primera vez una solución correcta y el momento en que decide detenerse. Los benchmarks suelen mirar solo el parche final, por lo que ocultan cuánto coste y riesgo aparece después de que el problema ya estuviera resuelto.",
+      "Los autores conservan y prueban cada parche distinto generado por cinco modelos, dos marcos de agentes y tres variantes de SWE-bench. Entre el 38 % y el 82 % de las ejecuciones exitosas acertaron en la primera edición. Después del primer parche correcto todavía quedaba una mediana del 35-37 % de los pasos para Qwen3-Coder y del 54-60 % para Laguna-XS.2; entre el 1 % y el 8 % de los recorridos acabó estropeando una solución válida.",
+      "El caso de uso demostrado es retrospectivo: comparar políticas de parada sobre ejecuciones de benchmark. En un sistema real, un equipo de QA podría combinar tests superados, estabilidad del diff y ausencia de nuevos errores para sugerir al agente que se detenga, evitando que siga explorando el repositorio o reescriba una corrección que ya funciona.",
+      "Es interesante porque… muestra que resolver y saber que se ha resuelto son competencias distintas. Mejorar el criterio de parada podría reducir tokens, latencia y coste sin cambiar el modelo generador; además, evitaría una parte de las regresiones que el propio agente introduce después de alcanzar la respuesta correcta.",
+      "La dificultad práctica es que el estudio localiza el primer parche correcto usando los tests del benchmark, un oráculo que el agente no ve durante la ejecución. Cada tarea se lanzó una sola vez y el número de pasos aproxima, pero no mide directamente, el coste computacional. Sigue siendo un preprint sin código enlazado; falta construir y validar una regla de parada utilizable sin tests privados."
+    ]
+  },
+  {
+    "id": "arxiv-2611-16905",
+    "canonicalId": "arXiv:2611.16905",
+    "title": "Factored One-sided Adam-Moment for Practical and Scalable SOAP",
+    "category": "Eficiencia de entrenamiento",
+    "date": "2026-11-12",
+    "status": "Publicado en NeurIPS 2026",
+    "score": 8.8,
+    "scoreBreakdown": {"novelty": 2.6, "solidity": 2.0, "evidence": 1.8, "importance": 1.7, "reproducibility": 0.7},
+    "summary": "FOAM conserva gran parte de la calidad del optimizador SOAP reduciendo a la mitad su estado y eliminando una de las dos descomposiciones matriciales costosas.",
+    "mechanism": "Precondiciona solo el lado de entrada de cada matriz y sustituye el segundo momento denso por estadísticas de filas y columnas en una base rotada.",
+    "results": "Entre 124M y 760M parámetros quedó a 0,004-0,008 nats de SOAP con la mitad de su estado. En 760M usó 11,87 GiB frente a 23,73 GiB y alcanzó la pérdida final de AdamW en 10,53 horas frente a 10,55; la evidencia adicional llega a 1,56B parámetros.",
+    "use": "Hipotético: entrenar un modelo mediano con lotes grandes cuando SOAP ofrece buena convergencia pero su memoria o tiempo por paso no caben en la infraestructura disponible.",
+    "useCaseType": "Hipotético",
+    "limits": "Los experimentos llegan solo hasta 1,56B parámetros, no incluyen entrenamiento frontier y todavía no distribuyen ciertos factores entre dispositivos. Embeddings y cabeza de lenguaje siguen usando AdamW. El repositorio existe, pero el código permanece bajo revisión interna.",
+    "paper": "https://arxiv.org/abs/2611.16905",
+    "code": "https://github.com/naver-ai/foam",
+    "paragraphs": [
+      "FOAM es un optimizador, es decir, el procedimiento que decide cómo ajustar los pesos de una red durante el entrenamiento. Intenta conservar las ventajas de SOAP, que usa información sobre la forma de la superficie de error, pero elimina parte de las matrices y cálculos que vuelven a SOAP caro en memoria y tiempo.",
+      "La simplificación tiene dos piezas: analiza solo el lado de entrada de cada matriz y resume el segundo momento mediante estadísticas de filas y columnas. En modelos de 124M a 760M parámetros, FOAM quedó a solo 0,004-0,008 nats de la pérdida de SOAP usando la mitad de su estado. En 760M empleó 11,87 GiB frente a 23,73 GiB y alcanzó la pérdida final de AdamW en 10,53 horas, prácticamente las 10,55 horas de AdamW; hay evidencia adicional hasta 1,56B parámetros.",
+      "Un caso de uso plausible sería preentrenar un modelo mediano con lotes grandes en un clúster donde SOAP no cabe o duplica demasiado el tiempo. FOAM permitiría acercarse a su calidad sin pagar todo su coste, aunque esta utilidad todavía no se ha demostrado en modelos de frontera ni en una infraestructura distribuida de producción.",
+      "Es interesante porque… no se limita a comprimir memoria: identifica qué parte de la curvatura parece aportar más información y conserva esa parte. Esto ofrece una vía intermedia entre AdamW, barato pero menos eficaz en algunos lotes grandes, y SOAP, más sofisticado pero difícil de desplegar a escala.",
+      "La evidencia principal termina en 760M parámetros y el apéndice llega a 1,56B, muy lejos del tamaño de los grandes modelos actuales. La implementación aún no reparte entre dispositivos los factores más costosos, y embeddings y cabeza de lenguaje siguen con AdamW. Aunque el artículo aparece en NeurIPS 2026, el repositorio anuncia que el código sigue bajo revisión interna; por eso su reproducibilidad práctica todavía es incompleta."
+    ]
   }
 ]
 
