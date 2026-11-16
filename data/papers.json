@@ -263,6 +263,56 @@
       "Es interesante porque… no se limita a comprimir memoria: identifica qué parte de la curvatura parece aportar más información y conserva esa parte. Esto ofrece una vía intermedia entre AdamW, barato pero menos eficaz en algunos lotes grandes, y SOAP, más sofisticado pero difícil de desplegar a escala.",
       "La evidencia principal termina en 760M parámetros y el apéndice llega a 1,56B, muy lejos del tamaño de los grandes modelos actuales. La implementación aún no reparte entre dispositivos los factores más costosos, y embeddings y cabeza de lenguaje siguen con AdamW. Aunque el artículo aparece en NeurIPS 2026, el repositorio anuncia que el código sigue bajo revisión interna; por eso su reproducibilidad práctica todavía es incompleta."
     ]
+  },
+  {
+    "id": "arxiv-2611-18562",
+    "canonicalId": "arXiv:2611.18562",
+    "title": "Training Reasoning Models in Simulation to Natively Use Real Robots",
+    "category": "Robótica y RL",
+    "date": "2026-11-13",
+    "status": "Preprint, sin revisión por pares",
+    "score": 9.3,
+    "scoreBreakdown": {"novelty": 2.8, "solidity": 1.9, "evidence": 1.8, "importance": 1.9, "reproducibility": 0.9},
+    "summary": "Entrena mediante refuerzo, únicamente en simulación y sin demostraciones, un modelo abierto de 27B para controlar robots reales con acciones de pose.",
+    "mechanism": "PEAR genera episodios multi-turno en LIBERO y RoboDojo; el modelo observa cámaras y estado, razona y propone la siguiente pose del efector. Una recompensa binaria de éxito actualiza la política mediante aprendizaje por refuerzo.",
+    "results": "En LIBERO el éxito subió del 1,6 % al 74,4 %. Sin datos del robot real, el modelo completó el 60 % de 30 ensayos sobre un robot dual, frente al 0 % del modelo base. En LIBERO-Pro alcanzó el 57,4 % en tareas nuevas dentro de escenas conocidas frente al 0,75 % de π0.5.",
+    "use": "Demostrado en laboratorio: entrenar habilidades generales en simuladores y transferirlas sin ajuste adicional a un robot distinto para recoger objetos y alinear bloques.",
+    "useCaseType": "Demostrado en laboratorio",
+    "limits": "Solo usa dos simuladores y un conjunto pequeño de tareas; el ensayo real suma 30 pruebas. El modelo puede tardar 4,3 segundos por ronda incluso en hardware de gama alta y algunas cadenas de pensamiento alcanzan 32k tokens. El resultado depende del prompt, la cinemática inversa y el controlador externo.",
+    "paper": "https://arxiv.org/abs/2611.18562",
+    "code": "https://github.com/mit-han-lab/pear",
+    "paragraphs": [
+      "Este trabajo presenta PEAR, una infraestructura para enseñar a un modelo abierto de razonamiento a controlar robots. La idea es entrenarlo únicamente dentro de simuladores, sin vídeos de demostración ni movimientos humanos etiquetados, y comprobar después si las habilidades aprendidas se transfieren a un robot físico que nunca apareció durante el entrenamiento.",
+      "El modelo de 27.000 millones de parámetros observa las cámaras y el estado del brazo, razona sobre la tarea y propone la siguiente pose del efector, es decir, la posición y orientación que debe alcanzar la mano robótica. El aprendizaje por refuerzo premia los episodios completados. Según los autores, el éxito en LIBERO pasó del 1,6 % al 74,4 % y, sin usar datos reales, completó el 60 % de 30 ensayos en un robot dual frente al 0 % del modelo base. En tareas nuevas dentro de escenas conocidas de LIBERO-Pro logró el 57,4 %, frente al 0,75 % de π0.5.",
+      "El caso de uso demostrado es la transferencia de simulación a laboratorio: después de entrenarse con robots virtuales, el modelo pudo recoger objetos y alinear bloques con un robot dual diferente. Una aplicación plausible sería preparar nuevas habilidades de manipulación en un gemelo digital antes de permitir que un robot de almacén las pruebe físicamente, reduciendo la necesidad de recopilar demostraciones reales.",
+      "Es interesante porque… acerca el aprendizaje robótico al procedimiento usado con agentes de ordenador: práctica masiva en entornos baratos, recompensa verificable y transferencia posterior. Además, mantiene los pesos y el código abiertos, por lo que la afirmación puede auditarse mejor que los resultados basados únicamente en modelos propietarios.",
+      "La madurez sigue siendo experimental. El entrenamiento cubre dos simuladores y pocas tareas, y la evaluación física solo incluye 30 ensayos. El sistema razona antes de cada movimiento: incluso a 747 tokens por segundo necesita unos 4,3 segundos por ronda y algunas deliberaciones alcanzan 32.000 tokens. También depende del prompt, de la cinemática inversa y de un controlador externo. Hay paper, código y modelo, pero faltan réplicas independientes, más robots y pruebas prolongadas de seguridad."
+    ]
+  },
+  {
+    "id": "arxiv-2611-18553",
+    "canonicalId": "arXiv:2611.18553",
+    "title": "WeightBench: Evaluating Language Models as Weight-Space Programmers",
+    "category": "Evaluación y nuevos paradigmas",
+    "date": "2026-11-13",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.5,
+    "scoreBreakdown": {"novelty": 2.7, "solidity": 1.7, "evidence": 1.5, "importance": 1.8, "reproducibility": 0.8},
+    "summary": "Evalúa si los agentes pueden leer, reparar, escribir y comprimir redes modificando directamente sus pesos, sin entrenamiento por gradiente ni ensayos encubiertos.",
+    "mechanism": "Agrupa 42 tareas en cinco pistas, ejecuta los agentes en un sandbox con cómputo medido y registra cada operación en un ledger encadenado por hashes. Veintiocho señales de auditoría ponen en cuarentena intentos de saltarse las reglas.",
+    "results": "Claude Opus 5.5 obtuvo 0,535 en 42 tareas; en las 38 compartidas GPT-6.1-sol logró 0,568 frente a 0,546. La síntesis desde cero alcanzó 0,829 y 0,863 respectivamente, pero la compresión sin datos quedó entre 0,177 y 0,238 y la detección de ediciones imposibles rondó el azar.",
+    "use": "Demostrado como benchmark: auditar un agente que modifica modelos y distinguir razonamiento sobre pesos de búsqueda por fuerza bruta, entrenamiento oculto o evasión del presupuesto.",
+    "useCaseType": "Demostrado como benchmark",
+    "limits": "Todas las ejecuciones usan una sola semilla; Claude tiene dos muestras por tarea y los otros modelos una. Hay ejecuciones en cuarentena aún no revisadas, tres tareas no superan la puerta de validez y GPT-6.1-sol no completó cuatro tareas, por lo que su comparación no cubre el conjunto entero.",
+    "paper": "https://arxiv.org/abs/2611.18553",
+    "code": "https://github.com/Aayush-Marasini/WeightBench",
+    "paragraphs": [
+      "WeightBench intenta averiguar si un agente puede programar una red neuronal modificando directamente sus pesos, los números internos que determinan su comportamiento. Evalúa cinco capacidades: leer qué hace una red, reparar fallos concretos, construir una red desde cero, reconocer cambios imposibles y comprimir modelos sin disponer de datos.",
+      "El benchmark contiene 42 tareas con redes desde 2.000 parámetros hasta modelos lingüísticos de 7.000 millones. Los agentes trabajan dentro de un entorno aislado que mide el cómputo y registra cada operación en un historial protegido por hashes. Claude Opus 5.5 obtuvo 0,535 en el conjunto completo; en 38 tareas compartidas, GPT-6.1-sol alcanzó 0,568 frente a 0,546 de Opus. Ambos destacaron escribiendo redes desde cero, con 0,863 y 0,829, pero todos fallaron al comprimir sin datos y apenas distinguieron una edición imposible de otra simplemente difícil.",
+      "El caso de uso demostrado es la auditoría de agentes que editan modelos. Una empresa podría someter a su agente de mantenimiento de redes a WeightBench para comprobar si una reparación realmente surge del análisis de los pesos o si el agente está ejecutando entrenamiento encubierto, realizando demasiados ensayos o dañando capacidades no relacionadas.",
+      "Es interesante porque… convierte una capacidad llamativa y difícil de verificar en una prueba reproducible con límites de cómputo, sandbox y trazabilidad. El benchmark no solo pregunta si el resultado mejora: también penaliza daños colaterales, tamaño excesivo de la edición y operaciones que equivaldrían a probar la red repetidamente.",
+      "Los resultados todavía son preliminares. Todas las pruebas usan una sola semilla; Claude dispone de dos muestras por tarea y DeepSeek y GPT-6.1-sol de una. Varias ejecuciones están en cuarentena sin revisión humana, tres tareas no superan aún la puerta de validez y GPT-6.1-sol no ejecutó cuatro pruebas costosas. El preprint publica código, tareas y auditoría, pero necesita más repeticiones, revisión de cuarentenas y evaluaciones independientes."
+    ]
   }
 ]
 
