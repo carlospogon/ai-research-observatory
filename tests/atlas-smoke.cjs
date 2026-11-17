@@ -1,6 +1,6 @@
 const fs=require('node:fs'),assert=require('node:assert/strict'),vm=require('node:vm');
 const html=fs.readFileSync('index.html','utf8');
-const scripts=[...html.matchAll(/<script(?:\\s[^>]*)?>([\\s\\S]*?)<\\/script>/g)].map(m=>m[1]).filter(Boolean);
+const scripts=html.split('<script>').slice(1).map(x=>x.split('</script>')[0]).filter(Boolean);
 assert(scripts.length>=2,'original application and atlas scripts');
 for(const script of scripts)new vm.Script(script,{filename:'inline.js'});
 const labs=[...html.matchAll(/<button[^>]+data-lab="([^"]+)"/g)].map(m=>m[1]);
