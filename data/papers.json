@@ -313,6 +313,79 @@
       "Es interesante porque… convierte una capacidad llamativa y difícil de verificar en una prueba reproducible con límites de cómputo, sandbox y trazabilidad. El benchmark no solo pregunta si el resultado mejora: también penaliza daños colaterales, tamaño excesivo de la edición y operaciones que equivaldrían a probar la red repetidamente.",
       "Los resultados todavía son preliminares. Todas las pruebas usan una sola semilla; Claude dispone de dos muestras por tarea y DeepSeek y GPT-6.1-sol de una. Varias ejecuciones están en cuarentena sin revisión humana, tres tareas no superan aún la puerta de validez y GPT-6.1-sol no ejecutó cuatro pruebas costosas. El preprint publica código, tareas y auditoría, pero necesita más repeticiones, revisión de cuarentenas y evaluaciones independientes."
     ]
+  },
+  {
+    "id": "arxiv-2611-18113",
+    "canonicalId": "arXiv:2611.18113",
+    "title": "Folding Language Models into Themselves",
+    "category": "Arquitecturas y eficiencia",
+    "date": "2026-11-13",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.6,
+    "scoreBreakdown": {"novelty": 2.7, "solidity": 1.8, "evidence": 1.7, "importance": 1.6, "reproducibility": 0.8},
+    "summary": "Concertina reduce un Qwen3-4B a 2,27B parámetros plegando grupos de capas adyacentes en un bloque compartido que se ejecuta varias veces.",
+    "mechanism": "Cada pasada por el bloque reutiliza el peso común, añade una corrección de bajo rango propia y usa una puerta dependiente del token para mezclar correcciones; después se destila con 22.000 millones de tokens.",
+    "results": "El modelo conserva el 84 % del promedio del profesor en ocho benchmarks y alrededor del 90 % en razonamiento cotidiano y matemático. Supera a Qwen3-1.7B en cinco de ocho pruebas, con 2,27B frente a 4,02B parámetros.",
+    "use": "Hipotético: alojar un asistente especializado en una GPU con menos memoria sin entrenar un alumno totalmente nuevo, aceptando que la latencia no necesariamente baja porque el bloque se repite.",
+    "useCaseType": "Hipotético",
+    "limits": "Solo se estudian Qwen3-4B y 8B; no se mide latencia real de servicio ni energía. La comparación de tokens con Qwen3-1.7B mezcla destilación desde un profesor con preentrenamiento desde cero, y algunos benchmarks son pequeños.",
+    "paper": "https://arxiv.org/abs/2611.18113",
+    "code": "https://github.com/myboker/concertina",
+    "paragraphs": [
+      "Concertina es una técnica para hacer más pequeño un modelo de lenguaje sin empezar de cero. Toma grupos de capas consecutivas del modelo original y los pliega en un único bloque de pesos que se reutiliza varias veces, como una misma estación de trabajo que realiza distintas fases de una cadena de montaje.",
+      "Para que cada repetición no haga exactamente lo mismo, añade pequeñas correcciones de bajo rango —matrices compactas que ajustan el peso común— y una puerta que decide cuánto usar de cada corrección para cada token. Tras destilar el sistema con 22.000 millones de tokens, el modelo de 2,27B parámetros conservó, según los autores, el 84 % del promedio del Qwen3-4B en ocho benchmarks y cerca del 90 % en razonamiento cotidiano y matemático; superó a Qwen3-1.7B en cinco de las ocho pruebas.",
+      "Un caso de uso plausible sería desplegar un asistente técnico en una GPU con menos memoria: en vez de entrenar un modelo pequeño desde cero, se plegaría uno mayor ya competente y se lo adaptaría con destilación. El artículo demuestra la reducción de parámetros y las puntuaciones de benchmark, pero no demuestra todavía una mejora de latencia en un servidor real.",
+      "Es interesante porque… aprovecha el conocimiento que ya está almacenado en las capas del profesor y convierte profundidad en reutilización. La comparación controlada con otras formas de compartir capas sugiere que plegar capas vecinas y permitir correcciones dependientes del token es más útil que repetir un bloque sin adaptación.",
+      "Es un preprint probado solo en Qwen3-4B y 8B. Repetir el bloque ahorra memoria de parámetros, pero no elimina todas las operaciones, y el trabajo no publica medidas de latencia, energía ni rendimiento en hardware de consumo. La comparación con Qwen3-1.7B tampoco equivale a igualdad total de entrenamiento. Hay paper y código, pero faltan réplicas independientes y pruebas de servicio prolongadas."
+    ]
+  },
+  {
+    "id": "arxiv-2611-17880",
+    "canonicalId": "arXiv:2611.17880",
+    "title": "Soteria: Formally Verified Planning with Runtime Enforcement for Safe LLM Agents",
+    "category": "Agentes y seguridad",
+    "date": "2026-11-13",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.0,
+    "scoreBreakdown": {"novelty": 2.4, "solidity": 1.7, "evidence": 1.6, "importance": 2.0, "reproducibility": 0.3},
+    "summary": "Soteria verifica el plan completo de un agente antes de usar herramientas y reutiliza ese plan para recuperarse cuando el monitor bloquea una acción.",
+    "mechanism": "Representa el plan como un sistema jerárquico de transiciones con condiciones, comprueba restricciones temporales, relacionales y de flujo de valores, y vigila la ejecución con SpecMonitor.",
+    "results": "En el agregado de cinco repeticiones, obtuvo utilidad conforme del 50,8 ± 3,6 %, conformidad del 100 % y cero violaciones, frente a 48,0 ± 2,0 %, 91,2 % y 4,4 violaciones de AgentSpec. Los autores resumen una mejora media de éxito de 1,7× sobre el mejor baseline.",
+    "use": "Demostrado en benchmarks: impedir que un agente de reservas ejecute una compra fuera de política y guiarlo hacia otra rama del plan que pide confirmación o ajusta la opción.",
+    "useCaseType": "Demostrado en benchmarks",
+    "limits": "La garantía cubre las especificaciones escritas, no riesgos omitidos, y supone contratos de herramientas fieles. El 1,7× es un agregado de los autores; en la tabla global la ventaja sobre AgentSpec es menor. No se ha confirmado código público.",
+    "paper": "https://arxiv.org/abs/2611.17880",
+    "paragraphs": [
+      "Soteria intenta resolver un problema habitual en agentes que usan herramientas: bloquear una acción peligrosa evita el daño, pero puede dejar al agente sin saber cómo continuar. Su propuesta es pedir primero un plan estructurado, verificar matemáticamente que respeta las reglas y conservarlo como mapa de recuperación durante la ejecución.",
+      "El plan se expresa como un conjunto jerárquico de estados y transiciones con condiciones; un verificador comprueba restricciones sobre orden, relaciones y movimiento de valores antes de ejecutar herramientas. En cinco repeticiones agregadas, Soteria obtuvo una utilidad conforme del 50,8 ± 3,6 %, conformidad del 100 % y cero violaciones; AgentSpec quedó en 48,0 ± 2,0 %, 91,2 % y 4,4 violaciones. El 1,7× de éxito medio es el resumen de los autores entre benchmarks, no una mejora uniforme en cada tabla.",
+      "El caso demostrado está en benchmarks de uso de herramientas. Por ejemplo, si un agente de viajes intenta reservar una opción que incumple el presupuesto, el monitor la bloquea y el plan verificado puede señalar una rama válida: buscar otra tarifa o pedir autorización. Todavía es hipotético que el mismo mecanismo mantenga esas garantías en una agencia real con herramientas cambiantes.",
+      "Es interesante porque… une prevención y recuperación. En lugar de tratar el guardarraíl como un simple botón de parada, utiliza la estructura ya verificada del plan para orientar el siguiente paso, lo que aborda directamente la tensión entre seguridad y finalización de la tarea.",
+      "La verificación solo cubre las reglas que alguien haya formalizado y presupone que los contratos describen fielmente lo que hacen las herramientas. Un plan puede ser formalmente correcto y aun así fallar por una API inesperada o una política incompleta. Es un preprint sin código público confirmado; hacen falta réplicas, ataques adaptativos y pruebas en servicios reales antes de considerarlo una capa de seguridad lista para producción."
+    ]
+  },
+  {
+    "id": "arxiv-2611-18104",
+    "canonicalId": "arXiv:2611.18104",
+    "title": "Contagious Fingerprints: When LLMs Inherit Another Model's Identity",
+    "category": "Evaluación y seguridad",
+    "date": "2026-11-13",
+    "status": "Preprint con experimentos prerregistrados, sin revisión por pares",
+    "score": 8.1,
+    "scoreBreakdown": {"novelty": 2.8, "solidity": 1.7, "evidence": 1.7, "importance": 1.6, "reproducibility": 0.3},
+    "summary": "Demuestra que el estilo de una conversación previa puede desplazar la huella textual del modelo que la continúa y hacer menos fiable la auditoría de sustituciones de API.",
+    "mechanism": "LINEUP compara la respuesta auditada con referencias generadas por el modelo declarado sobre exactamente el mismo historial y usa su rango, en vez de un umbral aprendido con conversaciones nuevas.",
+    "results": "Tras un relevo de modelo, la detección cayó de 0,97 a 0,72 para DeepSeek sustituyendo a Claude Sonnet y de 0,87 a 0,54 para Haiku. LINEUP logró 0,056 de falsos positivos y detectó 0,81 de sesiones sustituidas tras cuatro turnos en seis pares.",
+    "use": "Demostrado experimentalmente: auditar un intermediario de API que sirve el modelo caro al inicio y cambia silenciosamente a otro más barato cuando el historial ya domina el estilo.",
+    "useCaseType": "Demostrado experimentalmente",
+    "limits": "LINEUP necesita consultar contemporáneamente al modelo declarado sobre el mismo historial; cambios del proveedor pueden romper la intercambiabilidad. La prueba contemporánea usa dos modelos cerrados y no hay código público confirmado.",
+    "paper": "https://arxiv.org/abs/2611.18104",
+    "paragraphs": [
+      "Este trabajo muestra que la huella textual de un modelo —los patrones de estilo que permiten atribuirle una respuesta— no pertenece solo al modelo. Cuando otro sistema continúa una conversación ya escrita, tiende a imitar su estilo y puede parecerse al autor de los primeros turnos, aunque sus pesos sean distintos.",
+      "Ese contagio debilita los detectores entrenados con conversaciones nuevas: al sustituir Claude Sonnet por DeepSeek, la detección bajó de 0,97 a 0,72; con Haiku cayó de 0,87 a 0,54. La alternativa LINEUP genera referencias del modelo prometido usando el mismo historial y ordena la respuesta auditada entre ellas. En pruebas prerregistradas obtuvo 0,056 de falsos positivos, por debajo del límite 0,10, y detectó 0,81 de sesiones sustituidas después de cuatro turnos en seis pares.",
+      "El caso demostrado es auditar un intermediario de API que sirve el modelo caro al principio y cambia a uno barato cuando la conversación ya ha fijado el tono. Una empresa podría enviar el mismo historial al proveedor oficial, construir un grupo de respuestas contemporáneas y comprobar si la respuesta recibida encaja en ese grupo, sin necesitar los logits internos del modelo.",
+      "Es interesante porque… identifica una variable de confusión que las auditorías de texto suelen ignorar: el historial también cambia cómo escribe un modelo honesto. Comparar una respuesta condicionada por contexto con referencias sin ese contexto puede ocultar sustituciones y, a la vez, acusar falsamente a proveedores legítimos.",
+      "LINEUP exige acceso contemporáneo al modelo declarado y que las referencias sean intercambiables con la respuesta auditada. El propio trabajo observa que una separación de dos a cuatro días ya puede degradar esa condición. La evaluación contemporánea se concentra en dos modelos cerrados, no hay código público confirmado y falta medir costes, estabilidad temporal y resistencia frente a proveedores que adapten su estrategia."
+    ]
   }
 ]
 
