@@ -1,0 +1,17 @@
+name: Atlas regression checks
+on:
+  push:
+    branches: [main, feature/knowledge-atlas-labs-staging]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Static Atlas and legacy laboratory regression
+        run: node tests/atlas-smoke.cjs
