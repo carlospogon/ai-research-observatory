@@ -1,0 +1,78 @@
+/* Scientific control room: all values derived from editorial archive; no synthetic metrics. */
+(()=>{'use strict';
+const C=['#6fe7ed','#e6a65c','#79b7ff','#9bdc9d','#bd9aff','#f17b84','#f0d87b','#a6d2d8'];
+const family={'Seguridad':'Seguridad','Seguridad de agentes':'Seguridad','Investigación':'Investigación','Aprendizaje':'Aprendizaje','Evaluación':'Evaluación','Visión médica':'Multimodal','Aprendizaje por refuerzo':'Aprendizaje','Interpretabilidad':'Interpretabilidad','Agentes y RL':'Agentes','Agentes de código':'Agentes','Eficiencia de entrenamiento':'Eficiencia','Robótica y RL':'Robótica','Evaluación y nuevos paradigmas':'Evaluación'};
+const names=['Agentes','Seguridad','Evaluación','Aprendizaje','Eficiencia','Multimodal','Robótica','Interpretabilidad','Investigación'];
+const colorOf=x=>C[Math.max(0,names.indexOf(x))%C.length];
+const tags=p=>Array.isArray(p.trendCategories)&&p.trendCategories.length?p.trendCategories:[family[p.category]||p.category||'Investigación'];
+const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function setup(){const nav=document.querySelector('nav.tabs[aria-label="Secciones"]');if(!nav||document.getElementById('control-room'))return;
+const b=document.createElement('button');b.type='button';b.dataset.tab='control-room';b.textContent='◈ Centro visual';nav.append(b);
+const sec=document.createElement('section');sec.className='view';sec.id='control-room';sec.innerHTML=`
+<style>
+#control-room{--cyan:#70e6ef;--line:#243b4b;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#c7e1eb}
+#control-room .cr-head{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid #304e5a;background:#07121e;padding:13px 16px;margin-bottom:8px;flex-wrap:wrap}
+#control-room .cr-kicker{font-size:10px;letter-spacing:.14em;color:#6fe7ed}
+#control-room h2{font-family:inherit;font-size:19px;letter-spacing:.04em;margin:5px 0}
+#control-room .cr-meta{font-size:10px;color:#90aab7}
+#control-room .cr-main{display:grid;grid-template-columns:minmax(0,1fr) 255px;gap:8px}
+#control-room .cr-stage{position:relative;background:radial-gradient(ellipse at 51% 45%,#112839 0%,#07121e 56%,#030912 100%);border:1px solid #294657;min-height:570px;overflow:hidden}
+#control-room canvas{width:100%;height:570px;display:block;cursor:crosshair;touch-action:pan-y}
+#control-room .cr-overlay{position:absolute;pointer-events:none;font-size:10px;color:#89aab8;letter-spacing:.08em}
+#control-room .cr-overlay.top{top:14px;left:16px}#control-room .cr-overlay.bottom{bottom:14px;left:16px}
+#control-room .cr-side{display:flex;flex-direction:column;gap:8px}
+#control-room .cr-box{border:1px solid #294657;background:#081622;padding:12px}
+#control-room .cr-title{font-size:10px;color:#80a9b9;letter-spacing:.1em;margin:0 0 10px}
+#control-room .cr-stat{display:flex;justify-content:space-between;border-bottom:1px solid #1c3340;padding:6px 0;font-size:11px}
+#control-room .cr-stat strong{color:#7ce3d8}
+#control-room .cr-bars{display:flex;align-items:end;gap:3px;height:65px;border-bottom:1px solid #304956}
+#control-room .cr-bars i{flex:1;min-width:2px;display:block;background:#40a7c0;opacity:.8}
+#control-room .cr-cat{display:flex;align-items:center;gap:7px;margin:7px 0;font-size:10px}
+#control-room .cr-cat span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#control-room .cr-cat meter{width:75px;height:8px}
+#control-room .cr-bottom{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+#control-room .cr-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+#control-room .cr-actions button,#control-room .cr-actions select{font:inherit;font-size:11px;background:#0e2534;color:#d6edf5;border:1px solid #396072;padding:8px 11px;border-radius:2px;cursor:pointer}
+#control-room .cr-actions input{accent-color:#5ce1c8;flex:1;min-width:100px}
+#control-room .cr-paper{font-size:12px;line-height:1.55;color:#c1d4e0;min-height:88px}
+#control-room .cr-paper a{color:#6fe7ed}
+#control-room .cr-note{font-size:11px;color:#95aebe;line-height:1.55}
+@media(max-width:820px){#control-room .cr-main{grid-template-columns:1fr}#control-room .cr-stage{min-height:420px}#control-room canvas{height:420px}#control-room .cr-side{display:grid;grid-template-columns:1fr 1fr}#control-room .cr-bottom{grid-template-columns:1fr}}
+@media(max-width:480px){#control-room .cr-side{grid-template-columns:1fr}}
+</style>
+<div class="cr-head"><div><div class="cr-kicker">AI RESEARCH OBSERVATORY / EDITORIAL INTELLIGENCE</div><h2>DISCOVERY ARCHITECTURE <span style="color:#6fe7ed">◉</span></h2><div class="cr-meta">RED CIENTÍFICA · RELACIONES TEMÁTICAS · ARCHIVO VERIFICABLE</div></div><div class="cr-meta" id="crStatus">SINCRONIZANDO ARCHIVO…</div></div>
+<div class="cr-actions"><button id="crPlay">Ⅱ PAUSA</button><button id="crReset">↺ REINICIAR</button><label class="cr-meta" for="crDate">HISTORIA</label><input id="crDate" type="range" min="0" max="0" value="0" aria-label="Fecha de corte"/><span class="cr-meta" id="crDateText">—</span><select id="crFilter" aria-label="Filtrar área"><option value="all">TODAS LAS ÁREAS</option></select></div>
+<div class="cr-main"><div class="cr-stage"><canvas id="crCanvas" aria-label="Red circular interactiva de publicaciones científicas" role="img"></canvas><div class="cr-overlay top">EDITORIAL GRAPH / CATEGORY LINKS / CHRONOLOGY</div><div class="cr-overlay bottom" id="crFooter">SELECCIONA UN NODO PARA EXPLORAR</div></div>
+<div class="cr-side"><div class="cr-box"><p class="cr-title">TELEMETRÍA DEL ARCHIVO</p><div class="cr-stat">PAPERS VISIBLES <strong id="crCount">—</strong></div><div class="cr-stat">CONEXIONES TEMÁTICAS <strong id="crEdges">—</strong></div><div class="cr-stat">ÁREAS PRESENTES <strong id="crDomains">—</strong></div><div class="cr-stat">PUNTUACIÓN MEDIA <strong id="crAvg">—</strong></div></div>
+<div class="cr-box"><p class="cr-title">ACTIVIDAD EDITORIAL / FECHAS</p><div class="cr-bars" id="crBars"></div><div class="cr-meta" id="crSpan" style="margin-top:9px">—</div></div>
+<div class="cr-box" style="flex:1"><p class="cr-title">DISTRIBUCIÓN TEMÁTICA</p><div id="crCats"></div></div>
+<div class="cr-box"><p class="cr-title">ESTADO DEL SISTEMA</p><div class="cr-stat">FUENTE <strong>papers.json</strong></div><div class="cr-stat">MODO <strong>EDITORIAL</strong></div><div class="cr-stat">VÍNCULOS <strong>COMPARTEN ÁREA</strong></div></div></div></div>
+<div class="cr-bottom"><div class="cr-box"><p class="cr-title">INSPECTOR DE INVESTIGACIONES</p><div id="crPaper" class="cr-paper">Selecciona un punto de la corona para abrir su investigación, resultados y enlaces.</div></div><div class="cr-box"><p class="cr-title">CRITERIOS DE INTERPRETACIÓN</p><div class="cr-note">Cada punto representa una publicación real del archivo. Una línea conecta dos publicaciones cuando comparten al menos una categoría normalizada; no demuestra colaboración, influencia ni causalidad. El movimiento es una representación estética, no una medición científica. La serie inferior utiliza fechas reales. Preparado para incorporar fuentes externas por separado.</div></div></div>`;
+nav.insertAdjacentElement('afterend',sec);b.addEventListener('click',()=>{nav.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x===sec));resize();draw();});
+const canvas=sec.querySelector('#crCanvas'),ctx=canvas.getContext('2d');if(!ctx)return;let papers=[],shown=[],edges=[],selected=null,hover=null,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches,phase=0,raf=0,w=0,h=0,dpr=1,positions=[],last=0;
+const el=id=>sec.querySelector('#'+id);const date=el('crDate');const filter=el('crFilter');
+function resize(){const rect=canvas.getBoundingClientRect();if(!rect.width)return;w=rect.width;h=rect.height;dpr=Math.min(2,window.devicePixelRatio||1);canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);positions=shown.map((p,i)=>pos(i,shown.length));}
+function pos(i,n){const a=-Math.PI/2+2*Math.PI*i/Math.max(1,n);return{x:w*.49+Math.cos(a)*Math.min(w*.37,h*.40),y:h*.52+Math.sin(a)*Math.min(w*.37,h*.40),a};}
+function rebuild(){const max=Number(date.value),cutoff=papers[max]?.date||'';const f=filter.value;shown=papers.filter(p=>p.date<=cutoff&&(f==='all'||tags(p).includes(f)));selected=selected&&shown.includes(selected)?selected:null;edges=[];for(let i=0;i<shown.length;i++)for(let j=i+1;j<shown.length;j++){const shared=tags(shown[i]).filter(t=>tags(shown[j]).includes(t));if(shared.length)edges.push({i,j,t:shared[0]});}
+positions=shown.map((p,i)=>pos(i,shown.length));el('crCount').textContent=shown.length;el('crEdges').textContent=edges.length;el('crDomains').textContent=new Set(shown.flatMap(tags)).size;el('crAvg').textContent=shown.length?(shown.reduce((s,p)=>s+(Number(p.score)||0),0)/shown.length).toFixed(2)+'/10':'—';el('crDateText').textContent=cutoff;el('crStatus').textContent=shown.length+' NODES / '+edges.length+' EDGES / EDITORIAL';el('crFooter').textContent='FECHA DE CORTE: '+cutoff+' · '+(selected?selected.title:'SELECCIONA UN NODO');
+const freq=new Map();shown.forEach(p=>tags(p).forEach(t=>freq.set(t,(freq.get(t)||0)+1/tags(p).length)));const ordered=[...freq].sort((a,b)=>b[1]-a[1]);const maxV=Math.max(1,...ordered.map(x=>x[1]));el('crCats').innerHTML=ordered.map(([t,v])=>'<div class="cr-cat"><b style="color:'+colorOf(t)+'">●</b><span>'+esc(t)+'</span><meter min="0" max="'+maxV+'" value="'+v+'"></meter><b>'+v.toFixed(1)+'</b></div>').join('')||'<p class="cr-note">Sin datos</p>';
+const counts=new Map();shown.forEach(p=>counts.set(p.date,(counts.get(p.date)||0)+1));const dates=[...new Set(papers.map(p=>p.date))];el('crBars').innerHTML=dates.map(d=>'<i title="'+d+': '+(counts.get(d)||0)+' papers" style="height:'+Math.max(2,100*(counts.get(d)||0)/Math.max(1,...counts.values()))+'%"></i>').join('');el('crSpan').textContent=(dates[0]||'—')+' → '+cutoff;inspect();draw();}
+function inspect(){el('crPaper').innerHTML=selected?'<b style="color:#6fe7ed">'+esc(selected.title)+'</b><div class="cr-meta">'+esc(selected.date)+' · '+esc(selected.category)+' · '+Number(selected.score).toFixed(1)+'/10</div><p>'+esc(selected.summary)+'</p><a href="'+esc(selected.paper)+'" target="_blank" rel="noopener">ABRIR PAPER ↗</a>'+(selected.code?' · <a href="'+esc(selected.code)+'" target="_blank" rel="noopener">CÓDIGO ↗</a>':''):'Selecciona un punto de la corona para abrir su investigación, resultados y enlaces.';}
+function draw(){if(!w||!h||sec.hidden||!sec.classList.contains('active'))return;ctx.clearRect(0,0,w,h);const cx=w*.49,cy=h*.52,R=Math.min(w*.37,h*.40);ctx.save();
+for(let i=0;i<6;i++){ctx.beginPath();ctx.arc(cx,cy,R*(.35+i*.16),0,Math.PI*2);ctx.strokeStyle='rgba(82,142,165,'+(.09+i*.016)+')';ctx.setLineDash(i%2?[2,6]:[]);ctx.lineWidth=.8;ctx.stroke();}ctx.setLineDash([]);
+for(let i=0;i<72;i++){const a=i*Math.PI/36;const r=R+8;ctx.beginPath();ctx.moveTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);ctx.lineTo(cx+Math.cos(a)*(r+(i%6===0?12:5)),cy+Math.sin(a)*(r+(i%6===0?12:5)));ctx.strokeStyle='rgba(129,197,218,.32)';ctx.stroke();}
+edges.forEach((e,k)=>{const a=positions[e.i],b=positions[e.j];if(!a||!b)return;const highlight=selected&&(shown[e.i]===selected||shown[e.j]===selected);ctx.beginPath();ctx.moveTo(a.x,a.y);const bend=.22+.14*Math.sin(k*1.3);ctx.bezierCurveTo(cx+(a.x-cx)*bend,cy+(a.y-cy)*bend,cx+(b.x-cx)*bend,cy+(b.y-cy)*bend,b.x,b.y);ctx.strokeStyle=highlight?'rgba(135,245,236,.83)':colorOf(e.t);ctx.globalAlpha=highlight?.9:.12;ctx.lineWidth=highlight?1.8:.85;ctx.stroke();if((k%5===0||highlight)&&playing){const t=(phase*.12+k*.071)%1;const x=Math.pow(1-t,3)*a.x+3*Math.pow(1-t,2)*t*(cx+(a.x-cx)*bend)+3*(1-t)*t*t*(cx+(b.x-cx)*bend)+t*t*t*b.x;const y=Math.pow(1-t,3)*a.y+3*Math.pow(1-t,2)*t*(cy+(a.y-cy)*bend)+3*(1-t)*t*t*(cy+(b.y-cy)*bend)+t*t*t*b.y;ctx.fillStyle='#b9faff';ctx.beginPath();ctx.arc(x,y,highlight?2.5:1.4,0,7);ctx.fill();}ctx.globalAlpha=1;});
+positions.forEach((p,i)=>{const paper=shown[i],on=selected===paper||hover===i;const r=on?5.8:3.1;ctx.beginPath();ctx.moveTo(cx+Math.cos(p.a)*(R+3),cy+Math.sin(p.a)*(R+3));ctx.lineTo(cx+Math.cos(p.a)*(R+15+(i%4)*5),cy+Math.sin(p.a)*(R+15+(i%4)*5));ctx.strokeStyle=colorOf(tags(paper)[0]);ctx.globalAlpha=.65;ctx.stroke();ctx.globalAlpha=1;if(on){ctx.shadowColor='#79f4e7';ctx.shadowBlur=20;}ctx.fillStyle=colorOf(tags(paper)[0]);ctx.beginPath();ctx.arc(p.x,p.y,r,0,7);ctx.fill();ctx.shadowBlur=0;});
+ctx.beginPath();ctx.arc(cx,cy,R*.22,0,7);ctx.strokeStyle='#37687c';ctx.lineWidth=1.2;ctx.stroke();ctx.fillStyle='#081c29';ctx.fill();ctx.textAlign='center';ctx.fillStyle='#baf8ef';ctx.font='bold '+Math.max(17,Math.min(30,w*.05))+'px monospace';ctx.fillText(shown.length,cx,cy+2);ctx.font='10px monospace';ctx.fillStyle='#79b7c6';ctx.fillText('RESEARCH NODES',cx,cy+18);ctx.restore();}
+function hit(ev){const rect=canvas.getBoundingClientRect(),x=ev.clientX-rect.left,y=ev.clientY-rect.top;let idx=-1,dist=15;positions.forEach((p,i)=>{const d=Math.hypot(p.x-x,p.y-y);if(d<dist){dist=d;idx=i;}});return idx;}
+canvas.addEventListener('pointermove',e=>{const v=hit(e);if(v!==hover){hover=v;canvas.style.cursor=v>=0?'pointer':'crosshair';draw();}});
+canvas.addEventListener('click',e=>{const v=hit(e);if(v>=0){selected=shown[v];inspect();el('crFooter').textContent=selected.title;draw();}});
+date.addEventListener('input',rebuild);filter.addEventListener('change',rebuild);
+el('crPlay').addEventListener('click',()=>{playing=!playing;el('crPlay').textContent=playing?'Ⅱ PAUSA':'▶ REPRODUCIR';});
+el('crReset').addEventListener('click',()=>{date.value=String(papers.length-1);filter.value='all';selected=null;phase=0;rebuild();});
+function tick(t){if(t-last>30){if(playing)phase+=(t-last)/1000;last=t;draw();}raf=requestAnimationFrame(tick);}raf=requestAnimationFrame(tick);
+if('ResizeObserver'in window)new ResizeObserver(resize).observe(canvas);else window.addEventListener('resize',resize);
+fetch('./data/papers.json').then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(d=>{papers=d.filter(p=>p&&/^\d{4}-\d{2}-\d{2}$/.test(p.date||'')).sort((a,b)=>a.date.localeCompare(b.date));if(!papers.length)throw Error('No hay papers con fechas');date.max=papers.length-1;date.value=date.max;const groups=[...new Set(papers.flatMap(tags))].sort();groups.forEach(t=>{const opt=document.createElement('option');opt.value=t;opt.textContent=t.toUpperCase();filter.append(opt);});resize();rebuild();}).catch(e=>{el('crStatus').textContent='ERROR DE CARGA';el('crPaper').textContent=e.message;});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
+})();
