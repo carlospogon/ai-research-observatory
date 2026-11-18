@@ -12,6 +12,10 @@ assert(html.includes('observatory:topic'),'topic event');
 assert(html.includes('prefers-reduced-motion'),'reduced motion');
 const registry=[...html.matchAll(/"labId":"([^"]+)"/g)].map(m=>m[1]);assert(registry.length>=16,'16 registry mappings');
 const data=JSON.parse(fs.readFileSync('data/papers.json','utf8'));
-assert(Array.isArray(data)?data.length>=16:(Array.isArray(data.papers)&&data.papers.length>=16),'16 research papers');
-for(const path of ['assets/visual-labs.js','assets/visual-labs-extended.js','assets/visual-labs-2026-11-14.js','assets/visual-labs-2026-11-15.js','assets/visual-labs-2026-11-16.js','assets/visual-labs-2026-11-17.js']){assert(fs.existsSync(path),path);new vm.Script(fs.readFileSync(path,'utf8'),{filename:path})}
-console.log('Static checks passed: inline syntax, 16 lab IDs, registry, data, six original scripts, atlas, accessibility markers');
+assert(Array.isArray(data)?data.length>=19:(Array.isArray(data.papers)&&data.papers.length>=19),'19 research papers');
+for(const path of ['assets/visual-labs.js','assets/visual-labs-extended.js','assets/visual-labs-2026-11-14.js','assets/visual-labs-2026-11-15.js','assets/visual-labs-2026-11-16.js','assets/visual-labs-2026-11-17.js','assets/visual-labs-2026-11-18.js']){assert(fs.existsSync(path),path);new vm.Script(fs.readFileSync(path,'utf8'),{filename:path})}
+const latest=fs.readFileSync('assets/visual-labs-2026-11-18.js','utf8');
+for(const id of ['latentfeedback','swecowork','vira'])assert(latest.includes('"'+id+'"'),'missing dynamic lab '+id);
+for(const id of ['arxiv-2611-20404','arxiv-2611-20218','arxiv-2611-21605'])assert(latest.includes(id),'missing registry/quiz paper '+id);
+assert(html.includes('assets/visual-labs-2026-11-18.js'),'latest visual module not loaded');
+console.log('Static checks passed: inline syntax, 16 original + 3 dynamic labs, 19 papers, registry/quiz markers, seven scripts, atlas, accessibility markers');

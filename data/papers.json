@@ -386,6 +386,81 @@
       "Es interesante porque… identifica una variable de confusión que las auditorías de texto suelen ignorar: el historial también cambia cómo escribe un modelo honesto. Comparar una respuesta condicionada por contexto con referencias sin ese contexto puede ocultar sustituciones y, a la vez, acusar falsamente a proveedores legítimos.",
       "LINEUP exige acceso contemporáneo al modelo declarado y que las referencias sean intercambiables con la respuesta auditada. El propio trabajo observa que una separación de dos a cuatro días ya puede degradar esa condición. La evaluación contemporánea se concentra en dos modelos cerrados, no hay código público confirmado y falta medir costes, estabilidad temporal y resistencia frente a proveedores que adapten su estrategia."
     ]
+  },
+  {
+    "id": "arxiv-2611-20404",
+    "canonicalId": "arXiv:2611.20404",
+    "title": "Latent Feedback Is a Compute and Data Amplifier",
+    "category": "Eficiencia de entrenamiento",
+    "date": "2026-11-16",
+    "status": "Preprint, sin revisión por pares",
+    "score": 9.0,
+    "scoreBreakdown": {"novelty": 2.6, "solidity": 1.9, "evidence": 1.9, "importance": 1.8, "reproducibility": 0.8},
+    "summary": "Hace que cada token reutilice el estado profundo del token anterior y muestra que, cuando los datos se repiten, esa realimentación puede aprovechar mejor el cómputo que entrenar más épocas un Transformer convencional.",
+    "mechanism": "El estado de la última capa de un token se transforma y se suma a la entrada del token siguiente. Los autores comparan esta arquitectura y un Transformer ajustando ambos en una cuadrícula de tamaños, datos únicos y épocas con presupuestos equiparados.",
+    "results": "En el mejor régimen alcanzó la misma pérdida con hasta un 48 % menos de cómputo o un 47 % menos de datos únicos. Una ley de escala ajustada entre 60M y 271M parámetros predijo la pérdida de un modelo de 778M reservado para validación con un error inferior al 0,3 %.",
+    "use": "Hipotético: preentrenar un modelo especializado con un corpus técnico limitado, reutilizando mejor los documentos disponibles en vez de repetirlos sin cambiar la arquitectura.",
+    "useCaseType": "Hipotético",
+    "limits": "Las ganancias máximas aparecen en regímenes concretos con datos repetidos; cuando hay muy pocos datos por parámetro la ventaja desaparece. La mayor escala validada es 778M, lejos de los modelos de frontera, y no se publican medidas de latencia de inferencia ni energía.",
+    "paper": "https://arxiv.org/abs/2611.20404",
+    "code": "https://github.com/ifm-ai/LoRM",
+    "paragraphs": [
+      "Latent Feedback propone que un modelo de lenguaje no olvide por completo el trabajo interno realizado al procesar el token anterior. Toma el estado de su capa más profunda, lo transforma y lo incorpora a la entrada del token siguiente. El problema que intenta resolver es el rendimiento decreciente de entrenar muchas veces sobre el mismo texto cuando los datos buenos son escasos.",
+      "Para saber si la mejora procede realmente del mecanismo y no de gastar más recursos, los autores comparan la realimentación con Transformers convencionales a igual cantidad de datos y cómputo, reajustando ambos en varios tamaños y números de épocas. Según sus experimentos, la arquitectura alcanzó la misma pérdida con hasta un 48 % menos de cómputo o un 47 % menos de datos únicos. Una ley de escala entrenada con modelos de 60M a 271M parámetros predijo la pérdida del modelo de 778M reservado para validación con menos de un 0,3 % de error.",
+      "Un caso de uso plausible sería entrenar un asistente para ingeniería con una colección limitada de manuales y documentación privada. En vez de pasar una y otra vez por los mismos documentos con un Transformer estándar, la realimentación podría extraer más aprendizaje por token. Esta aplicación todavía es hipotética: el paper demuestra pérdidas y tareas posteriores en experimentos controlados, no una reducción de costes en una empresa real.",
+      "Es interesante porque… compara dos formas de gastar el mismo presupuesto: repetir los datos o añadir memoria computacional entre tokens. Esa comparación controlada y la validación de la ley de escala en un tamaño no usado para ajustarla aportan más evidencia que una única carrera de entrenamiento favorable.",
+      "El resultado no significa que siempre pueda recortarse casi la mitad del entrenamiento. Las cifras máximas aparecen en regímenes concretos de repetición y la ventaja desaparece cuando hay demasiado pocos datos únicos por parámetro. La escala máxima es 778M y faltan pruebas en modelos de miles de millones, latencia de inferencia y consumo energético. El código y 174 checkpoints facilitan la réplica, pero aún no existe validación independiente."
+    ]
+  },
+  {
+    "id": "arxiv-2611-20218",
+    "canonicalId": "arXiv:2611.20218",
+    "title": "SWE-CoWork: Benchmarking Coding Agents as Digital Employees in Organizations",
+    "category": "Agentes de código",
+    "date": "2026-11-15",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.8,
+    "scoreBreakdown": {"novelty": 2.5, "solidity": 1.9, "evidence": 1.8, "importance": 1.9, "reproducibility": 0.7},
+    "summary": "Evalúa agentes de programación como miembros nuevos de un equipo: deben descubrir requisitos repartidos entre compañeros y documentos, implementar el cambio y demostrar con pruebas privadas que terminaron el trabajo completo.",
+    "mechanism": "Incluye 101 tareas en 101 repositorios, 11 lenguajes y 12 dominios. Cada organización simulada contiene 26 colegas con funciones y conocimiento limitados; las soluciones se puntúan con pruebas fail-to-pass y pass-to-pass ejecutadas en contenedores limpios.",
+    "results": "Los dos modelos líderes superaron alrededor del 63 % de las pruebas que debían arreglar, pero completaron menos del 8 % de las tareas enteras. Dar todos los requisitos al inicio elevó unos 16 puntos las pruebas superadas para Seed Evolving y GPT-6 Astra, sin mejorar el éxito completo; el 31 % de requisitos declarados como terminados seguía fallando.",
+    "use": "Demostrado como benchmark: evaluar si un agente que entra en un proyecto empresarial sabe preguntar al responsable correcto, mantener requisitos pendientes, programar, verificar y entregar, no solo producir un parche parcial.",
+    "useCaseType": "Demostrado como benchmark",
+    "limits": "Los 26 compañeros son simulados por modelos y no reproducen toda la ambigüedad humana. Las pruebas privadas reducen contaminación, pero dificultan auditar cada fallo; ejecutar la evaluación completa exige contenedores, modelos de pago y campañas de hasta ocho horas por tarea.",
+    "paper": "https://arxiv.org/abs/2611.20218",
+    "code": "https://github.com/TokenWave-AI/swe-cowork-bench",
+    "paragraphs": [
+      "SWE-CoWork es un banco de pruebas para agentes de programación que intenta parecerse más a incorporarse a una empresa que a resolver un ticket perfectamente escrito. El agente recibe un encargo breve y debe averiguar qué se necesita consultando conversaciones, documentos, tablero del proyecto y compañeros con conocimientos parciales.",
+      "El benchmark reúne 101 tareas de 101 repositorios, 11 lenguajes y 12 dominios, dentro de organizaciones simuladas con 26 colegas. Las soluciones se ejecutan en contenedores limpios y se comprueban con tests privados. Los dos mejores modelos aprobaron aproximadamente el 63 % de las pruebas que debían pasar, pero completaron menos del 8 % de las tareas enteras. Incluso al entregar todos los requisitos al principio, dos modelos mejoraron unos 16 puntos en pruebas parciales sin aumentar la tasa de entrega completa; además, el 31 % de los requisitos que los agentes daban por terminados todavía fallaba.",
+      "El caso de uso demostrado es evaluar un agente antes de incorporarlo a un equipo de desarrollo. Por ejemplo, una empresa podría comprobar si pregunta a producto por un comportamiento ambiguo, recuerda una condición aplazada, modifica el repositorio y ejecuta las pruebas correctas antes de afirmar que ha terminado. No demuestra todavía que el agente pueda reemplazar a un trabajador ni desenvolverse igual con compañeros humanos.",
+      "Es interesante porque… separa escribir código que parece razonable de entregar un trabajo organizativo completo. El gran salto entre aprobar pruebas individuales y finalizar menos del 8 % de los encargos indica que la fiabilidad depende también de rastrear requisitos, volver sobre preguntas pendientes, verificar y cerrar el ciclo de entrega.",
+      "Los compañeros y sus respuestas están simulados, por lo que el benchmark no representa toda la negociación, presión temporal y conocimiento tácito de una empresa. Los tests privados ayudan contra la contaminación, pero limitan la inspección pública de cada resultado. El repositorio publica el benchmark y herramientas de evaluación, aunque reproducir las campañas completas requiere infraestructura, modelos comerciales y presupuestos de hasta ocho horas por tarea."
+    ]
+  },
+  {
+    "id": "arxiv-2611-21605",
+    "canonicalId": "arXiv:2611.21605",
+    "title": "ViRA: Toward Ultra-High-Resolution Visual Agents via Cross-Input Relative Policy Optimization",
+    "category": "Multimodalidad",
+    "date": "2026-11-16",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.7,
+    "scoreBreakdown": {"novelty": 2.5, "solidity": 1.8, "evidence": 1.7, "importance": 1.8, "reproducibility": 0.9},
+    "summary": "Entrena agentes visuales con varias versiones casi idénticas de una imagen para que tengan que localizar y leer un detalle diminuto, en lugar de acertar la respuesta usando sentido común.",
+    "mechanism": "CrossRPO agrupa imágenes de 21 a 120 megapíxeles que solo cambian en una región pequeña y recompensa resolver correctamente todo el conjunto. ViRA-Bench-Real fotografía cambios físicos adicionales para comprobar que el modelo no explota artefactos de edición.",
+    "results": "Con unas 3.500 muestras por modelo, CrossRPO obtuvo un 63,3 % de exactitud por conjunto en ViRA-Bench a máxima resolución frente al 59,3 % de GRPO. Los autores afirman que ViRA-9B lidera los modelos abiertos de tamaño comparable y que ViRA-27B supera a Claude Haiku 5.5 y GPT-6-Luna en la mayoría de sus pruebas.",
+    "use": "Plausible: revisar una fotografía de 80 megapíxeles de una instalación industrial y ampliar la región exacta para leer una etiqueta, posición de una válvula o código de seguridad antes de responder.",
+    "useCaseType": "Plausible, demostrado en benchmarks",
+    "limits": "La exactitud por conjunto sigue en 63,3 %, por lo que más de un tercio falla. Parte de los datos se genera editando imágenes y las comparaciones con modelos cerrados dependen de configuraciones del proveedor. No se cuantifican de forma completa latencia, coste de navegación ni robustez en inspecciones reales prolongadas.",
+    "paper": "https://arxiv.org/abs/2611.21605",
+    "code": "https://github.com/huawei-lin/ViRA",
+    "paragraphs": [
+      "ViRA intenta enseñar a un agente visual a mirar realmente una fotografía enorme. En imágenes de decenas de megapíxeles, un cartel o indicador puede ocupar una región diminuta; un modelo puede acertar por contexto sin localizarlo. El problema es que una recompensa basada solo en la respuesta no distingue entre leer la evidencia y adivinar.",
+      "CrossRPO entrena con conjuntos de imágenes casi iguales en los que solo cambia el pequeño detalle relevante y, por tanto, también cambia la respuesta. El agente recibe crédito por resolver el conjunto completo, lo que penaliza las conjeturas basadas en la escena general. Con alrededor de 3.500 ejemplos por modelo, obtuvo un 63,3 % de exactitud por conjunto en ViRA-Bench a máxima resolución, frente al 59,3 % de GRPO. Los autores también prueban cambios fotografiados físicamente para reducir el riesgo de que el sistema detecte huellas de edición.",
+      "Un caso de uso plausible sería inspeccionar una fotografía de 80 megapíxeles de una fábrica. Ante la pregunta de si una válvula concreta está abierta, el agente tendría que navegar hasta la pieza, ampliar su indicador y responder según lo observado, no según la disposición habitual de una planta. El paper demuestra esta lógica en benchmarks, no en una inspección industrial desplegada.",
+      "Es interesante porque… convierte la necesidad de mirar en una propiedad del problema de entrenamiento. Si cada versión comparte toda la escena salvo el detalle decisivo, memorizar el contexto deja de servir; el agente debe encontrar evidencia visual que cambia entre imágenes.",
+      "Un 63,3 % por conjunto sigue dejando más de un tercio de fallos. Parte del benchmark usa ediciones sintéticas, aunque ViRA-Bench-Real añade fotografías con cambios físicos. Las comparaciones con modelos cerrados dependen de sus configuraciones y faltan costes completos de navegación, latencia y pruebas prolongadas en entornos reales. El código de entrenamiento, evaluación e inferencia está publicado, pero aún no hay réplica independiente."
+    ]
   }
 ]
 
