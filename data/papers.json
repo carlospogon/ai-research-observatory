@@ -461,6 +461,80 @@
       "Es interesante porque… convierte la necesidad de mirar en una propiedad del problema de entrenamiento. Si cada versión comparte toda la escena salvo el detalle decisivo, memorizar el contexto deja de servir; el agente debe encontrar evidencia visual que cambia entre imágenes.",
       "Un 63,3 % por conjunto sigue dejando más de un tercio de fallos. Parte del benchmark usa ediciones sintéticas, aunque ViRA-Bench-Real añade fotografías con cambios físicos. Las comparaciones con modelos cerrados dependen de sus configuraciones y faltan costes completos de navegación, latencia y pruebas prolongadas en entornos reales. El código de entrenamiento, evaluación e inferencia está publicado, pero aún no hay réplica independiente."
     ]
+  },
+  {
+    "id": "arxiv-2611-19800",
+    "canonicalId": "arXiv:2611.19800",
+    "title": "Multi-Branch Transformer",
+    "category": "Arquitecturas y eficiencia",
+    "date": "2026-11-15",
+    "status": "Preprint, sin revisión por pares",
+    "score": 9.1,
+    "scoreBreakdown": {"novelty": 2.6, "solidity": 1.9, "evidence": 1.9, "importance": 1.8, "reproducibility": 0.9},
+    "summary": "Sustituye parte de la cadena secuencial de un Transformer por varias ramas completas que trabajan en paralelo y después fusionan sus resultados.",
+    "mechanism": "Mantiene capas compartidas al principio y al final, ejecuta bloques independientes en las capas intermedias y usa Joint-KV para construir una caché de claves y valores compartida entre ramas a la misma profundidad.",
+    "results": "En cuatro escalas MoE de 0,8B a 2,1B parámetros, los modelos ramificados mejoraron la pérdida con presupuestos comparables. Las curvas indican hasta 1,26× más cómputo de entrenamiento para que el Transformer estándar iguale la pérdida; Joint-KV redujo hasta un 34 % la caché y elevó hasta un 51,4 % el throughput de decodificación en una H200.",
+    "use": "Hipotético: servir un asistente de contexto largo con varias solicitudes concurrentes, reduciendo memoria de caché y agrupando las ramas para procesarlas en paralelo.",
+    "useCaseType": "Hipotético, demostrado en preentrenamiento y serving controlados",
+    "limits": "El máximo de 51,4 % procede de una configuración concreta con una H200, entrada de 64k tokens y ocho solicitudes; no coincide necesariamente con el punto de mayor ventaja de entrenamiento. Las escalas llegan a 2,1B y no demuestran el resultado en modelos de frontera ni en hardware heterogéneo.",
+    "paper": "https://arxiv.org/abs/2611.19800",
+    "code": "https://github.com/GaotangLi/Multi-Branch-Transformer",
+    "paragraphs": [
+      "Multi-Branch Transformer propone una tercera forma de ampliar un modelo de lenguaje. En lugar de limitarse a hacer cada capa más ancha o apilar más capas una detrás de otra, divide parte de la red en varias ramas de bloques completos que procesan el mismo token en paralelo y fusionan después sus resultados.",
+      "La arquitectura conserva un tramo inicial y otro final compartidos, mientras las capas intermedias se reparten entre ramas independientes. Su variante Joint-KV construye una única caché de claves y valores para las ramas que están a la misma profundidad. En cuatro modelos de mezcla de expertos entre 0,8B y 2,1B parámetros, los autores comparan presupuestos de parámetros y entrenamiento semejantes. Sus curvas estiman que el Transformer secuencial necesita hasta 1,26 veces más cómputo del cuerpo para igualar la pérdida; además, informan de hasta un 34 % menos de caché y un máximo del 51,4 % más de throughput de decodificación en una GPU H200.",
+      "Un caso de uso plausible sería servir un asistente que trabaja con documentos muy largos y muchas solicitudes concurrentes. Las ramas podrían agruparse para ejecutarse en paralelo, mientras Joint-KV evita mantener una caché completa por rama. La mejora está demostrada en el motor experimental de los autores, no todavía en una plataforma comercial con distintos aceleradores.",
+      "Es interesante porque… convierte el paralelismo en una propiedad de la arquitectura y no solo de la infraestructura. Las comparaciones controladas Wide-Shallow, Narrow-Deep y Balanced intentan separar el efecto de ramificar del efecto de cambiar simplemente la anchura o la profundidad.",
+      "Los máximos deben interpretarse con cuidado: el 51,4 % corresponde a una configuración con H200, entrada de 64k tokens y ocho solicitudes, y no necesariamente al mismo modelo que presenta la mejor ventaja de entrenamiento. Las pruebas terminan en 2,1B parámetros y faltan escalas de frontera, otros aceleradores y costes de comunicación distribuida. El repositorio publica entrenamiento, configuraciones, implementación y tests, pero la validación sigue siendo de los propios autores."
+    ]
+  },
+  {
+    "id": "arxiv-2611-21152",
+    "canonicalId": "arXiv:2611.21152",
+    "title": "From Repositories to Training Environments: Scaling Long-Horizon Coding Agents with Environment Evolution Loop",
+    "category": "Agentes de código",
+    "date": "2026-11-16",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.8,
+    "scoreBreakdown": {"novelty": 2.7, "solidity": 1.8, "evidence": 1.8, "importance": 1.9, "reproducibility": 0.6},
+    "summary": "RepoFactory convierte repositorios reales en entornos verificables donde un agente debe reconstruir un proyecto completo y mejora esos entornos mediante señales baratas antes de usarlos para entrenar.",
+    "mechanism": "El Environment Evolution Loop puntúa validez, alcance de implementación y acoplamiento estructural; los verificadores y el análisis de código revisan la implementación oráculo, la especificación y los tests para recuperar o fortalecer cada entorno.",
+    "results": "Generó 10.159 entornos en 17 dominios. Entrenar Qwen3.5-35B-A3B produjo una mejora de 22,6 puntos en NL2Repo-Bench y 8,5 puntos de media en cinco benchmarks; sin evolución de entornos, las mejoras fueron 17,5 y 6,4 puntos.",
+    "use": "Demostrado como canal de datos de entrenamiento: transformar un repositorio de biblioteca web en una tarea aislada donde el agente recibe una especificación y debe construir un proyecto que supere tests ejecutables.",
+    "useCaseType": "Demostrado en generación y entrenamiento de entornos",
+    "limits": "La colección completa tiene 10.159 entornos, pero la primera liberación pública contiene 200 y anteriores al bucle de evolución, principalmente Python. Las señales proxy pueden favorecer estructura medible sin representar toda la calidad de software, y entrenar el modelo de 35B sigue siendo costoso.",
+    "paper": "https://arxiv.org/abs/2611.21152",
+    "code": "https://github.com/IQuestLab/RepoFactory",
+    "paragraphs": [
+      "RepoFactory intenta resolver un cuello de botella de los agentes de programación: no basta con tener repositorios, hacen falta entornos donde el agente pueda construir un proyecto completo y recibir una puntuación verificable. El sistema transforma software real en tareas aisladas con especificación, dependencias, implementación de referencia y pruebas ejecutables.",
+      "Su Environment Evolution Loop no se conforma con descartar los entornos que fallan. Usa señales sobre validez, alcance de la implementación y relaciones entre módulos para revisar el oráculo, el enunciado y los tests. Los autores generaron 10.159 entornos en 17 dominios. Al entrenar Qwen3.5-35B-A3B, informan de 22,6 puntos de mejora en NL2Repo-Bench y 8,5 puntos de media en cinco benchmarks; sin la evolución, las ganancias fueron 17,5 y 6,4 puntos.",
+      "El caso demostrado es crear datos para entrenar agentes de código de largo recorrido. Por ejemplo, una biblioteca web real puede convertirse en una tarea donde el agente recibe una descripción funcional, construye todos los módulos desde cero y solo obtiene recompensa si el proyecto funciona dentro de un contenedor y supera los tests.",
+      "Es interesante porque… trata el entorno de entrenamiento como algo que también puede optimizarse. En lugar de gastar modelos caros para evaluar repetidamente cada tarea, utiliza señales proxy rápidas para mejorar primero la calidad y la dificultad estructural de los entornos.",
+      "La reproducibilidad es parcial. Aunque el artículo trabaja con 10.159 entornos, la primera publicación incluye 200 casos anteriores al bucle de evolución y principalmente de Python. Las señales proxy pueden premiar estructura medible sin capturar mantenibilidad o claridad, y el entrenamiento de un modelo de 35B continúa siendo caro. El repositorio permite descargar tareas e imágenes Docker y ejecutar verificadores, pero todavía no reproduce públicamente toda la colección evolucionada."
+    ]
+  },
+  {
+    "id": "arxiv-2611-19244",
+    "canonicalId": "arXiv:2611.19244",
+    "title": "Agentic On-Policy Distillation Implicitly Reshapes LLMs' ReAct Patterns",
+    "category": "Agentes y RL",
+    "date": "2026-11-18",
+    "status": "Preprint v2, sin revisión por pares; actualizado sustancialmente",
+    "score": 8.1,
+    "scoreBreakdown": {"novelty": 2.5, "solidity": 1.7, "evidence": 1.8, "importance": 1.9, "reproducibility": 0.2},
+    "summary": "Muestra que destilar un agente dentro de un dominio no solo transfiere conocimiento: también puede transferir hábitos de uso de herramientas que resultan perjudiciales en otras tareas.",
+    "mechanism": "Compara trayectorias ReAct —razonamiento, acción y observación— en matemáticas, ALFWorld y τ²-bench. La variante selectiva conserva posiciones donde la preferencia del profesor cambia más después del RL específico del dominio.",
+    "results": "La supervisión de ALFWorld redujo τ²-bench del 41,5 % al 6,6 % al provocar llamadas indebidas a herramientas. La OPD selectiva, reteniendo el 95 % de posiciones, elevó τ² del 11,5 % al 29,9 %, aunque sacrificó parte del aprendizaje en el dominio original. En matemáticas, otra supervisión redujo intentos de herramienta del 70,4 % al 14,4 % y elevó la precisión del 16,7 % al 38,0 %.",
+    "use": "Demostrado en benchmarks: detectar que entrenar un agente de hogar para actuar con frecuencia puede hacer que un asistente de atención al cliente llame herramientas antes de recopilar los datos obligatorios del usuario.",
+    "useCaseType": "Demostrado en benchmarks",
+    "limits": "Los resultados se concentran en tres familias de tareas y una base Qwen3-4B. Seleccionar el 95 % mejora el destino pero no recupera el 41,5 % original y perjudica el dominio fuente. No hay código público confirmado, lo que impide auditar costes, semillas y sensibilidad del filtro.",
+    "paper": "https://arxiv.org/abs/2611.19244",
+    "paragraphs": [
+      "Este trabajo estudia un efecto secundario de enseñar a un agente mediante destilación on-policy, es decir, entrenarlo con respuestas de un profesor sobre situaciones que el propio alumno va encontrando. La destilación no transmite únicamente respuestas correctas: también puede cambiar cuándo razona, cuándo solicita información y con qué frecuencia usa herramientas.",
+      "Los autores analizan patrones ReAct —razonar, actuar y observar— en matemáticas, ALFWorld y τ²-bench. La supervisión procedente de ALFWorld hizo caer τ²-bench del 41,5 % al 6,6 %, acompañada de llamadas a herramientas antes de disponer de la información exigida. Una selección de posiciones basada en cuánto cambia la preferencia del profesor después del RL específico elevó τ² del 11,5 % al 29,9 %, aunque redujo parte del aprendizaje fuente. En otra transferencia, los intentos de herramienta matemática bajaron del 70,4 % al 14,4 % y la precisión subió del 16,7 % al 38,0 %.",
+      "El caso demostrado sería entrenar un agente para tareas domésticas donde actuar pronto suele ser útil y reutilizar después ese entrenamiento en atención al cliente. El hábito adquirido puede llevarlo a ejecutar una devolución o consultar datos antes de obtener el consentimiento o la información obligatoria del usuario.",
+      "Es interesante porque… revela que la transferencia entre dominios afecta al patrón de interacción, no solo a la puntuación final. Dos agentes con conocimientos parecidos pueden comportarse de forma muy distinta si uno ha aprendido a llamar herramientas con demasiada facilidad.",
+      "La evidencia cubre tres familias de tareas y una base Qwen3-4B, por lo que todavía no demuestra una regla universal. La selección del 95 % mejora el dominio destino, pero no recupera el 41,5 % original y sacrifica parte del aprendizaje de origen. La versión v2 se actualizó el 18 de noviembre, pero no hay código público confirmado; faltan semillas, costes y réplicas independientes para convertir la advertencia en una receta estable."
+    ]
   }
 ]
 
