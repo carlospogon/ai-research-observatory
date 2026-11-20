@@ -12,17 +12,17 @@ assert(html.includes('observatory:topic'),'topic event');
 assert(html.includes('prefers-reduced-motion'),'reduced motion');
 const registry=[...html.matchAll(/"labId":"([^"]+)"/g)].map(m=>m[1]);assert(registry.length>=16,'16 registry mappings');
 const data=JSON.parse(fs.readFileSync('data/papers.json','utf8'));
-assert(Array.isArray(data)?data.length>=22:(Array.isArray(data.papers)&&data.papers.length>=22),'22 research papers');
-for(const path of ['assets/visual-labs.js','assets/visual-labs-extended.js','assets/visual-labs-2026-11-14.js','assets/visual-labs-2026-11-15.js','assets/visual-labs-2026-11-16.js','assets/visual-labs-2026-11-17.js','assets/visual-labs-2026-11-18.js','assets/visual-labs-2026-11-19.js']){assert(fs.existsSync(path),path);new vm.Script(fs.readFileSync(path,'utf8'),{filename:path})}
-const latest=fs.readFileSync('assets/visual-labs-2026-11-19.js','utf8');
-for(const id of ['multibranch','repofactory','opdtransfer'])assert(latest.includes('"'+id+'"'),'missing dynamic lab '+id);
-for(const id of ['arxiv-2611-19800','arxiv-2611-21152','arxiv-2611-19244'])assert(latest.includes(id),'missing registry/quiz paper '+id);
-assert(html.includes('assets/visual-labs-2026-11-19.js'),'latest visual module not loaded');
+assert(Array.isArray(data)?data.length>=25:(Array.isArray(data.papers)&&data.papers.length>=25),'25 research papers');
+for(const path of ['assets/visual-labs.js','assets/visual-labs-extended.js','assets/visual-labs-2026-11-14.js','assets/visual-labs-2026-11-15.js','assets/visual-labs-2026-11-16.js','assets/visual-labs-2026-11-17.js','assets/visual-labs-2026-11-18.js','assets/visual-labs-2026-11-19.js','assets/visual-labs-2026-11-20.js']){assert(fs.existsSync(path),path);new vm.Script(fs.readFileSync(path,'utf8'),{filename:path})}
+const latest=fs.readFileSync('assets/visual-labs-2026-11-20.js','utf8');
+for(const id of ['progresssub','zsight','pipette'])assert(latest.includes('"'+id+'"'),'missing dynamic lab '+id);
+for(const id of ['arxiv-2611-24844','arxiv-2611-24940','arxiv-2611-24362'])assert(latest.includes(id),'missing registry/quiz paper '+id);
+assert(html.includes('assets/visual-labs-2026-11-20.js'),'latest visual module not loaded');
 const quizIds=[...html.matchAll(/paperId":"([^"]+)"/g)].map(m=>m[1]);
-for(const path of ['assets/visual-labs-2026-11-18.js','assets/visual-labs-2026-11-19.js']){
+for(const path of ['assets/visual-labs-2026-11-18.js','assets/visual-labs-2026-11-19.js','assets/visual-labs-2026-11-20.js']){
   const source=fs.readFileSync(path,'utf8');
   quizIds.push(...[...source.matchAll(/paperId:"([^"]+)"/g)].map(m=>m[1]));
 }
-assert.equal(quizIds.length,22,'22 quiz questions');assert.equal(new Set(quizIds).size,22,'one quiz question per paper');
+assert.equal(quizIds.length,25,'25 quiz questions');assert.equal(new Set(quizIds).size,25,'one quiz question per paper');
 assert(html.includes('qi=(qi+1)%qs.length'),'quiz navigation covers dynamic questions');
-console.log('Static checks passed: inline syntax, 16 original + 6 dynamic labs, 22 papers/questions, registry/quiz markers, eight scripts, atlas, accessibility markers');
+console.log('Static checks passed: inline syntax, 16 original + 9 dynamic labs, 25 papers/questions, registry/quiz markers, nine scripts, atlas, accessibility markers');

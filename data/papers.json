@@ -535,6 +535,79 @@
       "Es interesante porque… revela que la transferencia entre dominios afecta al patrón de interacción, no solo a la puntuación final. Dos agentes con conocimientos parecidos pueden comportarse de forma muy distinta si uno ha aprendido a llamar herramientas con demasiada facilidad.",
       "La evidencia cubre tres familias de tareas y una base Qwen3-4B, por lo que todavía no demuestra una regla universal. La selección del 95 % mejora el dominio destino, pero no recupera el 41,5 % original y sacrifica parte del aprendizaje de origen. La versión v2 se actualizó el 18 de noviembre, pero no hay código público confirmado; faltan semillas, costes y réplicas independientes para convertir la advertencia en una receta estable."
     ]
+  },
+  {
+    "id": "arxiv-2611-24844",
+    "canonicalId": "arXiv:2611.24844",
+    "title": "General progress substitutes for specific training data in language models",
+    "category": "Seguridad y aprendizaje",
+    "date": "2026-11-18",
+    "status": "Preprint, sin revisión por pares",
+    "score": 9.3,
+    "scoreBreakdown": {"novelty": 2.8, "solidity": 1.9, "evidence": 1.9, "importance": 1.8, "reproducibility": 0.9},
+    "summary": "Muestra que retirar del entrenamiento los ejemplos explícitos de una capacidad puede retrasarla, pero el progreso general del modelo abarata aprenderla cuando esos datos regresan.",
+    "mechanism": "Reduce o elimina de la pérdida los objetivos asociados a una habilidad, entrena el resto del modelo y mide cuántos ejemplos hacen falta para recuperar después esa habilidad frente a una regla de control igualmente compleja.",
+    "results": "El patrón aparece en ajedrez, Othello, SMILES, lenguajes de paréntesis y texto web, desde 0,76M hasta 7B parámetros. Una regla permutada necesitó entre 2,4 y 16 veces más tokens que la habilidad real; en el ensayo con Rust, un modelo de 7B cerró la mitad de la brecha con el 2,1 % de los tokens que habría necesitado desde el inicio.",
+    "use": "Demostrado en entornos controlados: auditar si filtrar instrucciones de una capacidad de riesgo realmente la elimina o solo aplaza su adquisición.",
+    "useCaseType": "Demostrado en cinco familias de datos controladas",
+    "limits": "Mide adquisición bajo filtrado de objetivos, no la aparición espontánea de capacidades peligrosas en un sistema desplegado. Rust es el único dominio de lenguaje natural a 7B y no hay evaluación en modelos de frontera ni postentrenamiento conversacional.",
+    "paper": "https://arxiv.org/abs/2611.24844",
+    "code": "https://github.com/Mapika/progress-substitutes-data",
+    "paragraphs": [
+      "Este trabajo pregunta si quitar del entrenamiento los ejemplos de una habilidad impide que un modelo la adquiera. Su respuesta es incómoda: el filtrado puede retrasarla, pero mientras el modelo mejora con otros datos construye representaciones que hacen mucho más barato aprenderla cuando recibe después una pequeña cantidad de ejemplos explícitos.",
+      "Los autores reducen o eliminan de la pérdida de entrenamiento los objetivos asociados a una habilidad y los devuelven más tarde. Repiten el experimento en ajedrez, Othello, moléculas SMILES, secuencias de paréntesis y texto web, con modelos de 0,76 millones a 7.000 millones de parámetros. Una regla artificial de igual dificultad necesitó entre 2,4 y 16 veces más tokens que la habilidad real. En Rust, el modelo de 7B cerró la mitad de la brecha con solo el 2,1 % de los tokens que el modelo sin progreso previo habría necesitado.",
+      "Un caso de uso demostrado es evaluar políticas de seguridad basadas en retirar datos. Si se eliminan manuales sobre una capacidad de doble uso, este método permite medir si la capacidad ha desaparecido o si el modelo solo necesita unas pocas demostraciones posteriores para recuperarla.",
+      "Es interesante porque… separa dos ideas que suelen confundirse: no haber recibido supervisión directa y no haber construido los componentes necesarios para una habilidad. El progreso general puede funcionar como preparación invisible, por lo que filtrar datos no equivale a borrar una ruta de aprendizaje.",
+      "No demuestra que un modelo desplegado vaya a descubrir por sí solo una capacidad peligrosa ni que todo filtrado sea inútil. Rust es el único dominio natural evaluado a 7B y faltan modelos de frontera, postentrenamiento conversacional y réplica independiente. A favor de la madurez, el código incluye una reproducción pequeña ejecutable en CPU, pero los experimentos grandes siguen siendo costosos."
+    ]
+  },
+  {
+    "id": "arxiv-2611-24940",
+    "canonicalId": "arXiv:2611.24940",
+    "title": "Z-sight: Unifying Vision-Language-Action and Latent World Modeling",
+    "category": "Robótica y modelos del mundo",
+    "date": "2026-11-18",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.6,
+    "scoreBreakdown": {"novelty": 2.7, "solidity": 1.8, "evidence": 1.9, "importance": 1.9, "reproducibility": 0.3},
+    "summary": "Un robot predice cómo cambiará la escena en el espacio interno de su propio modelo visual y genera las acciones mientras esa predicción se forma, sin producir vídeo en píxeles.",
+    "mechanism": "Combina un modelo visión-lenguaje con un experto de previsión y otro de acción; ambos refinan durante diez pasos los tokens visuales futuros y un bloque de 30 acciones continuas, manteniendo alineado el objetivo mediante un profesor EMA.",
+    "results": "Logra 81,9 % en SIMPLE, 9,6 puntos sobre el mejor baseline, y 73,3 % en seis tareas físicas Unitree G1 frente al 53,3 % de Fast-WAM. Genera tres segundos de acciones en 109,5 ms en una RTX 4090. Sustituir su futuro por el de otro episodio reduce SIMPLE Hard de 73,1 % a 11,7 %.",
+    "use": "Demostrado: un humanoide camina hasta una nevera, abre la puerta y coloca dentro un cuenco, anticipando el cambio visual y refinando sus acciones durante la ejecución.",
+    "useCaseType": "Demostrado en simulación y seis tareas físicas",
+    "limits": "Solo hay diez intentos por tarea física y configuraciones iniciales emparejadas. El entrenamiento usa 4.731 horas de vídeo y trayectorias, requiere adaptación al robot y el enlace de código público devuelve 404 en la fecha de revisión.",
+    "paper": "https://arxiv.org/abs/2611.24940",
+    "paragraphs": [
+      "Z-sight intenta que un robot no actúe mirando únicamente el presente. En vez de generar un vídeo completo del futuro, predice cómo será la escena dentro del espacio numérico que ya utiliza su modelo visual y deja que el módulo de acciones consulte esa predicción mientras ambos se refinan.",
+      "El sistema combina un modelo de visión y lenguaje con dos expertos: uno anticipa tokens visuales futuros y otro genera un bloque de 30 acciones continuas durante diez pasos de refinamiento. Los autores informan de un 81,9 % de éxito en SIMPLE, 9,6 puntos sobre el mejor baseline, y un 73,3 % en seis tareas físicas con Unitree G1 frente al 53,3 % de Fast-WAM. En una RTX 4090 produce tres segundos de acciones en 109,5 ms. Al introducir el futuro de otro episodio, SIMPLE Hard cae del 73,1 % al 11,7 %, señal de que la política utiliza contenido específico de su previsión.",
+      "El caso demostrado más fácil de imaginar es un humanoide que camina hacia una nevera, abre la puerta y coloca dentro un cuenco. La previsión latente le ayuda a enlazar los subobjetivos y a no quedarse detenido después de completar solo el primer movimiento.",
+      "Es interesante porque… aproxima los modelos del mundo a un coste compatible con control real. El robot obtiene una forma de anticipación espacial sin pagar la generación de cada píxel y, mediante intervenciones, el estudio comprueba que esa anticipación influye realmente en las acciones.",
+      "La evidencia física se limita a diez intentos por cada una de seis tareas y a condiciones iniciales emparejadas. Entrenar el modelo exige 4.731 horas de vídeo y trayectorias, además de adaptación al robot objetivo. El enlace de código de la página del proyecto devolvía 404 al revisarlo, por lo que no puede reproducirse todavía de forma independiente."
+    ]
+  },
+  {
+    "id": "arxiv-2611-24362",
+    "canonicalId": "arXiv:2611.24362",
+    "title": "PIPETTE: Prompt Injection Purple-Teaming for Robust LLM Agents",
+    "category": "Seguridad de agentes",
+    "date": "2026-11-18",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.2,
+    "scoreBreakdown": {"novelty": 2.6, "solidity": 1.7, "evidence": 1.8, "importance": 1.9, "reproducibility": 0.2},
+    "summary": "Entrena ataques de inyección para que exploren estrategias diferentes y utiliza después esos ataques para reforzar al agente sin destruir su capacidad de completar tareas legítimas.",
+    "mechanism": "Añade una recompensa de aprendizaje de diccionario que evita que el atacante repita variaciones de la misma táctica y una fase defensiva on-policy que aprende sobre los estados que el propio agente visita.",
+    "results": "En 40 pares vulnerables de AgentDojo, Qwen3.6-27B bajo búsqueda GENETIC registró 5 % de éxito atacante frente al 30 % de SECOPD. En 97 tareas limpias, la utilidad de Qwen3-4B fue 64,95 % frente al 61,86 % sin defensa. Los autores también informan de tasas casi nulas ante ataques estáticos en AgentDojo y ASB.",
+    "use": "Demostrado en benchmarks: endurecer un agente que lee correos y páginas para que ignore órdenes maliciosas incrustadas, pero conserve los datos legítimos necesarios para terminar la tarea del usuario.",
+    "useCaseType": "Demostrado en benchmarks de agentes",
+    "limits": "La prueba adaptativa usa 40 pares previamente vulnerables, un atacante y juez de 4B y unos 250 intentos por pareja; no estima el riesgo absoluto sobre todas las tareas. El juez de diversidad no fue validado con etiquetas humanas y no hay código público confirmado.",
+    "paper": "https://arxiv.org/abs/2611.24362",
+    "paragraphs": [
+      "PIPETTE aborda un problema de los agentes que leen correos, páginas o resultados de herramientas: ese contenido puede ocultar una instrucción maliciosa. El trabajo muestra que encontrar muchas inyecciones exitosas no basta si todas explotan prácticamente la misma táctica, porque entrenar con ellas deja al defensor vulnerable a estrategias distintas.",
+      "El método recompensa al atacante por descubrir familias diferentes de inyección mediante aprendizaje de diccionario y entrena al defensor sobre las trayectorias que él mismo produce. En 40 pares de tareas de AgentDojo elegidos porque ya eran vulnerables, Qwen3.6-27B bajo búsqueda GENETIC quedó en un 5 % de éxito atacante frente al 30 % de SECOPD. En 97 tareas limpias, Qwen3-4B obtuvo un 64,95 % de utilidad frente al 61,86 % del modelo sin defensa. Los autores también describen tasas cercanas a cero ante ataques estáticos en AgentDojo y ASB.",
+      "El caso demostrado sería un asistente que abre un correo para preparar una factura. PIPETTE intenta que utilice el número y la fecha legítimos, pero ignore una frase incrustada que le ordena enviar datos a otra dirección, sin resolver la seguridad a costa de negarse a trabajar.",
+      "Es interesante porque… cambia el objetivo del red-teaming: no busca solo elevar el porcentaje de ataques que funcionan, sino descubrir mecanismos suficientemente diversos para que el entrenamiento defensivo cubra más caminos de fallo.",
+      "El 5 % no es una tasa universal: procede de 40 pares previamente vulnerables, con un atacante y juez de 4B y un presupuesto aproximado de 250 intentos por pareja. El juez de diversidad no se contrastó con etiquetas humanas y los conjuntos de entrenamiento no siempre tienen el mismo tamaño. No hay código público confirmado, así que todavía faltan auditoría independiente y evaluación con presupuestos mayores."
+    ]
   }
 ]
 
