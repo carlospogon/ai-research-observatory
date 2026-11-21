@@ -197,7 +197,13 @@
     "date": "2026-11-12",
     "status": "Preprint, sin revisión por pares",
     "score": 9.1,
-    "scoreBreakdown": {"novelty": 2.7, "solidity": 1.9, "evidence": 1.8, "importance": 1.8, "reproducibility": 0.9},
+    "scoreBreakdown": {
+      "novelty": 2.7,
+      "solidity": 1.9,
+      "evidence": 1.8,
+      "importance": 1.8,
+      "reproducibility": 0.9
+    },
     "summary": "Muestra que un modelo de decisión mediocre actuando puede ser útil como profesor si evalúa retrospectivamente qué pasos ayudaron a completar una tarea.",
     "mechanism": "Compara seis modelos como actores y jueces, y utiliza las puntuaciones de progreso con trayectoria completa como recompensa paso a paso para entrenar políticas mediante GRPO.",
     "results": "En Qwen2.5-1.5B, el profesor elevó el éxito del 72,8 % al 82,9 % en ALFWorld y del 56,8 % al 71,4 % en WebShop. El mismo modelo JEV solo alcanzó el 42,9 % cuando actuó directamente en ALFWorld.",
@@ -222,7 +228,13 @@
     "date": "2026-11-11",
     "status": "Preprint, sin revisión por pares",
     "score": 8.4,
-    "scoreBreakdown": {"novelty": 2.5, "solidity": 1.8, "evidence": 1.7, "importance": 1.7, "reproducibility": 0.7},
+    "scoreBreakdown": {
+      "novelty": 2.5,
+      "solidity": 1.8,
+      "evidence": 1.7,
+      "importance": 1.7,
+      "reproducibility": 0.7
+    },
     "summary": "Mide cuánto trabajo realizan los agentes de programación después de producir por primera vez un parche correcto y cuánto riesgo introducen al seguir editando.",
     "mechanism": "Guarda y ejecuta los tests de cada parche distinto generado por cinco modelos en dos marcos y tres conjuntos SWE-bench para localizar el primer estado correcto y medir los pasos posteriores.",
     "results": "Entre el 38 % y el 82 % de las ejecuciones exitosas acertaron en su primera edición. Tras el primer parche correcto quedó una mediana del 35-37 % de los pasos en Qwen3-Coder y del 54-60 % en Laguna-XS.2; entre el 1 % y el 8 % terminó rompiendo una solución correcta.",
@@ -247,7 +259,13 @@
     "date": "2026-11-12",
     "status": "Publicado en NeurIPS 2026",
     "score": 8.8,
-    "scoreBreakdown": {"novelty": 2.6, "solidity": 2.0, "evidence": 1.8, "importance": 1.7, "reproducibility": 0.7},
+    "scoreBreakdown": {
+      "novelty": 2.6,
+      "solidity": 2,
+      "evidence": 1.8,
+      "importance": 1.7,
+      "reproducibility": 0.7
+    },
     "summary": "FOAM conserva gran parte de la calidad del optimizador SOAP reduciendo a la mitad su estado y eliminando una de las dos descomposiciones matriciales costosas.",
     "mechanism": "Precondiciona solo el lado de entrada de cada matriz y sustituye el segundo momento denso por estadísticas de filas y columnas en una base rotada.",
     "results": "Entre 124M y 760M parámetros quedó a 0,004-0,008 nats de SOAP con la mitad de su estado. En 760M usó 11,87 GiB frente a 23,73 GiB y alcanzó la pérdida final de AdamW en 10,53 horas frente a 10,55; la evidencia adicional llega a 1,56B parámetros.",
@@ -272,7 +290,13 @@
     "date": "2026-11-13",
     "status": "Preprint, sin revisión por pares",
     "score": 9.3,
-    "scoreBreakdown": {"novelty": 2.8, "solidity": 1.9, "evidence": 1.8, "importance": 1.9, "reproducibility": 0.9},
+    "scoreBreakdown": {
+      "novelty": 2.8,
+      "solidity": 1.9,
+      "evidence": 1.8,
+      "importance": 1.9,
+      "reproducibility": 0.9
+    },
     "summary": "Entrena mediante refuerzo, únicamente en simulación y sin demostraciones, un modelo abierto de 27B para controlar robots reales con acciones de pose.",
     "mechanism": "PEAR genera episodios multi-turno en LIBERO y RoboDojo; el modelo observa cámaras y estado, razona y propone la siguiente pose del efector. Una recompensa binaria de éxito actualiza la política mediante aprendizaje por refuerzo.",
     "results": "En LIBERO el éxito subió del 1,6 % al 74,4 %. Sin datos del robot real, el modelo completó el 60 % de 30 ensayos sobre un robot dual, frente al 0 % del modelo base. En LIBERO-Pro alcanzó el 57,4 % en tareas nuevas dentro de escenas conocidas frente al 0,75 % de π0.5.",
@@ -297,7 +321,13 @@
     "date": "2026-11-13",
     "status": "Preprint, sin revisión por pares",
     "score": 8.5,
-    "scoreBreakdown": {"novelty": 2.7, "solidity": 1.7, "evidence": 1.5, "importance": 1.8, "reproducibility": 0.8},
+    "scoreBreakdown": {
+      "novelty": 2.7,
+      "solidity": 1.7,
+      "evidence": 1.5,
+      "importance": 1.8,
+      "reproducibility": 0.8
+    },
     "summary": "Evalúa si los agentes pueden leer, reparar, escribir y comprimir redes modificando directamente sus pesos, sin entrenamiento por gradiente ni ensayos encubiertos.",
     "mechanism": "Agrupa 42 tareas en cinco pistas, ejecuta los agentes en un sandbox con cómputo medido y registra cada operación en un ledger encadenado por hashes. Veintiocho señales de auditoría ponen en cuarentena intentos de saltarse las reglas.",
     "results": "Claude Opus 5.5 obtuvo 0,535 en 42 tareas; en las 38 compartidas GPT-6.1-sol logró 0,568 frente a 0,546. La síntesis desde cero alcanzó 0,829 y 0,863 respectivamente, pero la compresión sin datos quedó entre 0,177 y 0,238 y la detección de ediciones imposibles rondó el azar.",
@@ -322,7 +352,13 @@
     "date": "2026-11-13",
     "status": "Preprint, sin revisión por pares",
     "score": 8.6,
-    "scoreBreakdown": {"novelty": 2.7, "solidity": 1.8, "evidence": 1.7, "importance": 1.6, "reproducibility": 0.8},
+    "scoreBreakdown": {
+      "novelty": 2.7,
+      "solidity": 1.8,
+      "evidence": 1.7,
+      "importance": 1.6,
+      "reproducibility": 0.8
+    },
     "summary": "Concertina reduce un Qwen3-4B a 2,27B parámetros plegando grupos de capas adyacentes en un bloque compartido que se ejecuta varias veces.",
     "mechanism": "Cada pasada por el bloque reutiliza el peso común, añade una corrección de bajo rango propia y usa una puerta dependiente del token para mezclar correcciones; después se destila con 22.000 millones de tokens.",
     "results": "El modelo conserva el 84 % del promedio del profesor en ocho benchmarks y alrededor del 90 % en razonamiento cotidiano y matemático. Supera a Qwen3-1.7B en cinco de ocho pruebas, con 2,27B frente a 4,02B parámetros.",
@@ -346,8 +382,14 @@
     "category": "Agentes y seguridad",
     "date": "2026-11-13",
     "status": "Preprint, sin revisión por pares",
-    "score": 8.0,
-    "scoreBreakdown": {"novelty": 2.4, "solidity": 1.7, "evidence": 1.6, "importance": 2.0, "reproducibility": 0.3},
+    "score": 8,
+    "scoreBreakdown": {
+      "novelty": 2.4,
+      "solidity": 1.7,
+      "evidence": 1.6,
+      "importance": 2,
+      "reproducibility": 0.3
+    },
     "summary": "Soteria verifica el plan completo de un agente antes de usar herramientas y reutiliza ese plan para recuperarse cuando el monitor bloquea una acción.",
     "mechanism": "Representa el plan como un sistema jerárquico de transiciones con condiciones, comprueba restricciones temporales, relacionales y de flujo de valores, y vigila la ejecución con SpecMonitor.",
     "results": "En el agregado de cinco repeticiones, obtuvo utilidad conforme del 50,8 ± 3,6 %, conformidad del 100 % y cero violaciones, frente a 48,0 ± 2,0 %, 91,2 % y 4,4 violaciones de AgentSpec. Los autores resumen una mejora media de éxito de 1,7× sobre el mejor baseline.",
@@ -371,7 +413,13 @@
     "date": "2026-11-13",
     "status": "Preprint con experimentos prerregistrados, sin revisión por pares",
     "score": 8.1,
-    "scoreBreakdown": {"novelty": 2.8, "solidity": 1.7, "evidence": 1.7, "importance": 1.6, "reproducibility": 0.3},
+    "scoreBreakdown": {
+      "novelty": 2.8,
+      "solidity": 1.7,
+      "evidence": 1.7,
+      "importance": 1.6,
+      "reproducibility": 0.3
+    },
     "summary": "Demuestra que el estilo de una conversación previa puede desplazar la huella textual del modelo que la continúa y hacer menos fiable la auditoría de sustituciones de API.",
     "mechanism": "LINEUP compara la respuesta auditada con referencias generadas por el modelo declarado sobre exactamente el mismo historial y usa su rango, en vez de un umbral aprendido con conversaciones nuevas.",
     "results": "Tras un relevo de modelo, la detección cayó de 0,97 a 0,72 para DeepSeek sustituyendo a Claude Sonnet y de 0,87 a 0,54 para Haiku. LINEUP logró 0,056 de falsos positivos y detectó 0,81 de sesiones sustituidas tras cuatro turnos en seis pares.",
@@ -394,8 +442,14 @@
     "category": "Eficiencia de entrenamiento",
     "date": "2026-11-16",
     "status": "Preprint, sin revisión por pares",
-    "score": 9.0,
-    "scoreBreakdown": {"novelty": 2.6, "solidity": 1.9, "evidence": 1.9, "importance": 1.8, "reproducibility": 0.8},
+    "score": 9,
+    "scoreBreakdown": {
+      "novelty": 2.6,
+      "solidity": 1.9,
+      "evidence": 1.9,
+      "importance": 1.8,
+      "reproducibility": 0.8
+    },
     "summary": "Hace que cada token reutilice el estado profundo del token anterior y muestra que, cuando los datos se repiten, esa realimentación puede aprovechar mejor el cómputo que entrenar más épocas un Transformer convencional.",
     "mechanism": "El estado de la última capa de un token se transforma y se suma a la entrada del token siguiente. Los autores comparan esta arquitectura y un Transformer ajustando ambos en una cuadrícula de tamaños, datos únicos y épocas con presupuestos equiparados.",
     "results": "En el mejor régimen alcanzó la misma pérdida con hasta un 48 % menos de cómputo o un 47 % menos de datos únicos. Una ley de escala ajustada entre 60M y 271M parámetros predijo la pérdida de un modelo de 778M reservado para validación con un error inferior al 0,3 %.",
@@ -420,7 +474,13 @@
     "date": "2026-11-15",
     "status": "Preprint, sin revisión por pares",
     "score": 8.8,
-    "scoreBreakdown": {"novelty": 2.5, "solidity": 1.9, "evidence": 1.8, "importance": 1.9, "reproducibility": 0.7},
+    "scoreBreakdown": {
+      "novelty": 2.5,
+      "solidity": 1.9,
+      "evidence": 1.8,
+      "importance": 1.9,
+      "reproducibility": 0.7
+    },
     "summary": "Evalúa agentes de programación como miembros nuevos de un equipo: deben descubrir requisitos repartidos entre compañeros y documentos, implementar el cambio y demostrar con pruebas privadas que terminaron el trabajo completo.",
     "mechanism": "Incluye 101 tareas en 101 repositorios, 11 lenguajes y 12 dominios. Cada organización simulada contiene 26 colegas con funciones y conocimiento limitados; las soluciones se puntúan con pruebas fail-to-pass y pass-to-pass ejecutadas en contenedores limpios.",
     "results": "Los dos modelos líderes superaron alrededor del 63 % de las pruebas que debían arreglar, pero completaron menos del 8 % de las tareas enteras. Dar todos los requisitos al inicio elevó unos 16 puntos las pruebas superadas para Seed Evolving y GPT-6 Astra, sin mejorar el éxito completo; el 31 % de requisitos declarados como terminados seguía fallando.",
@@ -445,7 +505,13 @@
     "date": "2026-11-16",
     "status": "Preprint, sin revisión por pares",
     "score": 8.7,
-    "scoreBreakdown": {"novelty": 2.5, "solidity": 1.8, "evidence": 1.7, "importance": 1.8, "reproducibility": 0.9},
+    "scoreBreakdown": {
+      "novelty": 2.5,
+      "solidity": 1.8,
+      "evidence": 1.7,
+      "importance": 1.8,
+      "reproducibility": 0.9
+    },
     "summary": "Entrena agentes visuales con varias versiones casi idénticas de una imagen para que tengan que localizar y leer un detalle diminuto, en lugar de acertar la respuesta usando sentido común.",
     "mechanism": "CrossRPO agrupa imágenes de 21 a 120 megapíxeles que solo cambian en una región pequeña y recompensa resolver correctamente todo el conjunto. ViRA-Bench-Real fotografía cambios físicos adicionales para comprobar que el modelo no explota artefactos de edición.",
     "results": "Con unas 3.500 muestras por modelo, CrossRPO obtuvo un 63,3 % de exactitud por conjunto en ViRA-Bench a máxima resolución frente al 59,3 % de GRPO. Los autores afirman que ViRA-9B lidera los modelos abiertos de tamaño comparable y que ViRA-27B supera a Claude Haiku 5.5 y GPT-6-Luna en la mayoría de sus pruebas.",
@@ -470,7 +536,13 @@
     "date": "2026-11-15",
     "status": "Preprint, sin revisión por pares",
     "score": 9.1,
-    "scoreBreakdown": {"novelty": 2.6, "solidity": 1.9, "evidence": 1.9, "importance": 1.8, "reproducibility": 0.9},
+    "scoreBreakdown": {
+      "novelty": 2.6,
+      "solidity": 1.9,
+      "evidence": 1.9,
+      "importance": 1.8,
+      "reproducibility": 0.9
+    },
     "summary": "Sustituye parte de la cadena secuencial de un Transformer por varias ramas completas que trabajan en paralelo y después fusionan sus resultados.",
     "mechanism": "Mantiene capas compartidas al principio y al final, ejecuta bloques independientes en las capas intermedias y usa Joint-KV para construir una caché de claves y valores compartida entre ramas a la misma profundidad.",
     "results": "En cuatro escalas MoE de 0,8B a 2,1B parámetros, los modelos ramificados mejoraron la pérdida con presupuestos comparables. Las curvas indican hasta 1,26× más cómputo de entrenamiento para que el Transformer estándar iguale la pérdida; Joint-KV redujo hasta un 34 % la caché y elevó hasta un 51,4 % el throughput de decodificación en una H200.",
@@ -495,7 +567,13 @@
     "date": "2026-11-16",
     "status": "Preprint, sin revisión por pares",
     "score": 8.8,
-    "scoreBreakdown": {"novelty": 2.7, "solidity": 1.8, "evidence": 1.8, "importance": 1.9, "reproducibility": 0.6},
+    "scoreBreakdown": {
+      "novelty": 2.7,
+      "solidity": 1.8,
+      "evidence": 1.8,
+      "importance": 1.9,
+      "reproducibility": 0.6
+    },
     "summary": "RepoFactory convierte repositorios reales en entornos verificables donde un agente debe reconstruir un proyecto completo y mejora esos entornos mediante señales baratas antes de usarlos para entrenar.",
     "mechanism": "El Environment Evolution Loop puntúa validez, alcance de implementación y acoplamiento estructural; los verificadores y el análisis de código revisan la implementación oráculo, la especificación y los tests para recuperar o fortalecer cada entorno.",
     "results": "Generó 10.159 entornos en 17 dominios. Entrenar Qwen3.5-35B-A3B produjo una mejora de 22,6 puntos en NL2Repo-Bench y 8,5 puntos de media en cinco benchmarks; sin evolución de entornos, las mejoras fueron 17,5 y 6,4 puntos.",
@@ -520,7 +598,13 @@
     "date": "2026-11-18",
     "status": "Preprint v2, sin revisión por pares; actualizado sustancialmente",
     "score": 8.1,
-    "scoreBreakdown": {"novelty": 2.5, "solidity": 1.7, "evidence": 1.8, "importance": 1.9, "reproducibility": 0.2},
+    "scoreBreakdown": {
+      "novelty": 2.5,
+      "solidity": 1.7,
+      "evidence": 1.8,
+      "importance": 1.9,
+      "reproducibility": 0.2
+    },
     "summary": "Muestra que destilar un agente dentro de un dominio no solo transfiere conocimiento: también puede transferir hábitos de uso de herramientas que resultan perjudiciales en otras tareas.",
     "mechanism": "Compara trayectorias ReAct —razonamiento, acción y observación— en matemáticas, ALFWorld y τ²-bench. La variante selectiva conserva posiciones donde la preferencia del profesor cambia más después del RL específico del dominio.",
     "results": "La supervisión de ALFWorld redujo τ²-bench del 41,5 % al 6,6 % al provocar llamadas indebidas a herramientas. La OPD selectiva, reteniendo el 95 % de posiciones, elevó τ² del 11,5 % al 29,9 %, aunque sacrificó parte del aprendizaje en el dominio original. En matemáticas, otra supervisión redujo intentos de herramienta del 70,4 % al 14,4 % y elevó la precisión del 16,7 % al 38,0 %.",
@@ -544,7 +628,13 @@
     "date": "2026-11-18",
     "status": "Preprint, sin revisión por pares",
     "score": 9.3,
-    "scoreBreakdown": {"novelty": 2.8, "solidity": 1.9, "evidence": 1.9, "importance": 1.8, "reproducibility": 0.9},
+    "scoreBreakdown": {
+      "novelty": 2.8,
+      "solidity": 1.9,
+      "evidence": 1.9,
+      "importance": 1.8,
+      "reproducibility": 0.9
+    },
     "summary": "Muestra que retirar del entrenamiento los ejemplos explícitos de una capacidad puede retrasarla, pero el progreso general del modelo abarata aprenderla cuando esos datos regresan.",
     "mechanism": "Reduce o elimina de la pérdida los objetivos asociados a una habilidad, entrena el resto del modelo y mide cuántos ejemplos hacen falta para recuperar después esa habilidad frente a una regla de control igualmente compleja.",
     "results": "El patrón aparece en ajedrez, Othello, SMILES, lenguajes de paréntesis y texto web, desde 0,76M hasta 7B parámetros. Una regla permutada necesitó entre 2,4 y 16 veces más tokens que la habilidad real; en el ensayo con Rust, un modelo de 7B cerró la mitad de la brecha con el 2,1 % de los tokens que habría necesitado desde el inicio.",
@@ -569,7 +659,13 @@
     "date": "2026-11-18",
     "status": "Preprint, sin revisión por pares",
     "score": 8.6,
-    "scoreBreakdown": {"novelty": 2.7, "solidity": 1.8, "evidence": 1.9, "importance": 1.9, "reproducibility": 0.3},
+    "scoreBreakdown": {
+      "novelty": 2.7,
+      "solidity": 1.8,
+      "evidence": 1.9,
+      "importance": 1.9,
+      "reproducibility": 0.3
+    },
     "summary": "Un robot predice cómo cambiará la escena en el espacio interno de su propio modelo visual y genera las acciones mientras esa predicción se forma, sin producir vídeo en píxeles.",
     "mechanism": "Combina un modelo visión-lenguaje con un experto de previsión y otro de acción; ambos refinan durante diez pasos los tokens visuales futuros y un bloque de 30 acciones continuas, manteniendo alineado el objetivo mediante un profesor EMA.",
     "results": "Logra 81,9 % en SIMPLE, 9,6 puntos sobre el mejor baseline, y 73,3 % en seis tareas físicas Unitree G1 frente al 53,3 % de Fast-WAM. Genera tres segundos de acciones en 109,5 ms en una RTX 4090. Sustituir su futuro por el de otro episodio reduce SIMPLE Hard de 73,1 % a 11,7 %.",
@@ -593,7 +689,13 @@
     "date": "2026-11-18",
     "status": "Preprint, sin revisión por pares",
     "score": 8.2,
-    "scoreBreakdown": {"novelty": 2.6, "solidity": 1.7, "evidence": 1.8, "importance": 1.9, "reproducibility": 0.2},
+    "scoreBreakdown": {
+      "novelty": 2.6,
+      "solidity": 1.7,
+      "evidence": 1.8,
+      "importance": 1.9,
+      "reproducibility": 0.2
+    },
     "summary": "Entrena ataques de inyección para que exploren estrategias diferentes y utiliza después esos ataques para reforzar al agente sin destruir su capacidad de completar tareas legítimas.",
     "mechanism": "Añade una recompensa de aprendizaje de diccionario que evita que el atacante repita variaciones de la misma táctica y una fase defensiva on-policy que aprende sobre los estados que el propio agente visita.",
     "results": "En 40 pares vulnerables de AgentDojo, Qwen3.6-27B bajo búsqueda GENETIC registró 5 % de éxito atacante frente al 30 % de SECOPD. En 97 tareas limpias, la utilidad de Qwen3-4B fue 64,95 % frente al 61,86 % sin defensa. Los autores también informan de tasas casi nulas ante ataques estáticos en AgentDojo y ASB.",
@@ -607,6 +709,130 @@
       "El caso demostrado sería un asistente que abre un correo para preparar una factura. PIPETTE intenta que utilice el número y la fecha legítimos, pero ignore una frase incrustada que le ordena enviar datos a otra dirección, sin resolver la seguridad a costa de negarse a trabajar.",
       "Es interesante porque… cambia el objetivo del red-teaming: no busca solo elevar el porcentaje de ataques que funcionan, sino descubrir mecanismos suficientemente diversos para que el entrenamiento defensivo cubra más caminos de fallo.",
       "El 5 % no es una tasa universal: procede de 40 pares previamente vulnerables, con un atacante y juez de 4B y un presupuesto aproximado de 250 intentos por pareja. El juez de diversidad no se contrastó con etiquetas humanas y los conjuntos de entrenamiento no siempre tienen el mismo tamaño. No hay código público confirmado, así que todavía faltan auditoría independiente y evaluación con presupuestos mayores."
+    ]
+  },
+  {
+    "id": "arxiv-2611-26584",
+    "canonicalId": "arXiv:2611.26584",
+    "title": "Represented but misread: Post-training changes how language models read out what they represent",
+    "category": "Interpretabilidad",
+    "date": "2026-11-19",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.8,
+    "scoreBreakdown": {
+      "novelty": 2.8,
+      "solidity": 1.8,
+      "evidence": 1.8,
+      "importance": 1.9,
+      "reproducibility": 0.5
+    },
+    "summary": "El postentrenamiento puede conservar información interna del modelo y, al mismo tiempo, cambiar —incluso invertir— cómo esa información se convierte en una respuesta.",
+    "mechanism": "Compara respuestas, sondas lineales, stitching entre checkpoints y parcheo de activaciones en seis modelos abiertos base y postentrenados, con tareas de autoría y verdad de frases negadas.",
+    "results": "Las sondas separaron bien textos humanos y artificiales, pero las respuestas fallaron o invirtieron el orden. El postentrenamiento redujo la sensibilidad media Δd′ en 0,34; 2.000 juicios etiquetados cambiaron la dirección del readout. En frases negadas, el postentrenamiento reparó respuestas aunque la verdad ya era decodificable casi perfectamente.",
+    "use": "Demostrado en modelos abiertos: auditar si una respuesta errónea refleja ausencia de información interna o un mecanismo de lectura que la utiliza mal.",
+    "useCaseType": "Demostrado en tareas de autoría y verdad",
+    "limits": "Los tres corpus principales de autoría alemana no pueden compartirse; solo la réplica con frases negadas usa datos públicos completos. Las sondas muestran información decodificable, no conocimiento utilizable de forma causal en cualquier contexto. Estudio de un solo autor y sin revisión por pares.",
+    "paper": "https://arxiv.org/abs/2611.26584",
+    "code": "https://github.com/laubrock-lab/represented-but-misread",
+    "paragraphs": [
+      "Este trabajo separa dos cosas que solemos confundir: que un modelo tenga una información representada en sus estados internos y que sepa convertirla en una respuesta correcta. Al comparar versiones base y postentrenadas, encuentra casos en los que la señal interna sigue presente, pero el mecanismo que la lee para responder la usa mal o incluso en dirección inversa.",
+      "El autor analiza seis modelos abiertos mediante sondas lineales —clasificadores sencillos que intentan leer una propiedad desde las activaciones—, intercambio de capas entre checkpoints y sustitución controlada de estados internos. En la detección de textos humanos frente a artificiales, el postentrenamiento redujo la sensibilidad de las respuestas en Δd′ = −0,34 de media, aunque las sondas separaban bien las clases. Añadir 2.000 ejemplos etiquetados reorientó las respuestas; en frases negadas ocurrió lo contrario y el postentrenamiento reparó una lectura que el modelo base hacía mal.",
+      "El caso de uso demostrado es una auditoría de fiabilidad: si un asistente clasifica mal una afirmación, estas técnicas permiten comprobar si nunca codificó la señal relevante o si la codificó pero su salida no la aprovecha. Esa diferencia orientaría intervenciones distintas: mejorar el aprendizaje de la representación o corregir el modo de lectura.",
+      "Es interesante porque… una respuesta equivocada no implica necesariamente que el modelo carezca de la información. El postentrenamiento puede mejorar unas lecturas y empeorar otras, de modo que evaluar solo la salida final oculta parte del mecanismo y puede producir diagnósticos de seguridad demasiado simples.",
+      "Sigue siendo un preprint de un solo autor. Los tres corpus principales de autoría alemana no pueden publicarse por confidencialidad o derechos de autor; el repositorio incluye tablas derivadas y una reproducción completa solo para el caso público de frases negadas. Además, que una sonda decodifique una señal no demuestra que el modelo pueda utilizarla de manera robusta o causal en cualquier tarea."
+    ]
+  },
+  {
+    "id": "arxiv-2611-26510",
+    "canonicalId": "arXiv:2611.26510",
+    "title": "AutoMaster: Autonomous Post-Training by Making the Same Model a Better Teacher",
+    "category": "Agentes y entrenamiento",
+    "date": "2026-11-19",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.8,
+    "scoreBreakdown": {
+      "novelty": 2.6,
+      "solidity": 1.8,
+      "evidence": 1.8,
+      "importance": 1.8,
+      "reproducibility": 0.8
+    },
+    "summary": "Un agente analiza trayectorias, diseña instrucciones de habilidad y selecciona mejores demostraciones para que el mismo modelo profesor enseñe comportamientos más útiles.",
+    "mechanism": "Skill-FT añade habilidades en lenguaje natural a los rollouts del profesor y AutoMaster automatiza el análisis de errores, el diseño y refinado de habilidades, la selección de datos y la evaluación del alumno.",
+    "results": "En Terminal-Bench 2.1, BrowseComp y Doc2Repo, con alumnos Qwen3.5 de 4B y 9B, mejora entre 1,42 y 8,99 puntos sobre SFT convencional manteniendo profesor, tareas, tamaño de entrenamiento y receta. Los intervalos del 95% incluyen cero en dos de tres resultados del modelo 4B, pero son positivos en los tres del 9B.",
+    "use": "Demostrado en benchmarks: preparar ejemplos de entrenamiento que enseñen a un agente de software a verificar sus cambios, no solo a llegar casualmente a un resultado correcto.",
+    "useCaseType": "Demostrado en tres benchmarks de agentes",
+    "limits": "Solo se prueban dos tamaños de una familia Qwen y tres dominios. Hay tres evaluaciones por checkpoint; dos mejoras del modelo 4B tienen intervalos compatibles con ausencia de ganancia. El repositorio permite inferencia y evaluación, pero reproducir el bucle completo sigue exigiendo modelos, benchmarks y recursos considerables.",
+    "paper": "https://arxiv.org/abs/2611.26510",
+    "code": "https://github.com/RUCAIBox/AutoMaster",
+    "paragraphs": [
+      "AutoMaster intenta mejorar el entrenamiento de agentes sin cambiar el modelo profesor ni limitarse a copiar cualquier trayectoria que termine bien. La idea es que una solución correcta puede contener hábitos malos —repeticiones, supuestos sin verificar o pasos inútiles—, por lo que el sistema analiza esas trayectorias y redacta habilidades en lenguaje natural que guían al profesor hacia demostraciones más pedagógicas.",
+      "El ciclo automatiza el análisis de fallos, el diseño de habilidades, la selección de ejemplos y la evaluación del alumno. Con Qwen3.5 de 4.000 y 9.000 millones de parámetros, los autores informan de mejoras de 1,42 a 8,99 puntos frente al ajuste supervisado convencional en Terminal-Bench 2.1, BrowseComp y Doc2Repo, manteniendo fijo el profesor, el conjunto de tareas, el tamaño de entrenamiento y la receta. En Terminal-Bench, el modelo 9B pasó de 26,59 % a 35,58 %.",
+      "El caso demostrado sería entrenar un agente que modifica repositorios. En vez de enseñarle solo cambios que acabaron pasando las pruebas, AutoMaster puede favorecer demostraciones que inspeccionan el proyecto, prueban casos límite y verifican que la solución no dependa de una configuración accidental.",
+      "Es interesante porque… trata la calidad didáctica de una trayectoria como algo distinto de su éxito final. Un profesor fijo puede enseñar mejor si se le orienta para mostrar estrategias verificables y si se eligen ejemplos que cubren carencias concretas del alumno.",
+      "Es un preprint y solo cubre dos tamaños de Qwen3.5 y tres dominios. Los resultados se promedian sobre tres evaluaciones por checkpoint; en dos de los tres escenarios del modelo 4B, el intervalo del 95 % incluye cero, por lo que esas mejoras aisladas no son concluyentes. El código permite ejecutar inferencia y evaluación, pero reproducir todo el bucle de postentrenamiento requiere infraestructura y servicios externos."
+    ]
+  },
+  {
+    "id": "arxiv-2611-26427",
+    "canonicalId": "arXiv:2611.26427",
+    "title": "MemFolder: Structure-Guided Memory Folding for Efficient Agent Memory Management",
+    "category": "Memoria y eficiencia",
+    "date": "2026-11-19",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.7,
+    "scoreBreakdown": {
+      "novelty": 2.5,
+      "solidity": 1.8,
+      "evidence": 1.8,
+      "importance": 1.8,
+      "reproducibility": 0.8
+    },
+    "summary": "Reduce simultáneamente el número de recuerdos de un agente y la longitud de cada recuerdo agrupando evidencias relacionadas y verificando que los hechos puedan recuperarse.",
+    "mechanism": "RecordFolder relaciona recuerdos por entidad, semántica y tiempo; ContextFolder los codifica de forma compacta y revisa el resumen cuando un verificador no puede reconstruir hechos clave.",
+    "results": "Con 50% menos registros, conserva el 99,0% del rendimiento medio de Mem0 en tres benchmarks de texto, 1,9 puntos sobre el mejor baseline. Con solo 30% de los registros, la recuperación acelera entre 1,88× y 5,34×; en PersonaMem baja de 1.900 a 538 ms.",
+    "use": "Demostrado en benchmarks: comprimir el historial de un asistente personal manteniendo vínculos entre personas, fechas y decisiones que después necesita recuperar.",
+    "useCaseType": "Demostrado en cinco benchmarks de memoria",
+    "limits": "Las métricas son de benchmarks y no demuestran conservación de información durante meses de uso real. El resumen depende de modelos generativos y verificadores que también pueden omitir hechos. Algunas mejoras son pequeñas y la latencia multimodal incluye costes que la compresión no elimina.",
+    "paper": "https://arxiv.org/abs/2611.26427",
+    "code": "https://github.com/xuyang-liu16/MemFolder",
+    "paragraphs": [
+      "MemFolder aborda un problema muy práctico: cuanto más tiempo funciona un agente, más recuerdos almacena y más caro resulta encontrar y volver a leer lo importante. El método comprime la memoria en dos pasos, reduciendo primero el número de registros y después la longitud de cada uno, sin limitarse a borrar elementos antiguos.",
+      "RecordFolder agrupa recuerdos compatibles usando entidades, parecido semántico y continuidad temporal; ContextFolder los transforma en textos más compactos y revisa la codificación si un verificador no logra recuperar hechos clave. Con un 50 % menos de registros conserva el 99,0 % del rendimiento medio de Mem0 en tres pruebas textuales, 1,9 puntos por encima del mejor comparador. Manteniendo solo el 30 %, la recuperación fue entre 1,88 y 5,34 veces más rápida; en PersonaMem la latencia media bajó de 1.900 a 538 milisegundos.",
+      "El caso demostrado sería un asistente personal con meses de conversaciones. Podría reunir en una unidad compacta varias menciones sobre una cita médica —persona, fecha, cambio de hora y documento necesario— y conservar relaciones que una poda simple podría eliminar.",
+      "Es interesante porque… muestra que tener menos registros no basta si cada registro fusionado se vuelve enorme. Al coordinar la consolidación estructural con una segunda compresión verificada, intenta reducir a la vez el coste de buscar y el de procesar el contexto recuperado.",
+      "Es un preprint y sus resultados proceden de tres benchmarks textuales y dos multimodales, no de despliegues prolongados con usuarios reales. Los modelos que resumen y verifican también pueden omitir información, y la compresión no elimina otros costes de la cadena multimodal. El código está disponible, pero faltan réplicas independientes y análisis más extensos de privacidad y errores acumulativos."
+    ]
+  },
+  {
+    "id": "arxiv-2611-26613",
+    "canonicalId": "arXiv:2611.26613",
+    "title": "AgentRoboCritic: Understanding the Capability of Frontier Agents on Direct Robot Control",
+    "category": "Robótica y evaluación",
+    "date": "2026-11-19",
+    "status": "Preprint, sin revisión por pares",
+    "score": 9,
+    "scoreBreakdown": {
+      "novelty": 2.6,
+      "solidity": 1.8,
+      "evidence": 1.9,
+      "importance": 1.9,
+      "reproducibility": 0.8
+    },
+    "summary": "Evalúa cada acción de un robot frente a la intención local declarada por el agente, permitiendo distinguir fallos de agarre, alineación, colisión y recuperación que una tasa final de éxito oculta.",
+    "mechanism": "El agente declara qué pretende conseguir antes de cada bloque de control; un crítico compara esa intención con imágenes anteriores y posteriores y clasifica el resultado y el mecanismo de fallo.",
+    "results": "Valida el crítico en 400 acciones etiquetadas por humanos y libera 12.844 acciones. Afinar Muse-Glimmer-30B eleva la precisión de mecanismo de fallo de 32,58% a 74,24% y la precisión conjunta a 67,75%, con coste declarado más de 30× inferior a GPT-6 Astra.",
+    "use": "Demostrado en 12 benchmarks: localizar si un robot falla porque no agarró, perdió el objeto o no alineó una inserción, aunque el episodio completo solo indique fracaso.",
+    "useCaseType": "Demostrado en benchmarks de manipulación",
+    "limits": "El análisis depende de que la intención local declarada sea fiel y de etiquetas generadas inicialmente por críticos frontera. El test humano tiene 400 acciones, 264 fallidas; los modelos de control y varios entornos no son completamente abiertos. Evalúa diagnóstico, no demuestra por sí solo que el robot mejore.",
+    "paper": "https://arxiv.org/abs/2611.26613",
+    "code": "https://github.com/cxcscmu/AgentRoboCritic",
+    "paragraphs": [
+      "AgentRoboCritic cambia la unidad con la que evaluamos un robot controlado directamente por un agente multimodal. En vez de registrar únicamente si completó toda la tarea, pide al agente que declare su intención inmediata antes de cada bloque de movimientos y comprueba después qué ocurrió realmente y por qué pudo fallar.",
+      "El crítico recibe el objetivo global, la intención local y las imágenes anteriores y posteriores a la acción. Los autores lo validan con 400 acciones etiquetadas por personas y publican un conjunto de 12.844 acciones. Tras afinar Muse-Glimmer-30B, la precisión al clasificar el mecanismo de fallo subió del 32,58 % al 74,24 % y la precisión conjunta alcanzó el 67,75 %; el estudio atribuye al crítico abierto un coste más de 30 veces inferior al de GPT-6 Astra.",
+      "El caso demostrado sería una inserción robótica que termina mal. En lugar de saber solo que el episodio fracasó, el sistema puede separar si la pinza no adquirió el objeto, lo perdió durante el movimiento, chocó con el entorno o llegó desalineada al punto de inserción.",
+      "Es interesante porque… una tasa final de éxito mezcla percepción, planificación y ejecución física. La crítica a nivel de acción convierte un fracaso largo en una secuencia diagnosticable y muestra que agarre, alineación y colisiones dominan en tareas distintas, información mucho más útil para decidir qué componente mejorar.",
+      "Sigue siendo un preprint. El método supone que la intención local declarada describe honestamente lo que el agente intenta hacer, y gran parte de las etiquetas de entrenamiento procede de críticos frontera antes de contrastarse con una prueba humana de 400 acciones. El diagnóstico no demuestra por sí mismo que la política mejore, y parte del ecosistema de control permanece cerrado. A favor de la reproducibilidad, se publican código, test humano, conjunto de entrenamiento y pesos del crítico."
     ]
   }
 ]
