@@ -834,6 +834,97 @@
       "Es interesante porque… una tasa final de éxito mezcla percepción, planificación y ejecución física. La crítica a nivel de acción convierte un fracaso largo en una secuencia diagnosticable y muestra que agarre, alineación y colisiones dominan en tareas distintas, información mucho más útil para decidir qué componente mejorar.",
       "Sigue siendo un preprint. El método supone que la intención local declarada describe honestamente lo que el agente intenta hacer, y gran parte de las etiquetas de entrenamiento procede de críticos frontera antes de contrastarse con una prueba humana de 400 acciones. El diagnóstico no demuestra por sí mismo que la política mejore, y parte del ecosistema de control permanece cerrado. A favor de la reproducibilidad, se publican código, test humano, conjunto de entrenamiento y pesos del crítico."
     ]
+  },
+  {
+    "id": "arxiv-2611-26440",
+    "canonicalId": "arXiv:2611.26440",
+    "title": "Learning to Defer under Expert Drift",
+    "category": "Seguridad y colaboración humano-IA",
+    "date": "2026-11-19",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.7,
+    "scoreBreakdown": {
+      "novelty": 2.4,
+      "solidity": 1.8,
+      "evidence": 1.8,
+      "importance": 1.9,
+      "reproducibility": 0.8
+    },
+    "summary": "Aprende cuándo entregar una decisión a una persona teniendo en cuenta que su fiabilidad puede cambiar con el tiempo por fatiga, práctica o sesgos.",
+    "mechanism": "EDA-L2D incorpora al cabezal de delegación una red recurrente que resume resultados recientes del experto y compara su fiabilidad estimada con la del clasificador.",
+    "results": "En CIFAR-10 con tres anotadores cuyo rendimiento cambia, eleva la precisión de sistema desde 90,38–93,93% hasta 93,66–94,86%. En CheXpert, el AUROC medio semanal del grupo general pasa de 0,791 a 0,835 o 0,830, según la variante.",
+    "use": "Hipotético a partir de simulaciones: repartir radiografías entre un sistema y un radiólogo según la dificultad del caso y la fiabilidad reciente del profesional, sin asumir que permanece constante todo el turno.",
+    "useCaseType": "Hipotético; validado con expertos simulados y curvas derivadas de datos humanos",
+    "limits": "Los expertos de las tres evaluaciones son simulados, aunque algunas curvas proceden de anotadores o estudios reales. El método necesita feedback sobre aciertos previos, que puede llegar tarde o faltar; también puede confundir cambios en la población de casos con cambios del experto.",
+    "paper": "https://arxiv.org/abs/2611.26440",
+    "code": "https://github.com/ZiyaoMou/L2D-Expert-Drift",
+    "paragraphs": [
+      "Este trabajo mejora los sistemas que deciden si responder automáticamente o entregar el caso a una persona. Los métodos anteriores suelen tratar al experto humano como si su fiabilidad fuese constante; EDA-L2D contempla que pueda cambiar con el tiempo por fatiga, práctica, pausas o sesgos.",
+      "El sistema incorpora una red recurrente —un modelo que mantiene un pequeño estado sobre lo ocurrido antes— al mecanismo de delegación. En CIFAR-10 con tres perfiles de anotadores cambiantes, la precisión conjunta pasó de un intervalo de 90,38–93,93 % con el método temporalmente ciego a 93,66–94,86 % con las mejores variantes. En CheXpert, el AUROC medio semanal del grupo general subió de 0,791 a 0,835 o 0,830, según la parametrización.",
+      "Un caso de uso plausible, todavía no demostrado clínicamente, sería repartir radiografías entre un sistema y un radiólogo. El agente podría derivar más casos cuando el profesional ofrece mejores resultados recientes y asumir otros cuando detecta una caída sostenida, siempre como apoyo operativo y no como diagnóstico autónomo.",
+      "Es interesante porque… la colaboración humano-IA suele modelarse como si la persona fuese un componente fijo. Reconocer que ambos lados pueden fallar y que la fiabilidad humana evoluciona permite pensar la delegación como una decisión dinámica, no como un simple umbral de confianza del modelo.",
+      "Es un preprint y los expertos de las tres evaluaciones son simulados, aunque algunas curvas proceden de anotadores o estudios humanos. El método necesita información sobre aciertos anteriores, que en la práctica puede llegar tarde, contener errores o no existir; además, debe distinguir entre fatiga del experto y cambios en la dificultad de los casos. El código está disponible, pero aún falta validación prospectiva con profesionales reales."
+    ]
+  },
+  {
+    "id": "arxiv-2611-26413",
+    "canonicalId": "arXiv:2611.26413",
+    "title": "Sequential Anytime Valid Tests for Efficient Inference-Time Alignment",
+    "category": "Eficiencia y evaluación",
+    "date": "2026-11-19",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.5,
+    "scoreBreakdown": {
+      "novelty": 2.8,
+      "solidity": 1.9,
+      "evidence": 1.8,
+      "importance": 1.8,
+      "reproducibility": 0.2
+    },
+    "summary": "Decide estadísticamente cuándo dejar de generar respuestas alternativas, reservando más cómputo para preguntas ambiguas y certificando una respuesta solo cuando domina bajo el generador.",
+    "mechanism": "Agrupa candidatos por respuesta final, usa puntuaciones de recompensa para acelerar apuestas estadísticas y mantiene un e-proceso por respuesta con una cota uniforme de error de certificación.",
+    "results": "Con presupuesto máximo 24 en MATH500, e-RWSC usa unas 13–20 respuestas según el modelo frente a 24 de Best-of-N, igualando o superando su precisión. Con máximo 512, certifica antes el 65,2% de los problemas; esos casos certificados alcanzan 94,5% de precisión.",
+    "use": "Demostrado en benchmarks: un asistente matemático genera alternativas hasta que existe evidencia suficiente para detenerse, mientras continúa gastando cómputo en las preguntas realmente disputadas.",
+    "useCaseType": "Demostrado en cuatro benchmarks de razonamiento",
+    "limits": "La garantía certifica que una respuesta domina entre las muestras del propio generador, no que sea verdadera. Depende de cómo se agrupan respuestas equivalentes y no se publica código. Las pruebas usan benchmarks y modelos relativamente pequeños, no tráfico productivo.",
+    "paper": "https://arxiv.org/abs/2611.26413",
+    "paragraphs": [
+      "Este trabajo intenta evitar que los modelos gasten el mismo presupuesto en todas las preguntas. En vez de generar siempre un número fijo de respuestas y escoger la mejor, e-RWSC observa cómo se acumula la evidencia y se detiene cuando puede certificar, con una tolerancia de error elegida, que una respuesta domina entre las producidas por el modelo.",
+      "Las respuestas se agrupan por resultado final y un modelo de recompensa orienta unas apuestas estadísticas llamadas e-procesos. En MATH500, con un máximo de 24 candidatos, e-RWSC utilizó aproximadamente entre 13 y 20 según el modelo, frente a los 24 de Best-of-N, igualando o superando generalmente su precisión. Con un máximo de 512, detuvo anticipadamente el 65,2 % de las preguntas y las respuestas certificadas alcanzaron un 94,5 % de precisión.",
+      "El caso demostrado sería un asistente matemático que genera varias soluciones. Si ocho intentos convergen con claridad, puede detenerse; si aparecen respuestas incompatibles, continúa utilizando presupuesto. Así evita pagar 24 o 512 generaciones en problemas sencillos y conserva recursos para los realmente ambiguos.",
+      "Es interesante porque… incorpora una garantía estadística que sigue siendo válida aunque el sistema compruebe continuamente si ya puede parar y aunque la respuesta líder vaya cambiando. Esto sustituye umbrales ajustados por intuición por una cota explícita sobre el riesgo de certificar una opción que no domina.",
+      "La garantía no certifica verdad: demuestra que una respuesta tiene mayoría bajo la distribución del generador, que también puede estar sistemáticamente equivocada. El resultado depende de agrupar correctamente expresiones equivalentes y las pruebas se limitan a GSM8K, MATH500, MMLU y CruxEval con modelos de 3B a 24B. No hay repositorio público enlazado, por lo que la reproducibilidad práctica queda penalizada."
+    ]
+  },
+  {
+    "id": "arxiv-2611-26598",
+    "canonicalId": "arXiv:2611.26598",
+    "title": "Active Feature Acquisition by Distilling an Oracle Teacher",
+    "category": "Aprendizaje eficiente y salud",
+    "date": "2026-11-19",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.2,
+    "scoreBreakdown": {
+      "novelty": 2.6,
+      "solidity": 1.8,
+      "evidence": 1.8,
+      "importance": 1.8,
+      "reproducibility": 0.2
+    },
+    "summary": "Aprende qué dato, prueba o modalidad conviene solicitar a continuación cuando medirlo cuesta dinero, tiempo o privacidad.",
+    "mechanism": "Durante el entrenamiento, un oráculo ve la etiqueta y los datos aún ocultos, calcula cómo cambiaría cada posible adquisición el error del predictor y enseña ese ranking a una política que en producción solo ve lo ya adquirido.",
+    "results": "En seis conjuntos médicos y tabulares iguala o supera los métodos comparados en el rango de presupuestos. En TCGA-Glioma recupera el 90% de la mejora alcanzable con todas las modalidades usando menos de una cuarta parte del coste de adquisición.",
+    "use": "Plausible, no clínicamente demostrado: decidir si un paciente necesita primero una resonancia, una prueba molecular u otra medición según la información ya disponible y el coste de cada modalidad.",
+    "useCaseType": "Plausible; demostrado retrospectivamente en datos médicos y tabulares",
+    "limits": "Solo TCGA-Glioma representa pruebas médicas solicitables por separado; los demás conjuntos son validaciones metodológicas. El oráculo es miope y el aprendizaje usa etiquetas y modalidades completas históricas. No hay código público confirmado ni ensayo prospectivo.",
+    "paper": "https://arxiv.org/abs/2611.26598",
+    "paragraphs": [
+      "OracleImitator estudia cómo decidir qué dato conviene obtener a continuación cuando medirlo tiene un coste económico, temporal o de privacidad. En lugar de solicitar todas las variables, aprende una política que observa lo disponible y elige la siguiente prueba o modalidad que probablemente aporte más valor.",
+      "Durante el entrenamiento, un oráculo puede ver la etiqueta correcta y los valores todavía ocultos; con ellos calcula cuánto cambiaría cada adquisición posible el error del predictor y enseña su ranking a un alumno que en producción solo verá los datos ya obtenidos. En seis conjuntos médicos y tabulares, el método iguala o supera a los comparadores a lo largo del rango de presupuestos. En TCGA-Glioma recupera el 90 % de la mejora alcanzable con todas las modalidades usando menos de una cuarta parte del coste asignado.",
+      "Un caso de uso plausible, todavía no demostrado en un circuito clínico, sería escoger entre una resonancia, una prueba molecular u otra medición para un paciente con glioma. La política utilizaría las pruebas ya disponibles para decidir cuál añadir, en lugar de ordenar automáticamente el paquete completo.",
+      "Es interesante porque… convierte la información privilegiada del entrenamiento en un profesor explícito y auditable. Así puede medirse cuánto de la estrategia ideal es realmente aprendible por un sistema que, cuando se despliega, ya no conoce ni el diagnóstico verdadero ni el resultado de las pruebas que todavía no ha solicitado.",
+      "Es un preprint retrospectivo: solo TCGA-Glioma representa modalidades médicas solicitables por separado y los otros conjuntos sirven como pruebas metodológicas. El oráculo es miope, por lo que elige el siguiente paso sin planificar secuencias largas, y presupone historiales con etiquetas y modalidades completas. No hay código público enlazado ni validación prospectiva, de modo que todavía no debe interpretarse como una política clínica lista para uso."
+    ]
   }
 ]
 
