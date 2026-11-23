@@ -925,6 +925,97 @@
       "Es interesante porque… convierte la información privilegiada del entrenamiento en un profesor explícito y auditable. Así puede medirse cuánto de la estrategia ideal es realmente aprendible por un sistema que, cuando se despliega, ya no conoce ni el diagnóstico verdadero ni el resultado de las pruebas que todavía no ha solicitado.",
       "Es un preprint retrospectivo: solo TCGA-Glioma representa modalidades médicas solicitables por separado y los otros conjuntos sirven como pruebas metodológicas. El oráculo es miope, por lo que elige el siguiente paso sin planificar secuencias largas, y presupone historiales con etiquetas y modalidades completas. No hay código público enlazado ni validación prospectiva, de modo que todavía no debe interpretarse como una política clínica lista para uso."
     ]
+  },
+  {
+    "id": "arxiv-2611-24259",
+    "canonicalId": "arXiv:2611.24259",
+    "title": "Do VLMs Need to Keep Looking at Long Videos? Write It Down, Then Look Away",
+    "category": "Multimodalidad y eficiencia",
+    "date": "2026-11-20",
+    "status": "Preprint, sin revisión por pares; versión 3",
+    "score": 8.9,
+    "scoreBreakdown": {
+      "novelty": 2.8,
+      "solidity": 1.8,
+      "evidence": 1.8,
+      "importance": 1.7,
+      "reproducibility": 0.8
+    },
+    "summary": "Permite que un modelo de visión y lenguaje deje de releer un vídeo durante todo el razonamiento: primero escribe notas con marcas temporales y después responde usando ese resumen.",
+    "mechanism": "LookAway oculta del decodificador la caché clave-valor del vídeo cuando termina una llamada de toma de notas. Un ajuste con aprendizaje por refuerzo penaliza las lecturas posteriores de esa memoria visual.",
+    "results": "Sin entrenamiento adicional mantiene la precisión a 0,12–0,13 veces el coste de decodificación modelado. Tras entrenamiento, lee solo el 27–35% de las posiciones de caché del modelo que conserva el vídeo, con precisión estadísticamente indistinguible en tres conjuntos de prueba.",
+    "use": "Demostrado en benchmarks: analizar una grabación larga, anotar los instantes relevantes y dejar de cargar todos los fotogramas mientras se redacta la respuesta.",
+    "useCaseType": "Demostrado en tres benchmarks de preguntas de opción múltiple sobre vídeo",
+    "limits": "La reducción principal se calcula mediante un modelo de coste, no con ahorro energético ni latencia integral medidos en producción. Las tareas son de opción múltiple; los vídeos de entrenamiento duran 2–3 minutos y la generalización a vídeos de una hora presenta una pequeña pérdida.",
+    "paper": "https://arxiv.org/abs/2611.24259",
+    "code": "https://github.com/TiezMind/LookAway",
+    "paragraphs": [
+      "LookAway propone que un modelo de visión y lenguaje no tenga que volver a mirar todos los fotogramas de un vídeo cada vez que genera una palabra. Primero observa el contenido y escribe notas breves con marcas temporales; después oculta la memoria visual y continúa razonando a partir de esas notas.",
+      "Esto sirve para reducir el coste de responder sobre vídeos largos, cuya caché —la memoria temporal reutilizada durante la generación— puede contener entre 43.000 y 90.000 elementos. Sin entrenamiento adicional, LookAway quedó a 0,5–2,5 puntos de la precisión del razonamiento con vídeo completo usando solo 0,12–0,13 veces su coste de decodificación modelado. Tras ajustar el modelo, leyó un 27–35 % de las posiciones de caché del comparador entrenado con vídeo visible, sin una diferencia estadísticamente significativa de precisión en tres pruebas reservadas.",
+      "Un caso demostrado en benchmarks sería preguntar por una acción concreta dentro de una grabación extensa. El modelo revisa el vídeo, anota por ejemplo «minuto 37: se cambia la pieza», deja de releer miles de fotogramas y emplea el resto del cálculo en elaborar la respuesta. Su aplicación a archivos audiovisuales reales sigue siendo plausible, no una implantación demostrada.",
+      "Es interesante porque… separa dos trabajos que normalmente se mezclan: mirar y razonar. El experimento sugiere que los píxeles son decisivos al principio, pero que después una representación textual bien construida puede actuar como memoria de trabajo mucho más barata sin obligar al modelo a revisar continuamente el vídeo.",
+      "Es un preprint y el ahorro comunicado es principalmente un coste de decodificación modelado, no una medición completa de energía o latencia de un servicio real. Las evaluaciones son preguntas de opción múltiple; los modelos se entrenaron con vídeos de 2–3 minutos y en vídeo de una hora aparece una pequeña pérdida fuera de distribución. El código está disponible, pero todavía falta comprobar tareas abiertas que exijan detalle espacial fino."
+    ]
+  },
+  {
+    "id": "arxiv-2611-24979",
+    "canonicalId": "arXiv:2611.24979",
+    "title": "Trace2ST: Recovering PLC Structured Text from I/O Traces with LLM Generation and Verification",
+    "category": "Ingeniería de software e IA industrial",
+    "date": "2026-11-17",
+    "status": "Preprint, sin revisión por pares; enviado a TPEC 2027",
+    "score": 7.8,
+    "scoreBreakdown": {
+      "novelty": 2.7,
+      "solidity": 1.7,
+      "evidence": 1.7,
+      "importance": 1.5,
+      "reproducibility": 0.2
+    },
+    "summary": "Reconstruye programas perdidos de controladores industriales a partir de registros de entradas y salidas, y comprueba cada candidato reproduciendo el comportamiento observado.",
+    "mechanism": "Un LLM genera código Structured Text desde una traza comprimida; un intérprete lo ejecuta ciclo a ciclo y devuelve las discrepancias al modelo durante un máximo de tres revisiones.",
+    "results": "En 47 programas ajenos, 43 reprodujeron exactamente la traza de entrenamiento y el acuerdo medio en entradas reservadas fue 94,1%. Al añadir pruebas que activan ramas ocultas, el acuerdo adversarial subió de 0,803 a 0,984.",
+    "use": "Plausible con evidencia experimental: recuperar la lógica de un PLC antiguo cuando se conserva el histórico de sensores y actuadores, para auditoría, migración o construcción de un gemelo digital.",
+    "useCaseType": "Demostrado en benchmarks y datos de un banco de pruebas industrial público; no en una planta operativa",
+    "limits": "La mayoría de celdas experimentales son ejecuciones únicas, las trazas dejan salidas sin activar en 21 de 47 programas y no se descarta por completo contaminación de los benchmarks. El lenguaje y el intérprete cubren un subconjunto de ST; no hay código propio publicado.",
+    "paper": "https://arxiv.org/abs/2611.24979",
+    "paragraphs": [
+      "Trace2ST aborda un problema muy concreto: máquinas industriales cuyos controladores siguen funcionando, pero cuyo programa original se ha perdido. En lugar de adivinar el código desde documentación incompleta, utiliza los registros históricos de sensores y actuadores para reconstruir un programa ejecutable en Structured Text, el lenguaje habitual de muchos PLC.",
+      "El modelo genera un candidato desde una versión comprimida de la traza, lo ejecuta ciclo a ciclo y recibe como corrección cualquier diferencia, con un máximo de tres revisiones. En 47 programas de terceros, 43 reprodujeron exactamente la traza conocida y el acuerdo medio en entradas reservadas fue del 94,1 %. Cuando se añadieron pruebas diseñadas para activar ramas no observadas, el acuerdo en nuevas entradas adversariales pasó de 0,803 a 0,984; el comparador clásico basado en autómatas quedó en 0,439.",
+      "Un caso de uso plausible, apoyado por experimentos pero no demostrado en una planta en producción, sería migrar un PLC antiguo del que solo quedan registros. Un ingeniero podría generar una primera versión legible de su lógica, reproducirla contra el histórico y diseñar pruebas adicionales para descubrir temporizadores, alarmas o reinicios que nunca aparecieron en los datos normales.",
+      "Es interesante porque… no confía en que el código escrito por el modelo parezca correcto: obliga a ejecutarlo y confrontarlo con el comportamiento observado. El trabajo muestra también el límite fundamental de aprender desde trazas: si nunca se activa una rama, ninguna coincidencia con el registro demuestra que esa parte del programa haya sido recuperada.",
+      "Es un preprint breve y la mayoría de resultados proceden de una sola ejecución por programa. En 21 de los 47 casos alguna salida quedó inactiva en las entradas reservadas, el intérprete cubre solo un subconjunto de Structured Text y no puede descartarse que el modelo conociera ejemplos públicos. No existe un repositorio propio enlazado; antes de usarlo sobre equipos críticos harían falta código auditable, más repeticiones y validación con otro fabricante."
+    ]
+  },
+  {
+    "id": "arxiv-2611-27011",
+    "canonicalId": "arXiv:2611.27011",
+    "title": "FoRe: A Force-Guided Framework for Autonomous Grasp Recovery in Vision-Language-Action Models",
+    "category": "Robótica y aprendizaje por refuerzo",
+    "date": "2026-11-20",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.3,
+    "scoreBreakdown": {
+      "novelty": 2.5,
+      "solidity": 1.9,
+      "evidence": 1.9,
+      "importance": 1.8,
+      "reproducibility": 0.2
+    },
+    "summary": "Añade percepción de fuerza y una política específica de reintento para que un robot detecte que no ha agarrado un objeto y vuelva a intentarlo en vez de continuar con la mano vacía.",
+    "mechanism": "FoRe separa aproximación-agarre y transporte-colocación, entrena una política de reintento mediante RL desde estados posteriores al fallo y usa fuerza más el estado de la pinza para decidir cuándo cambiar de fase.",
+    "results": "En LIBERO-SUCTION elevó el éxito de VLA-Adapter del 69,2% al 87,6% y de π0.5 del 85,9% al 92,4%. En seis tareas reales con 40 intentos por tarea, las medias pasaron de 26,7% a 51,7% y de 48,3% a 70,0%.",
+    "use": "Demostrado en laboratorio: un brazo de almacén detecta que la ventosa no levantó la pieza, vuelve a aproximarse y reintenta antes de iniciar el transporte.",
+    "useCaseType": "Demostrado en simulación y seis tareas de laboratorio con robot real",
+    "limits": "Depende de que la política inicial logre contactar con el objeto; si falla antes, la señal de fuerza no basta para recuperar. Las pruebas reales usan una sola plataforma y tareas de recogida con ventosa. El benchmark y las demostraciones se prometen para publicación futura, pero aún no hay código enlazado.",
+    "paper": "https://arxiv.org/abs/2611.27011",
+    "paragraphs": [
+      "FoRe intenta corregir un fallo sorprendentemente básico de los robots guiados por visión y lenguaje: a veces creen haber agarrado un objeto y continúan el movimiento aunque la pinza esté vacía. La propuesta incorpora la fuerza física que siente el efector y una política dedicada a volver a intentarlo.",
+      "El sistema divide la tarea en aproximación y agarre, transporte y colocación, y recuperación. Si la fuerza y el estado de la pinza indican que el agarre falló, activa una política de reintento ajustada con aprendizaje por refuerzo. En LIBERO-SUCTION, VLA-Adapter pasó del 69,2 % al 87,6 % de éxito y π0.5 del 85,9 % al 92,4 %. En seis tareas reales, con 40 intentos por tarea, las medias subieron de 26,7 % a 51,7 % y de 48,3 % a 70,0 %, respectivamente.",
+      "El caso de uso demostrado en laboratorio es fácil de imaginar: un brazo de almacén intenta levantar una caja pequeña con una ventosa, detecta que no hay carga, vuelve a aproximarse y repite el agarre antes de iniciar el transporte. Evita así que una orden aparentemente completada termine dejando el objeto en el punto de partida.",
+      "Es interesante porque… aporta al agente una señal física directa del resultado, en vez de pedirle que infiera el éxito solo desde imágenes o la posición de sus articulaciones. Además, los experimentos de ablación —retirar componentes uno por uno— indican que separar fases, detectar el fallo y entrenar el reintento contribuyen de forma diferenciada.",
+      "Es un preprint y FoRe no resuelve todos los fallos: si la política inicial ni siquiera consigue tocar el objeto, la fuerza no proporciona la señal necesaria para recuperarse. Los ensayos reales utilizan una sola plataforma, una ventosa y tareas de recogida; no prueban manos, deformables ni entornos abiertos. Los autores anuncian que liberarán benchmark y demostraciones, pero todavía no enlazan código, lo que limita la reproducción independiente."
+    ]
   }
 ]
 
