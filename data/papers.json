@@ -1016,6 +1016,103 @@
       "Es interesante porque… aporta al agente una señal física directa del resultado, en vez de pedirle que infiera el éxito solo desde imágenes o la posición de sus articulaciones. Además, los experimentos de ablación —retirar componentes uno por uno— indican que separar fases, detectar el fallo y entrenar el reintento contribuyen de forma diferenciada.",
       "Es un preprint y FoRe no resuelve todos los fallos: si la política inicial ni siquiera consigue tocar el objeto, la fuerza no proporciona la señal necesaria para recuperarse. Los ensayos reales utilizan una sola plataforma, una ventosa y tareas de recogida; no prueban manos, deformables ni entornos abiertos. Los autores anuncian que liberarán benchmark y demostraciones, pero todavía no enlazan código, lo que limita la reproducción independiente."
     ]
+  },
+  {
+    "id": "arxiv-2611-26745",
+    "canonicalId": "arXiv:2611.26745",
+    "title": "MomentMem: Memorizing Key Moments for Robot Manipulation",
+    "category": "Robótica y memoria",
+    "date": "2026-11-19",
+    "announcedDate": "2026-11-23",
+    "dateMeaning": "Primera versión enviada el 19 de noviembre; incorporada al listado público diario de arXiv el 23 de noviembre.",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.8,
+    "scoreBreakdown": {
+      "novelty": 2.5,
+      "solidity": 1.8,
+      "evidence": 1.8,
+      "importance": 1.7,
+      "reproducibility": 1
+    },
+    "summary": "Un robot conserva unas pocas imágenes de los instantes en que aparece información que necesitará después, en vez de guardar toda la secuencia o resumirla solo con texto.",
+    "mechanism": "Un memorista basado en visión y lenguaje decide qué fotogramas guardar; una política ejecutora recibe esas imágenes junto con la observación actual para elegir acciones.",
+    "results": "En VMBench logró 49,9% de éxito medio, 31,7 puntos más que el mejor baseline evaluado. En dos tareas físicas completó 17 episodios más que π0.5 y 15 más que EventVLA en 60 ensayos.",
+    "use": "Demostrado en laboratorio: recordar dónde colocó una persona un cubo, aunque después lo retire, y devolverlo a esa posición.",
+    "useCaseType": "Demostrado en simulación y en dos tareas físicas controladas",
+    "limits": "Nueve tareas simuladas y dos físicas con un Franka Panda; las anotaciones de momentos clave son manuales o dependen del simulador, y el ejecutor puede ver una textura sin aprender a relacionarla con la correcta.",
+    "paper": "https://arxiv.org/abs/2611.26745",
+    "code": "https://github.com/PKU-VaLuE-Lab/MomentMem",
+    "paragraphs": [
+      "MomentMem estudia un problema cotidiano para un robot: la pista importante puede desaparecer antes de que llegue el momento de actuar. En lugar de conservar todo el vídeo, un componente memorista selecciona unas pocas imágenes de momentos clave —por ejemplo, el lugar donde apareció brevemente una luz— y las entrega después al controlador.",
+      "El memorista decide cuándo guardar un fotograma y la política ejecutora combina esas imágenes con lo que ve en el presente. En las nueve tareas de VMBench, los autores informan un 49,9 % de éxito medio, 31,7 puntos porcentuales por encima del mejor comparador evaluado. Con solo cinco demostraciones anotadas de una tarea nueva alcanzó un 43,7 %, cerca del 44,3 % obtenido con anotación completa.",
+      "El caso de uso demostrado en un laboratorio físico es recordar dónde colocó una persona un cubo antes de retirarlo y devolverlo luego al mismo lugar. En dos tareas con un Franka Panda, MomentMem completó 17 episodios más que π0.5 y 15 más que EventVLA a lo largo de 60 ensayos; eso demuestra utilidad en condiciones controladas, no en un entorno doméstico abierto.",
+      "Es interesante porque… convierte la memoria en una decisión observable y evaluable: se puede comprobar si el robot guardó la escena relevante antes de juzgar la acción final. También muestra que una memoria visual dispersa puede conservar detalles de posición o apariencia que un resumen textual perdería.",
+      "Sigue siendo un preprint. VMBench reúne nueve tareas simuladas y la validación física solo dos tareas con una plataforma; además, los momentos clave requieren anotaciones del simulador o humanas. El propio análisis revela que el ejecutor reconoce texturas con un 99,0 % en una sonda lineal, pero solo identifica la correspondencia correcta con un 40,0 %, cerca del azar del 33,3 %. Hay código público, pero faltan réplicas independientes y pruebas en escenarios más abiertos."
+    ]
+  },
+  {
+    "id": "arxiv-2611-27372",
+    "canonicalId": "arXiv:2611.27372",
+    "title": "ReActWAM: Action-Consistent Caching for Efficient World-Action Models",
+    "category": "Eficiencia y robótica",
+    "date": "2026-11-20",
+    "announcedDate": "2026-11-23",
+    "dateMeaning": "Primera versión enviada el 20 de noviembre; incorporada al listado público diario de arXiv el 23 de noviembre.",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8,
+    "scoreBreakdown": {
+      "novelty": 2.3,
+      "solidity": 1.8,
+      "evidence": 1.9,
+      "importance": 1.8,
+      "reproducibility": 0.2
+    },
+    "summary": "Acelera modelos robóticos que imaginan imágenes y acciones reutilizando cálculos anteriores solo cuando el movimiento previsto sigue siendo compatible.",
+    "mechanism": "Tres comprobaciones —cambio de movimiento, coherencia visual y conflicto entre acciones— deciden si se puede saltar parte del proceso de denoising y reutilizar predicciones internas.",
+    "results": "Los autores reportan aceleraciones GPU de 1,413× a 5,440× en tres familias de modelos. En un Franka Research 3 el tiempo medio bajó de 244,8 a 167,9 segundos, con el mismo 50,0% de éxito medio.",
+    "use": "Demostrado en laboratorio: acelerar ciclos repetidos de manipulación cuando el robot continúa un movimiento estable, recalculando por completo cuando prevé un cambio de dirección.",
+    "useCaseType": "Demostrado en simulación y en tareas físicas controladas",
+    "limits": "El ensayo físico es pequeño y mantiene un éxito medio del 50%; la ganancia depende de que gran parte del coste esté en el denoising. No hay repositorio de código enlazado en el preprint.",
+    "paper": "https://arxiv.org/abs/2611.27372",
+    "paragraphs": [
+      "ReActWAM intenta reducir la espera de los modelos mundo-acción, sistemas robóticos que generan tanto una posible evolución visual como la siguiente acción. Como decisiones consecutivas suelen parecerse, el método reutiliza cálculos del ciclo anterior, pero solo después de comprobar que la intención de movimiento sigue siendo compatible.",
+      "La decisión pasa por filtros de cambio de movimiento, coherencia visual y conflicto entre acciones. Si los supera, el modelo corrige el estado guardado, salta los primeros pasos de denoising —el refinado iterativo que transforma ruido en una predicción— y reutiliza cálculos internos estables. Los autores reportan entre 1,413× y 5,440× de aceleración GPU en tres arquitecturas, manteniéndose a menos de un punto porcentual del modelo sin acelerar en LIBERO-Long.",
+      "El caso de uso demostrado es un brazo que repite ciclos de manipulación: mientras continúa acercándose en la misma dirección puede reutilizar parte del cálculo; si la acción prevista cambia o se invierte, vuelve a calcular. En un Franka Research 3, el tiempo medio de ejecución bajó de 244,8 a 167,9 segundos —1,458×— con el mismo 50,0 % de éxito medio en el pequeño conjunto de tareas físicas.",
+      "Es interesante porque… no asume que dos imágenes parecidas justifican reutilizar una decisión. Introduce la compatibilidad de la acción como condición explícita y combina reutilización entre ciclos y dentro de cada ciclo, atacando dos fuentes distintas de cálculo redundante.",
+      "Es un preprint y los resultados son afirmaciones de los autores. El experimento físico es reducido y un 50 % de éxito todavía está lejos de un despliegue fiable; además, la mejora será menor en arquitecturas cuyo coste principal no esté en el denoising. No hay código público enlazado en el manuscrito, lo que reduce la reproducibilidad y obliga a esperar una réplica independiente."
+    ]
+  },
+  {
+    "id": "arxiv-2611-27631",
+    "canonicalId": "arXiv:2611.27631",
+    "title": "Learning Inside Types: Epistemic Typestates for Safe Multi-Agent Reinforcement Learning",
+    "category": "Seguridad y aprendizaje por refuerzo",
+    "date": "2026-11-20",
+    "announcedDate": "2026-11-23",
+    "dateMeaning": "Primera versión enviada el 20 de noviembre; incorporada al listado público diario de arXiv el 23 de noviembre.",
+    "status": "Preprint, sin revisión por pares; pruebas formales mecanizadas",
+    "score": 9.1,
+    "scoreBreakdown": {
+      "novelty": 2.7,
+      "solidity": 1.9,
+      "evidence": 1.7,
+      "importance": 1.8,
+      "reproducibility": 1
+    },
+    "summary": "Restringe a cada agente a acciones seguras según lo que realmente puede saber, de modo que pueda aprender sin violar reglas ni comunicarse continuamente con los demás.",
+    "mechanism": "Un typestate epistémico representa las situaciones que el agente no puede descartar y permite una acción solo si es segura en todas ellas y compatible con los compromisos públicos de sus compañeros.",
+    "results": "En nueve benchmarks los agentes tipados no produjeron violaciones; para diez agentes los tipos se construyeron en menos de un segundo donde un método contractual no halló escudo. Se probaron 194 certificados corruptos y ambos verificadores rechazaron todos.",
+    "use": "Plausible con evidencia en benchmarks: varios robots cruzan una zona compartida y cada uno avanza solo si todas las posiciones compatibles con sus sensores hacen segura la maniobra.",
+    "useCaseType": "Demostrado en benchmarks; aplicación robótica real todavía hipotética",
+    "limits": "La garantía solo vale si los modelos del entorno y de los demás agentes son correctos. La síntesis puede crecer exponencialmente con las creencias, las acciones deben ser finitas y las dinámicas continuas aún usan comprobaciones numéricas.",
+    "paper": "https://arxiv.org/abs/2611.27631",
+    "code": "https://doi.org/10.5281/zenodo.24371708",
+    "paragraphs": [
+      "Este trabajo propone una manera de dejar que varios agentes aprendan sin permitirles explorar acciones peligrosas. Cada agente recibe un typestate epistémico: un protocolo que no solo enumera qué puede hacer, sino también qué situaciones del mundo todavía son posibles desde su punto de vista parcial.",
+      "Antes de una acción, el protocolo comprueba si sería segura en todos los mundos que el agente no puede descartar y bajo los compromisos públicos de sus compañeros. En nueve benchmarks no se observó ninguna violación con agentes tipados; los autores construyeron tipos para diez agentes en menos de un segundo donde un método contractual no encontró solución para cinco o diez. Además, dos verificadores rechazaron las 194 copias deliberadamente corrompidas de los certificados.",
+      "Un caso de uso plausible, todavía no demostrado con robots físicos, sería una flota que cruza una zona estrecha con visibilidad parcial. Un robot solo avanzaría si la maniobra es segura para todas las posiciones compatibles con lo que ve y con las reglas públicas de los demás, sin necesitar conocer sus políticas cambiantes ni comunicarse a cada paso.",
+      "Es interesante porque… separa aprender bien de actuar con seguridad: el algoritmo de aprendizaje puede cambiar, pero las acciones disponibles siguen limitadas por un protocolo comprobado. Las demostraciones formales están mecanizadas en Rocq, un asistente de pruebas, y el enfoque compone garantías locales para obtener seguridad del equipo.",
+      "La garantía depende por completo de que los modelos describan correctamente el entorno y lo que pueden hacer los otros agentes. El número de creencias puede crecer exponencialmente, las acciones continuas quedan fuera y los casos continuos todavía usan argumentos numéricos en lugar de un verificador certificado. El código, las pruebas y resultados están archivados con licencia MIT, pero faltan validaciones independientes y despliegues físicos."
+    ]
   }
 ]
-
