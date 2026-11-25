@@ -13,19 +13,19 @@ assert(html.includes('prefers-reduced-motion'),'reduced motion');
 const registry=[...html.matchAll(/"labId":"([^"]+)"/g)].map(m=>m[1]);assert(registry.length>=16,'16 base registry mappings');
 const data=JSON.parse(fs.readFileSync('data/papers.json','utf8'));
 assert(Array.isArray(data)?data.length>=35:(Array.isArray(data.papers)&&data.papers.length>=35),'35 research papers');
-for(const path of ['assets/visual-labs.js','assets/visual-labs-extended.js','assets/visual-labs-2026-11-14.js','assets/visual-labs-2026-11-15.js','assets/visual-labs-2026-11-16.js','assets/visual-labs-2026-11-17.js','assets/visual-labs-2026-11-18.js','assets/visual-labs-2026-11-19.js','assets/visual-labs-2026-11-20.js','assets/visual-labs-2026-11-21.js','assets/visual-labs-2026-11-22.js','assets/visual-labs-2026-11-23.js','assets/visual-labs-2026-11-24.js']){assert(fs.existsSync(path),path);new vm.Script(fs.readFileSync(path,'utf8'),{filename:path})}
-const latest=fs.readFileSync('assets/visual-labs-2026-11-24.js','utf8');
-for(const id of ['momentmem','reactwam','epitypes'])assert(latest.includes(id),'missing dynamic lab '+id);
-for(const id of ['arxiv-2611-26745','arxiv-2611-27372','arxiv-2611-27631'])assert(latest.includes(id),'missing registry/quiz paper '+id);
-assert(html.includes('assets/visual-labs-2026-11-24.js'),'latest visual module not loaded');
+for(const path of ['assets/visual-labs.js','assets/visual-labs-extended.js','assets/visual-labs-2026-11-14.js','assets/visual-labs-2026-11-15.js','assets/visual-labs-2026-11-16.js','assets/visual-labs-2026-11-17.js','assets/visual-labs-2026-11-18.js','assets/visual-labs-2026-11-19.js','assets/visual-labs-2026-11-20.js','assets/visual-labs-2026-11-21.js','assets/visual-labs-2026-11-22.js','assets/visual-labs-2026-11-23.js' ,'assets/visual-labs-2026-11-24.js','assets/visual-labs-2026-11-25.js']){assert(fs.existsSync(path),path);new vm.Script(fs.readFileSync(path,'utf8'),{filename:path})}
+const latest=fs.readFileSync('assets/visual-labs-2026-11-25.js','utf8');
+for(const id of ['uncertainty','habitats'])assert(latest.includes(id),'missing dynamic lab '+id);
+for(const id of ['arxiv-2611-31228','arxiv-2611-31160'])assert(latest.includes(id),'missing registry/quiz paper '+id);
+assert(html.includes('assets/visual-labs-2026-11-25.js'),'latest visual module not loaded');
 const quizIds=[...html.matchAll(/paperId":"([^"]+)"/g)].map(m=>m[1]);
-for(const path of ['assets/visual-labs-2026-11-18.js','assets/visual-labs-2026-11-19.js','assets/visual-labs-2026-11-20.js','assets/visual-labs-2026-11-21.js','assets/visual-labs-2026-11-22.js','assets/visual-labs-2026-11-23.js','assets/visual-labs-2026-11-24.js']){
+for(const path of ['assets/visual-labs-2026-11-18.js','assets/visual-labs-2026-11-19.js','assets/visual-labs-2026-11-20.js','assets/visual-labs-2026-11-21.js','assets/visual-labs-2026-11-22.js','assets/visual-labs-2026-11-23.js','assets/visual-labs-2026-11-24.js','assets/visual-labs-2026-11-25.js']){
   const source=fs.readFileSync(path,'utf8');
   quizIds.push(...[...source.matchAll(/paperId:"([^"]+)"/g)].map(m=>m[1]));
 }
-assert.equal(quizIds.length,38,'38 quiz questions');assert.equal(new Set(quizIds).size,38,'one quiz question per paper');
+assert.equal(quizIds.length,40,'40 quiz questions');assert.equal(new Set(quizIds).size,40,'one quiz question per paper');
 assert(html.includes('qi=(qi+1)%qs.length'),'quiz navigation covers dynamic questions');
-for(const paper of data.slice(-3)){assert.equal(paper.announcedDate,'2026-11-23','latest announcement date');assert.equal(paper.paragraphs.length,5,'five editorial paragraphs');}
-console.log('Static checks passed: 38 papers/questions, dates, modules and accessibility markers');
+for(const paper of data.slice(-2)){assert.equal(paper.announcedDate,'2026-11-24','latest announcement date');assert.equal(paper.paragraphs.length,5,'five editorial paragraphs');}
+console.log('Static checks passed: 40 papers/questions, dates, modules and accessibility markers');
 
 

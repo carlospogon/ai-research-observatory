@@ -1114,5 +1114,71 @@
       "Es interesante porque… separa aprender bien de actuar con seguridad: el algoritmo de aprendizaje puede cambiar, pero las acciones disponibles siguen limitadas por un protocolo comprobado. Las demostraciones formales están mecanizadas en Rocq, un asistente de pruebas, y el enfoque compone garantías locales para obtener seguridad del equipo.",
       "La garantía depende por completo de que los modelos describan correctamente el entorno y lo que pueden hacer los otros agentes. El número de creencias puede crecer exponencialmente, las acciones continuas quedan fuera y los casos continuos todavía usan argumentos numéricos en lugar de un verificador certificado. El código, las pruebas y resultados están archivados con licencia MIT, pero faltan validaciones independientes y despliegues físicos."
     ]
+  },
+  {
+    "id": "arxiv-2611-31228",
+    "canonicalId": "arXiv:2611.31228",
+    "title": "Language Models Steer on Injected Uncertainty Tokens, but Fail to Self-Monitor In Situ",
+    "category": "Interpretabilidad y seguridad de LLM",
+    "date": "2026-11-23",
+    "announcedDate": "2026-11-24",
+    "dateMeaning": "Primera versión enviada el 23 de noviembre; incorporada al listado público diario de arXiv el 24 de noviembre.",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.6,
+    "scoreBreakdown": {
+      "novelty": 2.5,
+      "solidity": 1.7,
+      "evidence": 1.8,
+      "importance": 1.7,
+      "reproducibility": 0.9
+    },
+    "summary": "Cuatro modelos abiertos no bajan su confianza cuando empiezan a razonar mal, aunque sí cambian de rumbo si un monitor externo inserta una señal explícita de duda.",
+    "mechanism": "El estudio localiza el primer error verificable en una solución matemática, mide la confianza verbalizada paso a paso y sustituye esa señal por fichas de confianza alta o baja para probar causalmente si el modelo la utiliza.",
+    "results": "En 15.200 intentos y 2.017 errores verificados, la detección propia quedó cerca del azar (AUROC 0,500–0,561). Inyectar 10% de confianza en el primer error elevó la corrección posterior entre 3,7 y 22,5 puntos porcentuales frente a inyectar 95%.",
+    "use": "Plausible: un asistente de cálculo podría usar un verificador externo para marcar el paso sospechoso y pedir una revisión; el trabajo no demuestra todavía fiabilidad suficiente para decisiones reales.",
+    "useCaseType": "Plausible, respaldado por experimentos matemáticos controlados",
+    "limits": "Solo cuatro modelos abiertos y problemas matemáticos; el primer error lo determina principalmente un juez automático Claude Opus 5.5, aunque fue auditado en muestras. Una duda falsa también redujo el éxito hasta 22,8 puntos porcentuales.",
+    "paper": "https://arxiv.org/abs/2611.31228",
+    "code": "https://github.com/dtheron/confidence-ratchet",
+    "paragraphs": [
+      "Este preprint pregunta si un modelo de lenguaje se da cuenta justo cuando su razonamiento empieza a fallar. En cuatro modelos abiertos, la respuesta fue en gran medida negativa: podían escribir una confianza alta incluso en el primer paso erróneo. Sin embargo, cuando el experimento introducía desde fuera una señal explícita de duda, el mismo modelo sí cambiaba su conducta.",
+      "Los autores analizaron 15.200 intentos de problemas matemáticos, aislaron 2.017 primeros errores verificables y generaron 27.568 continuaciones contrafactuales. La confianza verbalizada detectó esos errores casi como lanzar una moneda, con un AUROC —área bajo la curva que mide capacidad de separar casos correctos e incorrectos— entre 0,500 y 0,561. Sustituir la señal por un 10 % de confianza en el paso erróneo aumentó la corrección posterior entre 3,7 y 22,5 puntos porcentuales frente a insertar un 95 %, según el modelo.",
+      "Un caso de uso plausible, no demostrado en producción, sería un tutor de matemáticas con dos piezas: el modelo propone la solución y un verificador externo marca el primer paso sospechoso con una señal de baja confianza. El modelo podría entonces rehacer ese tramo; el estudio demuestra esa reacción en tareas matemáticas controladas, no que el sistema completo sea fiable para exámenes, finanzas o ingeniería.",
+      "Es interesante porque… separa dos capacidades que suelen confundirse: utilizar una señal de incertidumbre y producirla correctamente. Los modelos parecen capaces de obedecer una señal de duda inyectada, pero no de generar a tiempo una señal igualmente informativa sobre sus propios errores; eso orienta el diseño hacia monitores externos verificables.",
+      "Sigue siendo un preprint de un solo autor. El análisis cubre cuatro modelos abiertos y matemáticas, y la identificación del primer error depende principalmente de Claude Opus 5.5 como juez, aunque el manuscrito informa un 85 % de coincidencia exacta en 200 ejemplos de ProcessBench y un 93,3 % en una auditoría ciega de 30 casos. Además, inyectar duda en un paso correcto redujo el éxito hasta 22,8 puntos, de modo que un monitor impreciso puede empeorar el sistema. Hay código y datos públicos, pero faltan réplicas independientes y dominios reales."
+    ]
+  },
+  {
+    "id": "arxiv-2611-31160",
+    "canonicalId": "arXiv:2611.31160",
+    "title": "Habitats: A Framework for Open-Ended Evolution of Agent Objectives",
+    "category": "Agentes y aprendizaje por refuerzo",
+    "date": "2026-11-23",
+    "announcedDate": "2026-11-24",
+    "dateMeaning": "Primera versión enviada el 23 de noviembre; incorporada al listado público diario de arXiv el 24 de noviembre.",
+    "status": "Preprint; aceptado en un workshop de NeurIPS 2026, no en la conferencia principal",
+    "score": 8.8,
+    "scoreBreakdown": {
+      "novelty": 2.7,
+      "solidity": 1.7,
+      "evidence": 1.6,
+      "importance": 1.8,
+      "reproducibility": 1
+    },
+    "summary": "Hace evolucionar una población de objetivos y políticas de agentes, usando el comportamiento colectivo para decidir qué recompensas conviene mutar y conservar.",
+    "mechanism": "Una matriz de aptitud cruza cada política con cada función de recompensa; un planificador elige qué objetivos son prometedores, un mutador propone código de recompensa validado y la nueva pareja vuelve a la población.",
+    "results": "En cuatro entornos y tres semillas, la diversidad conductual final fue 1,8 veces la mutación directa y 2,5 veces la generación independiente. En diez objetivos no vistos, la biblioteca congelada obtuvo mayores tasas de victoria emparejada tras 10.000 episodios de adaptación que políticas específicas entrenadas desde cero durante 20.000.",
+    "use": "Plausible: construir en simulación una biblioteca variada de habilidades de locomoción y reutilizar la más cercana cuando aparece una misión nueva; no se ha probado en robots físicos ni en entornos abiertos.",
+    "useCaseType": "Demostrado en simuladores; transferencia a sistemas reales hipotética",
+    "limits": "Solo cuatro entornos, tres semillas y una arquitectura de política fija. Evoluciona programas de recompensa en simuladores; no demuestra seguridad ni escalabilidad en sistemas abiertos, y sus ventajas son afirmaciones de los autores.",
+    "paper": "https://arxiv.org/abs/2611.31160",
+    "code": "https://github.com/google-deepmind/habitats",
+    "paragraphs": [
+      "Habitats es un marco para que una colección de agentes no optimice siempre el mismo objetivo, sino que descubra una población creciente de metas y comportamientos. El problema que intenta resolver es el estancamiento: si cada agente explora por separado o solo muta la última idea, puede terminar repitiendo habilidades parecidas y dejar grandes zonas del espacio de posibilidades sin explorar.",
+      "El sistema cruza cada política con cada función de recompensa en una matriz de aptitud, una tabla que muestra qué agente funciona bien bajo qué objetivo. Un planificador usa esa tabla para elegir qué recompensas conviene conservar o transformar, y un mutador genera nuevo código de recompensa que se valida antes de entrenar otra política. En cuatro entornos y tres semillas, los autores informan una diversidad final 1,8 veces mayor que la mutación directa y 2,5 veces mayor que la generación independiente; en diez objetivos no vistos, la biblioteca congelada logró más victorias emparejadas tras 10.000 episodios de adaptación que políticas específicas entrenadas desde cero durante 20.000.",
+      "El caso de uso demostrado es una biblioteca de habilidades en simuladores como CartPole, Hopper y Cheetah; una aplicación plausible sería entrenar muchas formas de equilibrio y locomoción antes de conocer la misión final, y reutilizar la política más cercana cuando se pide avanzar ahorrando energía. La reutilización se ensaya en simulación; el salto a un robot físico sigue siendo hipotético.",
+      "Es interesante porque… trata los objetivos como algo que también puede evolucionar, no como una lista fijada por el investigador. La matriz cruzada permite detectar tanto políticas versátiles como recompensas que revelan comportamientos nuevos, y convierte una población diversa en un punto de partida para adaptarse con menos entrenamiento a tareas posteriores.",
+      "Es un preprint aceptado en el workshop Managing Agents that Manage Agents de NeurIPS 2026, no un artículo de la conferencia principal. La evidencia abarca cuatro entornos, tres semillas y una arquitectura de política fija; los beneficios proceden de simuladores y no prueban seguridad, control de costes ni evolución abierta a gran escala. Los propios autores recomiendan aislamiento y aprobación humana para usos más amplios. El código es público, pero aún faltan réplicas independientes y pruebas fuera de estos dominios."
+    ]
   }
 ]
