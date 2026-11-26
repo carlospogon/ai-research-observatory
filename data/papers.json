@@ -1180,5 +1180,103 @@
       "Es interesante porque… trata los objetivos como algo que también puede evolucionar, no como una lista fijada por el investigador. La matriz cruzada permite detectar tanto políticas versátiles como recompensas que revelan comportamientos nuevos, y convierte una población diversa en un punto de partida para adaptarse con menos entrenamiento a tareas posteriores.",
       "Es un preprint aceptado en el workshop Managing Agents that Manage Agents de NeurIPS 2026, no un artículo de la conferencia principal. La evidencia abarca cuatro entornos, tres semillas y una arquitectura de política fija; los beneficios proceden de simuladores y no prueban seguridad, control de costes ni evolución abierta a gran escala. Los propios autores recomiendan aislamiento y aprobación humana para usos más amplios. El código es público, pero aún faltan réplicas independientes y pruebas fuera de estos dominios."
     ]
+  },
+  {
+    "id": "arxiv-2611-33158",
+    "canonicalId": "arXiv:2611.33158",
+    "title": "OmniAct: One Policy, One Million Embodiments",
+    "category": "Robótica y generalización",
+    "date": "2026-11-24",
+    "announcedDate": "2026-11-25",
+    "dateMeaning": "Primera versión enviada el 24 de noviembre; incorporada al ciclo público diario de arXiv el 25 de noviembre.",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.6,
+    "scoreBreakdown": {
+      "novelty": 2.8,
+      "solidity": 1.8,
+      "evidence": 1.8,
+      "importance": 1.9,
+      "reproducibility": 0.3
+    },
+    "summary": "Una sola política aprende a controlar robots con cuerpos y articulaciones muy distintos porque recibe un mapa explícito de la estructura física de cada máquina.",
+    "mechanism": "Representa cada robot como un grafo cinemático situado en la escena —articulaciones, ejes y conexiones— y predice movimientos relativos por nodo; el entrenamiento usa más de un millón de trayectorias generadas para unos 800.000 cuerpos factibles.",
+    "results": "En 2.000 episodios con cuerpos y escenas no vistos logró 63,0% de éxito, frente a 57,9% del mejor comparador. Sin ajuste en robots físicos, completó 14/20 configuraciones con Franka y 13/20 con OpenYAM, frente a 7/20 del método especializado en YAM.",
+    "use": "Demostrado en simulación y en dos brazos físicos controlados: adaptar la orientación del agarre a la longitud del brazo y a la forma del objeto sin reentrenar para cada robot.",
+    "useCaseType": "Demostrado en simulación y en dos plataformas físicas; uso industrial todavía hipotético",
+    "limits": "La validación física suma 40 configuraciones de una tarea de recoger y colocar; el entrenamiento depende de 2.740 horas simuladas y cámaras externas. No hay código ni pesos públicos confirmados y faltan robots bimanuales, humanoides y tareas prolongadas.",
+    "paper": "https://arxiv.org/abs/2611.33158",
+    "project": "https://omniact.github.io/",
+    "paragraphs": [
+      "OmniAct intenta que una misma política controle robots con cuerpos muy diferentes, sin convertir cada nueva máquina en un proyecto de entrenamiento independiente. Para ello no trata al robot como una caja genérica: recibe un grafo cinemático, es decir, un mapa de sus articulaciones, ejes de movimiento y conexiones, colocado además en relación con los objetos visibles de la escena.",
+      "El modelo predice movimientos relativos para cada articulación y aprende con 1.029.605 trayectorias generadas sobre unos 800.000 cuerpos físicamente factibles. En 2.000 episodios reservados con cuerpos y escenas no vistos, los autores informan un 63,0 % de éxito, frente al 57,9 % del mejor comparador. En despliegue físico sin ajuste adicional, completó 14 de 20 configuraciones con un Franka y 13 de 20 con un OpenYAM; el método especializado en YAM logró 7 de 20 en ese segundo robot.",
+      "El caso de uso demostrado es adaptar el movimiento a un cuerpo nuevo: un brazo largo puede recoger un objeto desde arriba, mientras uno de menor alcance inclina la muñeca y entra lateralmente para alcanzar el mismo punto. La aplicación a una fábrica que cambia de modelo de robot sin volver a entrenar desde cero es plausible, pero todavía no está demostrada.",
+      "Es interesante porque… la generalización no se limita a traducir una misma acción entre robots. El sistema puede escoger estrategias diferentes según las restricciones físicas del cuerpo y la geometría del objeto, y las ablaciones muestran que reducir a una octava parte la diversidad de cuerpos disminuye el éxito en 26,8 puntos porcentuales.",
+      "Sigue siendo un preprint y la evidencia física está limitada a 40 configuraciones de recoger y colocar con dos brazos. El entrenamiento depende de 2.740 horas simuladas, cámaras externas y una generación procedimental costosa; aún faltan manos bimanuales, humanoides, tareas largas y pruebas de seguridad. No hay código ni pesos públicos confirmados, por lo que la reproducción independiente todavía es débil."
+    ]
+  },
+  {
+    "id": "arxiv-2611-33148",
+    "canonicalId": "arXiv:2611.33148",
+    "title": "CoT-Proxy: Cross-Format Transfer for Distilling Long-Horizon Policies",
+    "category": "Agentes y destilación",
+    "date": "2026-11-24",
+    "announcedDate": "2026-11-25",
+    "dateMeaning": "Primera versión enviada el 24 de noviembre; incorporada al ciclo público diario de arXiv el 25 de noviembre.",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.5,
+    "scoreBreakdown": {
+      "novelty": 2.8,
+      "solidity": 1.8,
+      "evidence": 1.8,
+      "importance": 1.8,
+      "reproducibility": 0.3
+    },
+    "summary": "Un agente pequeño puede aprender la política de un profesor observando sus acciones y resúmenes breves, sin copiar ni acceder a su cadena de razonamiento privada.",
+    "mechanism": "Durante el ajuste, el bloque de razonamiento del profesor se deja vacío; se supervisa la acción y, opcionalmente, un resumen corto. Un búfer de respuestas del alumno y una penalización KL limitan que olvide capacidades previas.",
+    "results": "Con GPT-5.6 Luna como profesor, Qwen3-4B pasó de 7,3% a 48,2% en AppWorld y de 2,7% a 27,8% en SWE-bench Verified usando proxies. En el profesor abierto, los proxies elevaron AppWorld de 17,9% con solo acciones a 34,5%.",
+    "use": "Demostrado en dos benchmarks: enseñar a un agente pequeño hábitos de uso de APIs o reparación de repositorios a partir de las acciones visibles de un agente más competente.",
+    "useCaseType": "Demostrado en AppWorld y SWE-bench Verified; despliegue empresarial hipotético",
+    "limits": "Solo estudia dos alumnos Qwen y dos entornos. Parte de SWE-bench con profesor cerrado usa una única ejecución, el resumen puede contener información difícil de separar de la política y no hay código público confirmado.",
+    "paper": "https://arxiv.org/abs/2611.33148",
+    "paragraphs": [
+      "CoT-Proxy estudia cómo enseñar a un agente pequeño a actuar como uno más competente cuando el razonamiento interno del profesor no está disponible. En vez de copiar una cadena de pensamiento privada, el alumno aprende de las acciones visibles —por ejemplo, qué API llamar o qué comando ejecutar— y puede recibir además un resumen muy breve que explica la intención del paso.",
+      "Durante el ajuste, el bloque de razonamiento se deja vacío y una penalización KL —una medida que impide que el modelo se aleje demasiado de su estado inicial— protege capacidades anteriores mediante ejemplos de repetición. Con GPT-5.6 Luna como profesor, Qwen3-4B pasó del 7,3 % al 48,2 % de éxito en AppWorld y del 2,7 % al 27,8 % en SWE-bench Verified con proxies. Con el profesor abierto, añadir el resumen elevó AppWorld del 17,9 % obtenido solo con acciones al 34,5 %.",
+      "El caso de uso demostrado está en benchmarks: un agente pequeño puede aprender de un profesor a navegar aplicaciones mediante APIs o a reparar repositorios, aunque no vea sus pensamientos completos. En una empresa podría abaratar el entrenamiento de agentes especializados a partir de ejecuciones de un modelo más caro, pero el trabajo no demuestra todavía estabilidad ni seguridad en producción.",
+      "Es interesante porque… sugiere que parte de una política de largo recorrido puede transferirse entre formatos: el alumno se entrena sin razonamiento supervisado y, al evaluarlo, vuelve a razonar con su propio estilo mientras conserva mejores decisiones del profesor. El resumen funciona como pista compacta y no como una cadena de pensamiento que deba reproducirse literalmente.",
+      "Es un preprint probado con dos tamaños de Qwen y solo AppWorld y SWE-bench Verified. Las comparaciones de AppWorld usan tres semillas, pero parte de SWE-bench con el profesor cerrado es una única ejecución; además, no puede descartarse que los resúmenes transmitan información específica difícil de separar de una política general. No hay repositorio público confirmado, lo que limita la auditoría de datos, costes y sensibilidad de la receta."
+    ]
+  },
+  {
+    "id": "arxiv-2611-33143",
+    "canonicalId": "arXiv:2611.33143",
+    "title": "ROAM-Bench: Evaluating Embodied Active Spatial Intelligence through Evidence Verification",
+    "category": "Evaluación y robótica",
+    "date": "2026-11-24",
+    "announcedDate": "2026-11-25",
+    "dateMeaning": "Primera versión enviada el 24 de noviembre; incorporada al ciclo público diario de arXiv el 25 de noviembre.",
+    "status": "Preprint, sin revisión por pares",
+    "score": 9.1,
+    "scoreBreakdown": {
+      "novelty": 2.5,
+      "solidity": 1.9,
+      "evidence": 1.9,
+      "importance": 1.8,
+      "reproducibility": 1
+    },
+    "summary": "Evalúa si un agente robótico obtuvo la respuesta correcta después de observar e interactuar con la evidencia necesaria, evitando premiar aciertos casuales.",
+    "mechanism": "Combina 250 tareas en 27 entornos con comprobaciones independientes del resultado, cobertura de habitaciones, observación de objetos, geometría, orden de acciones y colocación final.",
+    "results": "El mejor de siete VLM obtuvo 73,2% de respuestas correctas pero 69,2% de éxito estricto; los humanos alcanzaron 84%. Las comprobaciones automáticas coincidieron con auditores humanos en 97,4% para requisitos mínimos y 93,3% para evidencia reforzada.",
+    "use": "Demostrado como benchmark: comprobar que un robot que cuenta tazas recorrió las habitaciones necesarias y abrió el armario donde había una oculta, no que acertó el número por casualidad.",
+    "useCaseType": "Demostrado como benchmark reproducible; transferencia a robots físicos hipotética",
+    "limits": "Todo ocurre en Isaac Sim y solo 100 de las 250 tareas tienen comparación humana directa. Los modelos evaluados usan costes y configuraciones distintos; ejecutar las 27 escenas exige casi 20 GB extra, Isaac Sim 5.1 y una GPU compatible.",
+    "paper": "https://arxiv.org/abs/2611.33143",
+    "code": "https://github.com/rxjfighting/ROAM-Bench",
+    "paragraphs": [
+      "ROAM-Bench intenta corregir un problema frecuente al evaluar agentes espaciales: una respuesta correcta no demuestra que el robot haya explorado lo necesario. Un agente puede acertar cuántas tazas hay sin revisar todas las habitaciones, o colocar un objeto correctamente después de manipular el objeto equivocado durante parte del recorrido.",
+      "El benchmark contiene 250 tareas validadas manualmente, 11 tipos de actividad y 27 entornos interiores. Comprueba por separado el resultado, las observaciones necesarias y evidencias más fuertes como cobertura, geometría o colocación. El mejor de siete modelos obtuvo un 73,2 % de respuestas correctas, pero un 69,2 % de éxito estricto; los humanos alcanzaron el 84 %. En una auditoría, las comprobaciones automáticas coincidieron con las personas en el 97,4 % de los requisitos mínimos y el 93,3 % de los reforzados.",
+      "El caso de uso demostrado es una prueba reproducible: si se pide contar todas las tazas de una casa simulada, no basta con responder el número correcto; el historial debe mostrar que el agente buscó en las habitaciones relevantes y abrió el armario que escondía una de ellas. Aplicar el mismo principio a robots físicos de inspección sigue siendo hipotético.",
+      "Es interesante porque… distingue dos fallos muy diferentes: acertar sin haber reunido la evidencia necesaria y equivocarse aun después de observarla. Esa separación permite saber si hay que mejorar la exploración, la memoria entre vistas, el razonamiento geométrico o la ejecución física, en lugar de reducir todo a una sola tasa final.",
+      "Es un preprint ejecutado en Isaac Sim, no una prueba con robots reales. Solo 100 tareas tienen comparación humana directa y los siete modelos presentan costes y configuraciones diferentes. Aunque el código, las 250 definiciones y los tests son públicos con licencia MIT, reproducir las 27 escenas exige aproximadamente 20 GB adicionales, Isaac Sim 5.1, activos robóticos externos y una GPU compatible."
+    ]
   }
 ]
