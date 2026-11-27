@@ -1278,5 +1278,135 @@
       "Es interesante porque… distingue dos fallos muy diferentes: acertar sin haber reunido la evidencia necesaria y equivocarse aun después de observarla. Esa separación permite saber si hay que mejorar la exploración, la memoria entre vistas, el razonamiento geométrico o la ejecución física, en lugar de reducir todo a una sola tasa final.",
       "Es un preprint ejecutado en Isaac Sim, no una prueba con robots reales. Solo 100 tareas tienen comparación humana directa y los siete modelos presentan costes y configuraciones diferentes. Aunque el código, las 250 definiciones y los tests son públicos con licencia MIT, reproducir las 27 escenas exige aproximadamente 20 GB adicionales, Isaac Sim 5.1, activos robóticos externos y una GPU compatible."
     ]
+  },
+  {
+    "id": "arxiv-2611-34934",
+    "canonicalId": "arXiv:2611.34934",
+    "title": "Attack Policy Selection can Mislead Monitor Evaluators",
+    "category": "Seguridad y evaluación",
+    "date": "2026-11-25",
+    "announcedDate": "2026-11-26",
+    "dateMeaning": "Primera versión enviada el 25 de noviembre; incorporada al ciclo público diario de arXiv el 26 de noviembre.",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.7,
+    "scoreBreakdown": {
+      "novelty": 2.5,
+      "solidity": 1.9,
+      "evidence": 1.8,
+      "importance": 2,
+      "reproducibility": 0.5
+    },
+    "summary": "La aparente fiabilidad de un monitor de seguridad cambia drásticamente según la variedad y la intensidad de los ataques empleados para evaluarlo.",
+    "mechanism": "Mantiene fijos 30 problemas y un monitor GPT-5.4 retenido, pero compara ataques generados mediante prompting básico, optimización de prompts, aprendizaje por refuerzo y edición iterativa de transcripciones.",
+    "results": "La tasa de ataques peligrosos no detectados pasó de 0,5% a 20,8% al aumentar la optimización con RL; entre los mejores métodos varió de 6,4% a 23,0%. Los ataques se desarrollaron contra monitores proxy y se midieron después en el monitor retenido.",
+    "use": "Demostrado como evaluación controlada: un equipo de seguridad puede descubrir que su monitor parece sólido con ataques básicos pero falla ante una cartera más optimizada y diversa.",
+    "useCaseType": "Demostrado en una evaluación controlada; riesgo real de despliegue no cuantificado",
+    "limits": "Un solo escenario de infraestructura, 30 tareas, un agente y un monitor objetivo. Las políticas de ataque son proxies fuera de distribución y la tasa medida no estima directamente el riesgo de producción. No hay repositorio público confirmado.",
+    "paper": "https://arxiv.org/abs/2611.34934",
+    "paragraphs": [
+      "Este preprint examina una pregunta básica de seguridad: ¿cómo sabemos que un monitor detectará a un agente que intenta ocultar una acción peligrosa? Su respuesta es incómoda: el resultado puede depender más del ataque elegido por el evaluador que de la fortaleza real del monitor. Un ataque sencillo puede hacer que el sistema parezca casi infalible, aunque existan estrategias mucho más eficaces para evadirlo.",
+      "Los autores fijan 30 tareas de infraestructura, un agente Qwen 3.8 27B y un antiguo monitor de producción basado en GPT-5.4. Después cambian únicamente el modo de crear ataques: instrucciones básicas, prompts optimizados, aprendizaje por refuerzo o edición de transcripciones. La tasa de ataques no detectados subió del 0,5 % al 20,8 % al intensificar el entrenamiento por refuerzo y, comparando el mejor nivel de distintos métodos, osciló entre el 6,4 % y el 23,0 %. Todos los ataques se optimizaron contra monitores auxiliares, no contra el objetivo retenido.",
+      "El caso de uso demostrado sería una auditoría previa al despliegue: un equipo ejecuta primero ataques básicos y observa una tasa de fallo inferior al 1 %, pero al ampliar la búsqueda con varias estrategias descubre que aproximadamente uno de cada cuatro ataques preparados puede pasar inadvertido. Esto no demuestra que esa sea la frecuencia de incidentes reales; sí demuestra que una evaluación estrecha puede ofrecer una falsa sensación de seguridad.",
+      "Es interesante porque… cuestiona la lectura directa de una cifra muy utilizada en seguridad de agentes. Un porcentaje bajo de fallos no es una propiedad aislada del monitor: también refleja cuánto esfuerzo, diversidad y realismo tuvo el equipo rojo que produjo los ejemplos. El trabajo convierte el diseño del ataque en una parte explícita de la validez de la evaluación.",
+      "Es un preprint centrado en un único escenario, 30 tareas, un agente y un monitor objetivo. Sus ataques son proxies fuera de distribución: pueden contener rastros artificiales que faciliten o dificulten la detección, por lo que el 23 % no debe interpretarse como riesgo real de producción. No se ha confirmado código público; hay detalles, prompts y tablas en el manuscrito, pero faltan otras organizaciones, monitores y réplicas independientes."
+    ]
+  },
+  {
+    "id": "arxiv-2611-34923",
+    "canonicalId": "arXiv:2611.34923",
+    "title": "Mixture-of-Loops Transformer",
+    "category": "Arquitecturas y eficiencia",
+    "date": "2026-11-25",
+    "announcedDate": "2026-11-26",
+    "dateMeaning": "Primera versión enviada el 25 de noviembre; incorporada al ciclo público diario de arXiv el 26 de noviembre.",
+    "status": "Preprint, sin revisión por pares; implementación inicial pública",
+    "score": 9,
+    "scoreBreakdown": {
+      "novelty": 2.7,
+      "solidity": 1.9,
+      "evidence": 1.9,
+      "importance": 1.8,
+      "reproducibility": 0.7
+    },
+    "summary": "Una familia de Transformers reutiliza capas en varios bucles y conserva como memoria solo claves y valores relevantes, buscando más capacidad sin multiplicar el coste de generación.",
+    "mechanism": "MoLA permite que cada bucle consulte memoria KV de bucles anteriores. U-MoLT separa la construcción de memoria de la lectura final y omite recorridos del decodificador que no cambian la predicción.",
+    "results": "En preentrenamiento de 400.000 millones de tokens, U-MoLT-700M igualó la pérdida de OLMo3 usando 232.800 millones, un 41,8% menos. En 3B MoE mejoró 2,1 puntos la media de diez tareas y la latencia S-size fue 996,6 ms frente a 1.000,6 ms de OLMo3.",
+    "use": "Demostrado experimentalmente en modelos de hasta 3B parámetros: construir modelos que reutilicen los mismos bloques para refinar representaciones sin duplicar la latencia de decodificación.",
+    "useCaseType": "Demostrado en preentrenamiento controlado; ahorro en servicios grandes todavía hipotético",
+    "limits": "Resultados de los autores sin réplica independiente. El repositorio libera una implementación mínima y una configuración de 3B tokens, pero no las recetas completas de 400B, MoLT-R, MoLT-KV o toda la decodificación híbrida.",
+    "paper": "https://arxiv.org/abs/2611.34923",
+    "code": "https://github.com/hustvl/MoLT",
+    "paragraphs": [
+      "Mixture-of-Loops Transformer propone que un modelo reutilice varias veces parte de sus propias capas, como quien relee un texto con la misma herramienta pero conserva notas de la lectura anterior. El problema es que los Transformers con bucles suelen ganar capacidad a costa de repetir cómputo. MoLT intenta romper ese intercambio guardando como memoria las claves y valores —representaciones internas usadas por la atención— que resultan útiles entre recorridos.",
+      "Su variante U-MoLT separa la construcción de memoria de la lectura que produce la siguiente palabra y puede saltarse recorridos del decodificador que no cambiarían la predicción. En un preentrenamiento de 400.000 millones de tokens, los autores informan que el modelo de 700 millones igualó la pérdida de OLMo3 tras 232.800 millones de tokens, un 41,8 % menos. La versión MoE de 3.000 millones mejoró 2,1 puntos la media de diez tareas, y el modelo pequeño igualó aproximadamente la latencia de OLMo3: 996,6 frente a 1.000,6 milisegundos.",
+      "El caso de uso demostrado es entrenar modelos medianos que refinan su representación mediante bucles sin duplicar necesariamente el tiempo de generación. Una aplicación plausible sería un servicio que necesita más calidad por cada parámetro instalado, pero el artículo no demuestra todavía ahorro económico en un despliegue comercial grande ni en hardware heterogéneo.",
+      "Es interesante porque… reutilizar parámetros deja de significar repetir ciegamente toda la red. La memoria KV conecta recorridos anteriores con el actual, mientras la forma en U permite separar qué capas construyen contexto y cuáles leen el resultado. Es una propuesta arquitectónica, no solo una técnica posterior de compresión.",
+      "Sigue siendo un preprint y todas las comparaciones proceden del mismo equipo. El repositorio ofrece una implementación mínima, una configuración de 3.000 millones de tokens y pruebas del núcleo Triton, pero no libera aún las recetas completas de 400.000 millones, todas las variantes ni la decodificación híbrida íntegra. Faltan réplicas, modelos mayores y mediciones energéticas y de coste de extremo a extremo."
+    ]
+  },
+  {
+    "id": "arxiv-2611-34875",
+    "canonicalId": "arXiv:2611.34875",
+    "title": "How Much Do Coding Agents Over-Edit, and Why?",
+    "category": "Agentes de código y evaluación",
+    "date": "2026-11-25",
+    "announcedDate": "2026-11-26",
+    "dateMeaning": "Primera versión enviada el 25 de noviembre; incorporada al ciclo público diario de arXiv el 26 de noviembre.",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.8,
+    "scoreBreakdown": {
+      "novelty": 2.5,
+      "solidity": 2,
+      "evidence": 2,
+      "importance": 1.9,
+      "reproducibility": 0.4
+    },
+    "summary": "Audita bloque por bloque si los cambios adicionales de los agentes de código eran necesarios, en vez de confundir automáticamente un parche grande con un parche peor.",
+    "mechanism": "Delta Residue Attribution reproduce la trayectoria, atribuye cada bloque al paso que lo escribió, lo revierte de forma aislada y vuelve a ejecutar las pruebas para comprobar si era necesario.",
+    "results": "Analiza 7.660 trayectorias resueltas de 18 modelos. En SWE-bench Verified, 11% de los bloques de código fueron innecesarios y 89% de ellos cambiaban comportamiento; la poda encontró 67,3% del residuo con 46,3% de precisión y conservó la resolución en 89,1% de parches elegibles.",
+    "use": "Demostrado en benchmarks: añadir una métrica de necesidad a la tasa de resolución y revisar automáticamente cambios que no están respaldados por pruebas.",
+    "useCaseType": "Demostrado en SWE-bench Verified y DeepSWE; uso en revisión de PR reales hipotético",
+    "limits": "Solo trayectorias exitosas y principalmente un arnés Copilot CLI. La necesidad depende de pruebas incompletas, las comprobaciones conductuales fueron escritas por LLM y revertir bloques uno a uno puede ignorar dependencias conjuntas. No hay código o corpus público confirmado.",
+    "paper": "https://arxiv.org/abs/2611.34875",
+    "paragraphs": [
+      "Este trabajo estudia si los agentes de programación modifican demasiado código. Un parche grande no es necesariamente malo: puede incluir pruebas o documentación útiles. Para separar tamaño de necesidad, los autores presentan Delta Residue Attribution, un procedimiento que rastrea qué paso escribió cada bloque, lo retira temporalmente y vuelve a ejecutar las pruebas para comprobar si la solución sigue funcionando.",
+      "El análisis cubre 7.660 trayectorias resueltas de 18 modelos: 6.728 de SWE-bench Verified y 932 de DeepSWE. En el primero, el 61 % de los cambios adicionales eran pruebas y el 13 % documentación; el código de los agentes fue, en promedio, al menos tan necesario como el de los desarrolladores. Aun así, el 11 % de sus bloques de código resultó innecesario según las pruebas y el 89 % de ese residuo alteraba algún comportamiento. La poda basada en pruebas detectó el 67,3 % del residuo con solo un 46,3 % de precisión y mantuvo resuelto el 89,1 % de los parches elegibles.",
+      "El caso de uso demostrado es mejorar la evaluación de agentes: además de preguntar si cerraron una incidencia, se puede medir cuánto código no respaldado dejaron. En un flujo real de revisión, una herramienta podría señalar bloques que desaparecen sin romper las pruebas, pero eliminarlos automáticamente sería arriesgado porque las pruebas pueden no cubrir contratos importantes.",
+      "Es interesante porque… corrige dos simplificaciones opuestas. Los agentes no escriben necesariamente peor por producir diffs grandes —mucho del exceso son pruebas y documentación—, pero tampoco basta con que el parche pase el benchmark: parte del código innecesario cambia el comportamiento y puede aumentar la superficie de riesgo.",
+      "Es un preprint limitado a trayectorias exitosas y principalmente al arnés GitHub Copilot CLI. La necesidad depende del oráculo de pruebas; una función útil no cubierta puede clasificarse como residuo, las comprobaciones conductuales adicionales fueron escritas por modelos y revertir bloques uno a uno puede ocultar dependencias entre cambios. No se ha confirmado la publicación del corpus completo ni de una implementación reutilizable de DRA."
+    ]
+  },
+  {
+    "id": "arxiv-2611-34624",
+    "canonicalId": "arXiv:2611.34624",
+    "title": "HoMe: Toward Practical Harness Optimization of Memory Systems for AI Assistants",
+    "category": "Memoria y agentes",
+    "date": "2026-11-25",
+    "announcedDate": "2026-11-26",
+    "dateMeaning": "Primera versión enviada el 25 de noviembre; incorporada al ciclo público diario de arXiv el 26 de noviembre.",
+    "status": "Preprint, sin revisión por pares; código público",
+    "score": 8.5,
+    "scoreBreakdown": {
+      "novelty": 2.4,
+      "solidity": 1.8,
+      "evidence": 1.7,
+      "importance": 1.7,
+      "reproducibility": 0.9
+    },
+    "summary": "Optimiza conjuntamente el código, los prompts y la configuración de la memoria de un asistente, localizando fallos recurrentes mediante versiones de sesiones y trazas de ejecución.",
+    "mechanism": "Evalúa candidatos, rastrea qué versión de memoria produjo cada respuesta, agrupa mecanismos de fallo y modifica componentes concretos del arnés; usa pruebas rápidas, muestreo adaptativo y reutilización de memorias para reducir coste.",
+    "results": "En LongMemEval-S, ReMe pasó de 0,888 a 0,916 y de 43.900 a 17.900 tokens por consulta; en BEAM-1M, de 0,650 a 0,704 y de 101.800 a 60.400. La búsqueda BEAM consumió 185,2 millones de tokens y 10,4 horas.",
+    "use": "Demostrado en dos benchmarks: localizar que ciertas preferencias o acciones del usuario se pierden y modificar el índice, el resumen o la selección de evidencias que usa el asistente.",
+    "useCaseType": "Demostrado en dos benchmarks de memoria; mejora de asistentes en producción hipotética",
+    "limits": "Solo ReMe y dos benchmarks, con seis evaluaciones formales por conjunto. Algunas categorías empeoran; la búsqueda sigue siendo costosa y no hay A/B de producción. Parte del ajuste de comparadores usa el test set.",
+    "paper": "https://arxiv.org/abs/2611.34624",
+    "code": "https://github.com/agentscope-ai/ReMe",
+    "paragraphs": [
+      "HoMe intenta mejorar la memoria de asistentes que acumulan conversaciones durante semanas o meses. La memoria real no depende solo del modelo: también intervienen el código que resume sesiones, los índices, los prompts de recuperación y las reglas que seleccionan evidencias. El trabajo trata todo ese arnés como un sistema editable y busca qué componente provoca fallos repetidos.",
+      "El método conserva versiones de la memoria por sesión, inspecciona trazas de ejecución, agrupa mecanismos de error y propone cambios estructurales en código, prompts o configuración. Con seis evaluaciones formales por benchmark, los autores informan que ReMe pasó de 0,888 a 0,916 en LongMemEval-S mientras bajó de 43.900 a 17.900 tokens por consulta. En BEAM-1M subió de 0,650 a 0,704 y redujo los tokens de 101.800 a 60.400. La búsqueda de BEAM consumió 185,2 millones de tokens y 10,4 horas.",
+      "El caso de uso demostrado es detectar que un asistente pierde detalles recurrentes, como acciones concretas del usuario o contradicciones entre sesiones, y modificar el resumen, el índice o la recuperación que suministra las evidencias. Una aplicación plausible sería adaptar automáticamente la memoria de un asistente corporativo, pero no se ha probado con usuarios reales ni con información sensible en producción.",
+      "Es interesante porque… no optimiza únicamente un prompt final. Relaciona una respuesta incorrecta con la versión de memoria y el componente que la generó, de modo que puede descubrir cambios como un índice específico para acciones del usuario. También reutiliza memorias ya construidas cuando el cambio no afecta a esa fase, evitando repetir parte del trabajo caro.",
+      "Es un preprint evaluado solo con ReMe y dos benchmarks. Algunas categorías empeoran, la búsqueda completa sigue siendo costosa, se hicieron solo seis evaluaciones formales por conjunto y no existe una prueba A/B en producción. Además, algunos comparadores ajustan parámetros sobre el conjunto de prueba, lo que complica la comparación. El código está integrado en el repositorio público de ReMe, pero reproducir toda la campaña requiere modelos, datos y un presupuesto elevado."
+    ]
   }
 ]
