@@ -1408,5 +1408,130 @@
       "Es interesante porque… no optimiza únicamente un prompt final. Relaciona una respuesta incorrecta con la versión de memoria y el componente que la generó, de modo que puede descubrir cambios como un índice específico para acciones del usuario. También reutiliza memorias ya construidas cuando el cambio no afecta a esa fase, evitando repetir parte del trabajo caro.",
       "Es un preprint evaluado solo con ReMe y dos benchmarks. Algunas categorías empeoran, la búsqueda completa sigue siendo costosa, se hicieron solo seis evaluaciones formales por conjunto y no existe una prueba A/B en producción. Además, algunos comparadores ajustan parámetros sobre el conjunto de prueba, lo que complica la comparación. El código está integrado en el repositorio público de ReMe, pero reproducir toda la campaña requiere modelos, datos y un presupuesto elevado."
     ]
+  },
+  {
+    "id": "arxiv-2611-34830",
+    "canonicalId": "arXiv:2611.34830",
+    "title": "Not all world models can doubt: how training objective and architecture shape epistemic uncertainty in JEPA and RSSM world models",
+    "category": "Seguridad y modelos del mundo",
+    "date": "2026-11-25",
+    "announcedDate": "2026-11-26",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.4,
+    "scoreBreakdown": {
+      "novelty": 2.5,
+      "solidity": 1.9,
+      "evidence": 1.8,
+      "importance": 1.7,
+      "reproducibility": 0.5
+    },
+    "summary": "Explica por qué dos arquitecturas de modelos del mundo transmiten de forma muy distinta las señales de incertidumbre sobre estados desconocidos.",
+    "mechanism": "Compara de forma controlada LeWorldModel, basado en JEPA, con DreamerV3, basado en un estado recurrente que reconstruye píxeles; sigue perturbaciones físicas desde la imagen hasta una estimación de incertidumbre post-hoc.",
+    "results": "Según los autores, en diez entornos la perturbación llega casi intacta al predictor de LeWM (aprox. 0,9), mientras la actualización recurrente de Dreamer la reduce a aprox. 0,2; penalizar la planificación con incertidumbre mejora entre 17 y 28 puntos en varias tareas para LeWM, con ganancias generalmente inferiores a 10 puntos para Dreamer.",
+    "use": "Hipotético: impedir que un robot confíe en una predicción cuando aparece brevemente un objeto pequeño o una configuración física no vista durante el entrenamiento.",
+    "useCaseType": "Hipotético",
+    "limits": "Solo se compara una instancia por paradigma, con estimadores de última capa y diez entornos simulados; el trazado exige acceso al simulador y no cubre grandes modelos preentrenados. No se confirmó código público.",
+    "paper": "https://arxiv.org/abs/2611.34830",
+    "paragraphs": [
+      "Este trabajo pregunta si un modelo del mundo —un simulador aprendido que permite a un agente imaginar qué ocurrirá después de una acción— sabe detectar cuándo está fuera de su experiencia. Esa duda se denomina incertidumbre epistémica: no es ruido del entorno, sino falta de conocimiento del propio modelo. Los autores comparan dos formas de aprender el mundo y muestran que la arquitectura puede borrar la señal antes de que llegue al detector de incertidumbre.",
+      "La comparación mantiene iguales los datos y el estimador y enfrenta LeWorldModel, que predice representaciones mediante una arquitectura JEPA, con DreamerV3, que reconstruye imágenes desde un estado recurrente. En diez entornos simulados, una perturbación breve llega al predictor de LeWM con una magnitud relativa cercana a 0,9, mientras la actualización recurrente de Dreamer la reduce a alrededor de 0,2. Al penalizar la planificación con incertidumbre, LeWM mejora entre 17 y 28 puntos de éxito en varias tareas; las mejoras de Dreamer permanecen generalmente por debajo de 10 puntos.",
+      "Un caso de uso plausible, todavía no demostrado en un robot real, sería un manipulador que encuentra durante un instante un tornillo pequeño en una zona de agarre. Una memoria recurrente podría suavizar ese cambio y seguir actuando con aparente confianza; una representación que conserve mejor la perturbación podría elevar la alerta y ordenar una nueva observación antes de mover el brazo.",
+      "Es interesante porque… no se limita a comparar puntuaciones finales: sigue la señal etapa por etapa y relaciona dos fallos con mecanismos concretos. La recurrencia promedia cambios breves y el objetivo de reconstruir píxeles presta menos atención a objetos pequeños, mientras el modelo JEPA conserva mejor ambas variaciones para que el estimador pueda verlas.",
+      "Sigue siendo un preprint y solo enfrenta una implementación de cada paradigma. El análisis usa estimadores de última capa, requiere estados controlables de un simulador y no prueba grandes modelos del mundo preentrenados ni robots físicos. Los propios autores piden intervenciones causales sobre la puerta recurrente y el objetivo de reconstrucción; además, no he confirmado un repositorio público de código."
+    ]
+  },
+  {
+    "id": "arxiv-2611-34864",
+    "canonicalId": "arXiv:2611.34864",
+    "title": "RePace: Reasoning about Demonstration Speedup for Faster Vision-Language-Action Policies",
+    "category": "Robótica y eficiencia",
+    "date": "2026-11-25",
+    "announcedDate": "2026-11-26",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.3,
+    "scoreBreakdown": {
+      "novelty": 2.3,
+      "solidity": 1.9,
+      "evidence": 1.8,
+      "importance": 1.8,
+      "reproducibility": 0.5
+    },
+    "summary": "Acelera demostraciones robóticas de forma distinta en cada tramo para entrenar políticas más rápidas sin añadir un controlador de velocidad durante la ejecución.",
+    "mechanism": "Un modelo analiza ventanas de vídeo y movimiento, compara cómo distintos factores de aceleración cambiarían las observaciones y acciones de entrenamiento y construye un perfil temporal antes del ajuste de la política VLA.",
+    "results": "En LIBERO, RePace reduce los pasos de las ejecuciones exitosas un 36,4% frente a las demostraciones originales, con 92,45% de éxito frente a 97,45%; obtiene una aceleración efectiva de 1,257. En tres tareas reales con Franka, iguala o supera a otras aceleraciones y completa los éxitos más deprisa.",
+    "use": "Demostrado en simulación y en tres tareas físicas: transportar objetos rápidamente y frenar durante la alineación o colocación precisa.",
+    "useCaseType": "Demostrado en simulación y robot físico",
+    "limits": "La aceleración reduce algo la tasa de éxito, usa ventanas con límites fijos y entrena políticas separadas; la evaluación física tiene 32 intentos por método y tarea. No se confirmó código público.",
+    "paper": "https://arxiv.org/abs/2611.34864",
+    "paragraphs": [
+      "RePace intenta evitar que un robot herede toda la lentitud de las demostraciones humanas. En lugar de ejecutar siempre más deprisa o añadir un regulador de velocidad durante el uso, modifica previamente los ejemplos de entrenamiento: acelera mucho los tramos de transporte y conserva más pasos cuando el brazo debe alinear o colocar un objeto con precisión.",
+      "El sistema observa ventanas del vídeo y del movimiento original, calcula cómo varios factores de aceleración cambiarían las parejas de observación y acción y pide a un modelo que elija el perfil completo. En 40 tareas LIBERO, la política entrenada con RePace mantuvo un 92,45% de éxito frente al 97,45% de las demostraciones sin acelerar, pero redujo un 36,4% los pasos de las ejecuciones exitosas y logró una aceleración efectiva de 1,257. Es una mejora de eficiencia con una pérdida de éxito explícita, no una victoria sin coste.",
+      "El caso de uso está demostrado tanto en simulación como en tres tareas físicas con un brazo Franka Research 3. Por ejemplo, para llevar un pollo de una sartén a un plato, el robot puede avanzar deprisa durante el transporte y reducir la velocidad al sortear una taza y hacer la colocación; RePace completó los éxitos en 14,8 segundos de media, frente a 23,8 con la política original, aunque ambas condiciones no tuvieron la misma tasa de éxito.",
+      "Es interesante porque… traslada el razonamiento sobre velocidad al conjunto de entrenamiento y evita incorporar otro módulo durante el despliegue. También utiliza una métrica de aceleración efectiva que penaliza los fallos, reduciendo el riesgo de presentar como eficiente un sistema que solo es rápido cuando consigue terminar.",
+      "La validación física se limita a tres tareas y 32 intentos por método y tarea. Las ventanas temporales tienen límites fijos, por lo que un mismo factor puede cubrir a la vez transporte y alineación; los autores reconocen que deberían aprender esos límites. Además, cada condición requiere ajuste separado, existe una caída de éxito respecto a la política original y no he confirmado un repositorio público de código."
+    ]
+  },
+  {
+    "id": "arxiv-2611-34852",
+    "canonicalId": "arXiv:2611.34852",
+    "title": "DRBench Pro: A Knowledge-Centric Benchmark for Professional Deep Research Agents",
+    "category": "Agentes y evaluación",
+    "date": "2026-11-25",
+    "announcedDate": "2026-11-26",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.8,
+    "scoreBreakdown": {
+      "novelty": 2.5,
+      "solidity": 1.8,
+      "evidence": 1.9,
+      "importance": 1.7,
+      "reproducibility": 0.9
+    },
+    "summary": "Evalúa si un agente de investigación cubre muchas líneas relevantes y si profundiza de forma coherente en cada una, usando árboles de conocimiento trazables.",
+    "mechanism": "Construye subgrafos locales desde Wikipedia, genera consultas y 44.102 rúbricas ligadas a relaciones del grafo y calcula amplitud, profundidad y su media geométrica como cobertura global.",
+    "results": "Incluye 144 casos de 24 dominios y compara 16 agentes. El mejor resultado atribuido es 57,04% de cobertura global; el juez automático alcanza Macro-F1 0,893 frente a anotaciones humanas y los rankings se mantienen estables bajo variaciones de parámetros.",
+    "use": "Demostrado como benchmark: comparar dos agentes que redactan informes y distinguir si uno explora más temas mientras el otro sigue mejor las cadenas de evidencia.",
+    "useCaseType": "Demostrado como benchmark",
+    "limits": "Las preguntas y referencias proceden de Wikipedia, el juicio sigue dependiendo de un modelo evaluador y 144 casos no representan toda la investigación profesional. Deben ocultarse las rúbricas al agente para evitar contaminación.",
+    "paper": "https://arxiv.org/abs/2611.34852",
+    "code": "https://github.com/ZJU-REAL/DRBenchPro",
+    "paragraphs": [
+      "DRBench Pro intenta medir algo que las evaluaciones de agentes de investigación suelen mezclar: cuántas direcciones relevantes cubre un informe y hasta qué punto sigue cada dirección. Para ello representa el conocimiento como un árbol. La amplitud indica si el agente explora las ramas principales; la profundidad, si avanza por cadenas relacionadas en vez de quedarse en menciones superficiales.",
+      "El benchmark construye consultas y rúbricas desde subgrafos de Wikipedia, preservando la relación entre cada criterio y su posición en el árbol. Contiene 144 casos de 24 dominios y 44.102 rúbricas, y evalúa 16 configuraciones de agentes. Según los autores, el mejor sistema alcanza un 57,04% de cobertura global; el juez automático obtiene Macro-F1 de 0,893 frente a anotaciones humanas y la clasificación permanece estable bajo las variaciones de métrica probadas.",
+      "El caso de uso demostrado es comparar informes de investigación. Dos agentes podrían citar un número parecido de datos, pero el laboratorio mostraría que uno cubre muchas ramas sin profundizar y el otro explica bien una sola línea dejando fuera alternativas importantes. Esa distinción resulta útil para evaluar herramientas de investigación técnica, jurídica o de mercado, aunque esos dominios profesionales no se validan directamente.",
+      "Es interesante porque… convierte la cobertura en una estructura auditable: cada omisión puede localizarse en una rama concreta, en lugar de reducir la calidad del informe a una nota opaca. Además, publica el conjunto congelado, las rúbricas, el evaluador, las métricas y un entorno de investigación controlado, lo que facilita comparar nuevos sistemas.",
+      "La solidez no elimina varios riesgos. Las consultas y referencias nacen de Wikipedia, que no representa todas las fuentes ni la práctica profesional; el juez es otro modelo y puede heredar sesgos; y 144 casos siguen siendo una muestra limitada. Las rúbricas deben permanecer ocultas al agente para evitar contaminación. El código y los datos son públicos, pero reproducir las puntuaciones exige mantener iguales el juez, los prompts y los presupuestos."
+    ]
+  },
+  {
+    "id": "arxiv-2611-34935",
+    "canonicalId": "arXiv:2611.34935",
+    "title": "Can image generation help visual reasoning? An empirical study",
+    "category": "Multimodalidad y evaluación",
+    "date": "2026-11-25",
+    "announcedDate": "2026-11-26",
+    "status": "Preprint, sin revisión por pares",
+    "score": 8.7,
+    "scoreBreakdown": {
+      "novelty": 2.4,
+      "solidity": 1.9,
+      "evidence": 2,
+      "importance": 1.8,
+      "reproducibility": 0.6
+    },
+    "summary": "Comprueba que añadir una imagen generada como ayuda suele empeorar el razonamiento visual porque el plan o la propia generación alteran la evidencia.",
+    "mechanism": "Un modelo describe la imagen auxiliar que necesita, un generador la crea o edita y el modelo responde usando original y ayuda; se comparan 13 parejas, modelos unificados, diez tareas y controles con la misma pista.",
+    "results": "La generación reduce la precisión media 3,7 puntos y empeora 106 de 130 combinaciones; en VSTAR la caída media es 21,0 puntos. Solo RoboSpatial-Compatibility mejora de forma consistente, en 12 de 13 parejas.",
+    "use": "Demostrado en benchmarks: decidir cuándo no conviene generar una imagen auxiliar y preservar los píxeles originales en búsquedas visuales, gráficos o problemas matemáticos.",
+    "useCaseType": "Demostrado en benchmarks",
+    "limits": "Solo estudia preguntas sobre imágenes estáticas, no vídeo, simuladores ni planificación larga; algunos resultados usan jueces automáticos y el repositorio enlazado desde el paper devuelve actualmente 404.",
+    "paper": "https://arxiv.org/abs/2611.34935",
+    "paragraphs": [
+      "Este estudio pone a prueba una idea intuitiva: si un modelo multimodal puede generar imágenes, quizá pueda razonar mejor dibujando una ayuda. El proceso parece sensato —describir qué imagen auxiliar necesita, generarla y responder mirando original y ayuda—, pero el experimento muestra que el nuevo dibujo suele deformar o eliminar precisamente la evidencia necesaria.",
+      "En 13 parejas de modelos de visión-lenguaje y generadores, la imagen auxiliar redujo la precisión media 3,7 puntos y empeoró 106 de 130 resultados. En VSTAR, una tarea de localizar detalles pequeños, la caída media fue de 21 puntos. El único patrón positivo consistente apareció en RoboSpatial-Compatibility, donde 12 de 13 parejas mejoraron al dibujar una situación hipotética sobre si un objeto cabría en un lugar.",
+      "El caso de uso demostrado es una regla de diseño para asistentes visuales. Ante un gráfico, una fotografía de alta resolución o un problema matemático, el sistema debería conservar y recortar los píxeles originales antes que regenerarlos; una ilustración sintética podría reservarse para preguntas contrafactuales, por ejemplo visualizar cómo encajaría un mueble en un hueco.",
+      "Es interesante porque… es un resultado negativo amplio y controlado: compara la misma pista con y sin imagen generada y separa fallos del plan, de la generación y de la inferencia. En la muestra anotada, los malos planes explican el 76% de los fallos de Qwen3-VL y el 57% de los de Gemini, mientras las distorsiones visuales dominan en tareas de gráficos y búsqueda de detalles.",
+      "Las conclusiones se limitan a preguntas sobre imágenes estáticas y no cubren vídeo, simuladores, consecuencias de acciones ni planificación prolongada. Parte de la evaluación semántica emplea modelos juez y los resultados siguen siendo afirmaciones de los autores sin réplica independiente. El artículo enlaza un repositorio, pero actualmente devuelve 404, por lo que no lo presento como código disponible."
+    ]
   }
 ]
